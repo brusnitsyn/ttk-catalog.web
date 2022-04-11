@@ -1,13 +1,12 @@
 <template>
   <div class="scroll-smooth">
-    <Header :class="[styleHeader]" />
-    <Container class="pt-4">
-      <Nuxt />
-    </Container>
+    <Header class="sticky top-0 w-full bg-white bg-opacity-50 backdrop-blur-lg" />
+    <Nuxt />
+    <Footer />
   </div>
 </template>
 
-<script>
+<!-- <script>
 export default {
   data() {
     return {
@@ -17,7 +16,7 @@ export default {
   methods: {
     handleScroll() {
       if (scrollY > 0) {
-        this.styleHeader = 'sticky top-0 left-0 right-0 bg-white shadow-md border-b-0'
+        this.styleHeader = 'sticky top-0 left-0 right-0 bg-white shadow-md border-b-0 bg-opacity-50 backdrop-blur-lg'
       }
       if (scrollY <= 0) {
         this.styleHeader = 'block bg-transparent shadow-none border-b'
@@ -32,4 +31,4 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
 }
-</script>
+</script> -->

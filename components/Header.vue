@@ -1,5 +1,5 @@
 <template>
-  <div class="transition-all">
+  <div>
     <Container>
       <div
         class="

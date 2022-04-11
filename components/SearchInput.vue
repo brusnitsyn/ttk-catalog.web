@@ -5,6 +5,7 @@
         pointer-events-none
         border-l border-t border-b border-r-0
         rounded-l-lg rounded-t-lg rounded-b-lg rounded-r-none
+        bg-white
         border-gray-300
         group-hover:border-gray-400
         flex flex-col
