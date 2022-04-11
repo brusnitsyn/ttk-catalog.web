@@ -4,7 +4,7 @@
       <div
         class="
           flex flex-row
-          justify-start
+          justify-between
           items-center
           gap-x-4
           py-4

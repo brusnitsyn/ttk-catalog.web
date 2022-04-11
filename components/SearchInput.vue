@@ -4,6 +4,7 @@
       class="
         pointer-events-none
         border-l border-t border-b border-r-0
+        rounded-l-lg rounded-t-lg rounded-b-lg rounded-r-none
         border-gray-300
         group-hover:border-gray-400
         flex flex-col
@@ -27,22 +28,39 @@
     </div>
 
     <input
-      type="text"
+      type="search"
+      v-model="searchQuery"
+      @keyup.enter="onSetSearchQuery()"
       class="
         outline-none
         pl-8
         pr-2
         py-2.5
         border-l-0 border-r border-t border-b
+        rounded-l-none rounded-r-lg rounded-t-lg rounded-b-lg
         border-gray-300
         placeholder-gray-400
-        group-hover:border-gray-400
-        group-hover:placeholder-gray-600
-        group-select:border-gray-400
-        group-select:placeholder-gray-600
+        group-hover:border-gray-400 group-hover:placeholder-gray-600
+        group-select:border-gray-400 group-select:placeholder-gray-600
         w-full
       "
-      placeholder="Найти"
+      placeholder="Поиск товара"
     />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      searchQuery: '',
+    }
+  },
+  methods: {
+    onSetSearchQuery() {
+      if (this.searchQuery === '') return
+      this.$store.commit('categories/setSearchQuery', this.searchQuery)
+    },
+  },
+}
+</script>

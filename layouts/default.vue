@@ -1,7 +1,7 @@
 <template>
   <div class="scroll-smooth">
     <Header :class="[styleHeader]" />
-    <Container>
+    <Container class="pt-4">
       <Nuxt />
     </Container>
   </div>
