@@ -17,18 +17,18 @@
           <div
             class="
               hidden
-              xl:flex
+              lg:flex
               flex-col
               overflow-y-auto
               sticky
               max-h-full
-              top-24
-              pt-2
+
+
               pb-4
             "
           >
-            <h1 class="font-bold text-xl">Фильтры</h1>
-            <ProductFilters @filter="filter" />
+            <!-- <h1 class="font-bold text-xl">Фильтры</h1> -->
+            <ProductFilters  />
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@ export default {
     filter: function () {},
   },
   mounted() {
-    this.$store.dispatch('categories/getEquipmentManufacturers')
+
   },
 }
 </script>

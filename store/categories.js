@@ -1,8 +1,7 @@
 export const state = () => ({
-  categories: [],
-  techniques: [],
-  equipmentManufacturers: [],
-  searchQuery: ''
+  brands: [],
+  machineTypes: [],
+  machines: [],
 })
 
 export const mutations = {
@@ -23,17 +22,17 @@ export const mutations = {
 
 export const actions = {
   async getCategories(context) {
-    const data = this.$axios.get('http://127.0.0.1:8000/api/categories')
+    const data = this.$axios.get('categories')
     const result = await data
     context.commit('setCategories', result)
   },
   async getTechnique(context) {
-    const data = this.$axios.get('http://127.0.0.1:8000/api/techniques')
+    const data = this.$axios.get('techniques')
     const result = await data
     context.commit('setTechniques', result)
   },
   async getEquipmentManufacturers(context) {
-    const data = this.$axios.get('http://127.0.0.1:8000/api/manufacturers')
+    const data = this.$axios.get('manufacturers')
     const result = await data
     context.commit('setEquipmentManufacturers', result.data.data)
   },

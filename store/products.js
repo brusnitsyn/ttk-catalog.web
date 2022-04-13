@@ -1,10 +1,48 @@
 export const state = () => ({
-  productsList: []
+  products: [],
+  filteredProducts: [],
+  product: {},
+  filter: {
+    search: '',
+    brand: 'all',
+    machine: 'all',
+    order: 'created_at',
+  },
 })
 
+import * as Filters from '~/helpers/filters'
 export const mutations = {
-  setProductsList(state, productsList) {
-    state.productsList = productsList
+  setProducts(state, products) {
+    state.products = products
+  },
+
+  // Search & filtering
+  setFilteredProducts(state, products) {
+    state.filteredProducts = products
+  },
+  setFilterBrand(state, brand) {
+    state.filter.brand = brand
+  },
+  setFilterMachine(state, machine) {
+    state.filter.machine = machine
+  },
+  setFilterMachineType(state, machineType) {
+    state.filter.machineType = machineType
+  },
+  setFilterSearch(state, search) {
+    state.filter.search = search
+  },
+  serOrder(state, order) {
+    state.filter.order = order
+  },
+  filterProducts(state) {
+    const products = [...state.products]
+    state.filteredProducts = products
+    state.filteredProducts = Filters.filterProducts(state.filter, products)
+  },
+  orderProducts(state) {
+    const products = [...state.filteredProducts]
+    state.filteredProducts = Filters.orderProducts(state.filter.order, products)
   },
 }
 
@@ -12,47 +50,30 @@ export const actions = {
   async getProducts(context) {
     const data = axios.get('/products')
     const result = await data
-    context.commit('setProductsList', result)
+    context.commit('setProducts', result)
+  },
+
+  // Search & filtering
+  async filterOrder({ commit }, order) {
+    await commit('setOrder', order)
+    await commit('orderProducts')
+  },
+  async filterBrand({ commit, dispatch }, brand) {
+    await commit('setFilterBrand', brand)
+    dispatch('orderProducts')
+  },
+  async filterMachine({ commit, dispatch }, machine) {
+    await commit('setFilterMachine', machine)
+    dispatch('orderProducts')
+  },
+  async filterMachineType({ commit, dispatch }, machineType) {
+    await commit('setFilterMachineType', machineType)
+    dispatch('orderProducts')
+  },
+  async filterProducts({ commit }) {
+    await commit('filterProducts')
+    await commit('orderProducts')
   },
 }
 
-export const getters = {
-  getProductsByFilter: state => filter => {
-    // Фильтруем товары
-    let filtered = state.all
-      // По категории
-      .filter(product => {
-        return filter.selectCategory == 0 || product.categoryId == filter.selectCategory;
-      })
-
-      // По брендам
-      .filter(product => {
-        return filter.selectBrand == 0 || product.brandId == filter.selectBrand;
-      })
-
-      // По ценам
-      .filter(product => {
-        return Number(product.price) >= filter.minPrice && Number(product.price) <= filter.maxPrice;
-      })
-
-      // По полю поиска
-      .filter(product => {
-        return filter.inputSearch == '' || product.title.toLowerCase().indexOf(filter.inputSearch.toLowerCase()) !== -1;
-      });
-
-    // Сортируем
-    let sortKey = filter.selectSort.split(':')[0];
-    let sortDir = filter.selectSort.split(':')[1];
-
-    let sorted = _.sortBy(filtered, product => {
-      return Number(product[sortKey]);
-    });
-
-    // При необходимости сортируем в обратном направлении
-    if (sortDir === 'desc') {
-      sorted = sorted.reverse();
-    }
-
-    return sorted;
-  }
-}
+export const getters = {}
