@@ -1,6 +1,6 @@
 <template>
   <div class="scroll-smooth">
-    <Header class="sticky top-0 w-full bg-white bg-opacity-50 backdrop-blur-lg" />
+    <Header class="sticky top-0 w-full bg-white bg-opacity-50 backdrop-blur-lg z-50" />
     <Nuxt />
     <Footer />
   </div>

@@ -12,7 +12,7 @@
         "
       >
         <Logo />
-        <SearchInput />
+        <SearchInput class=" w-64" />
       </div>
     </Container>
   </div>

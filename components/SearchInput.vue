@@ -14,7 +14,7 @@
       "
     >
       <svg
-        class="absolute w-6 mb-0.5 text-gray-400 group-hover:text-gray-500"
+        class="w-6 mb-0.5 text-gray-400 group-hover:text-gray-500"
         viewBox="0 0 48 48"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +34,7 @@
       @keyup.enter="onSetSearchQuery()"
       class="
         outline-none
-        pl-8
+        pl-3.5
         pr-2
         py-2.5
         border-l-0 border-r border-t border-b
@@ -43,7 +43,7 @@
         placeholder-gray-400
         group-hover:border-gray-400 group-hover:placeholder-gray-600
         group-select:border-gray-400 group-select:placeholder-gray-600
-        w-full
+        w-full font-inter
       "
       placeholder="Поиск товара"
     />

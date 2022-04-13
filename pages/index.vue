@@ -1,6 +1,6 @@
 <template>
   <Container class="lg:flex">
-    <aside class="fixed z-50 lg:z-0 lg:static">
+    <aside class="fixed  z-10 lg:z-0 lg:static">
       <div class="h-full overflow-auto pointer-events-none lg:overflow-visible">
         <div
           class="
@@ -34,15 +34,10 @@
       </div>
     </aside>
     <div
-      class="
-        flex-auto
-        w-full
-        min-w-0
-        lg:static lg:max-h-full lg:overflow-visible
-      "
+      class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible"
     >
       <div class="flex flex-col lg:flex-row">
-        <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-3">
+        <div class="grow grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-3">
           <ProductCard />
           <ProductCard />
           <ProductCard />
@@ -131,7 +126,9 @@
             "
           >
             <div>
-              <span>Узнавайте актуальность и цену товара по номеру телефона</span>
+              <span
+                >Узнавайте актуальность и цену товара по номеру телефона</span
+              >
             </div>
           </div>
         </div>
