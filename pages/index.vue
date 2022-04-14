@@ -1,6 +1,6 @@
 <template>
   <Container class="lg:flex">
-    <aside class="fixed  z-10 lg:z-0 lg:static">
+    <aside class="fixed z-10 lg:z-0 lg:static">
       <div class="h-full overflow-auto pointer-events-none lg:overflow-visible">
         <div
           class="
@@ -22,20 +22,16 @@
               overflow-y-auto
               sticky
               max-h-full
-
-
               pb-4
             "
           >
             <!-- <h1 class="font-bold text-xl">Фильтры</h1> -->
-            <ProductFilters  />
+            <ProductFilters />
           </div>
         </div>
       </div>
     </aside>
-    <div
-      class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible"
-    >
+    <div class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
       <div class="flex flex-col lg:flex-row">
         <div class="grow grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-3">
           <ProductCard />
@@ -140,6 +136,11 @@
 <script>
 export default {
   name: 'IndexPage',
+  computed: {
+    products() {
+      return this.$store.state.products.products
+    },
+  },
   data() {
     return {
       filterForm: {
@@ -155,8 +156,6 @@ export default {
   methods: {
     filter: function () {},
   },
-  mounted() {
-
-  },
+  mounted() {},
 }
 </script>

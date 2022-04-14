@@ -18,7 +18,7 @@ export const mutations = {
 
 export const actions = {
   async getBrands(context) {
-    const data = this.$axios.get('manufacturers')
+    const data = this.$axios.get('brands')
     const result = await data
     context.commit('setBrands', result.data.data)
     context.commit('setLength', result.data.data.length)
