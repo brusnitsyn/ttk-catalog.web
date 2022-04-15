@@ -30,8 +30,9 @@
 
     <input
       type="search"
-      v-model="searchQuery"
-      @keyup.enter="onSetSearchQuery()"
+      @input="handleSearch"
+      @keyup.enter="goPageResult"
+      :value="search"
       class="
         outline-none
         pl-3.5
@@ -43,7 +44,8 @@
         placeholder-gray-400
         group-hover:border-gray-400 group-hover:placeholder-gray-600
         group-select:border-gray-400 group-select:placeholder-gray-600
-        w-full font-inter
+        w-full
+        font-inter
       "
       placeholder="Поиск товара"
     />
@@ -51,17 +53,20 @@
 </template>
 
 <script>
+import { debounce } from '~/helpers/index'
 export default {
-  data() {
-    return {
-      searchQuery: '',
-    }
+  computed: {
+    search() {
+      return this.$store.state.products.filter.search
+    },
   },
   methods: {
-    onSetSearchQuery() {
-      if (this.searchQuery === '') return
-      this.$store.commit('categories/setSearchQuery', this.searchQuery)
-    },
+    handleSearch: debounce(function (e) {
+      this.$store.dispatch('products/filterSearch', e.target.value)
+    }, 500),
+    goPageResult() {
+      this.$router.push('/')
+    }
   },
 }
 </script>

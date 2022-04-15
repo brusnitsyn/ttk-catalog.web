@@ -1,5 +1,6 @@
 <template>
-  <Container class="lg:flex">
+  <Loading v-if="$fetchState.pending" />
+  <Container v-else class="lg:flex">
     <aside class="fixed z-10 lg:z-0 lg:static">
       <div class="h-full overflow-auto pointer-events-none lg:overflow-visible">
         <div
@@ -34,50 +35,13 @@
     <div class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
       <div class="flex flex-col lg:flex-row">
         <div class="grow grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-3">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <nuxt-link
+            v-for="product in filteredProducts"
+            :key="product.id"
+            :to="'/products/' + product.id"
+          >
+            <LazyProductCard :product="product" />
+          </nuxt-link>
         </div>
 
         <div
@@ -134,28 +98,24 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'IndexPage',
   computed: {
-    products() {
-      return this.$store.state.products.products
-    },
+    ...mapGetters({
+      products: 'products/getProducts',
+      filteredProducts: 'products/getFilteredProducts',
+      product: 'products/getProduct',
+    }),
   },
-  data() {
-    return {
-      filterForm: {
-        inputSearch: '',
-        selectTypeMachine: 0,
-        selectSupplier: 0,
-        minPrice: 0,
-        maxPrice: 0,
-        sortDir: 'asc',
-      },
+
+  async fetch() {
+    await this.$store.dispatch('products/fetchAllProducts')
+  },
+  mounted() {
+    if (!this.products.length) {
+      this.$store.dispatch('products/fetchAllProducts')
     }
   },
-  methods: {
-    filter: function () {},
-  },
-  mounted() {},
 }
 </script>

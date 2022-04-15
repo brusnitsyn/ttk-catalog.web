@@ -15,6 +15,9 @@ export const mutations = {
   setProducts(state, products) {
     state.products = products
   },
+  setProduct(state, product) {
+    state.product = product
+  },
 
   // Search & filtering
   setFilteredProducts(state, products) {
@@ -47,10 +50,16 @@ export const mutations = {
 }
 
 export const actions = {
-  async getProducts(context) {
-    const data = axios.get('/products')
+  async fetchAllProducts({ commit }) {
+    const data = this.$axios.get('products')
     const result = await data
-    context.commit('setProducts', result)
+    await commit('setProducts', result.data.data)
+    await commit('setFilteredProducts', result.data.data)
+  },
+  async fetchSingleProduct({ commit }, productId) {
+    const data = this.$axios.get(`products/${productId}`)
+    const result = await data
+    await commit('setProduct', result.data.data)
   },
 
   // Search & filtering
@@ -60,15 +69,19 @@ export const actions = {
   },
   async filterBrand({ commit, dispatch }, brand) {
     await commit('setFilterBrand', brand)
-    dispatch('orderProducts')
+    dispatch('filterProducts')
   },
   async filterMachine({ commit, dispatch }, machine) {
     await commit('setFilterMachine', machine)
-    dispatch('orderProducts')
+    dispatch('filterProducts')
   },
   async filterMachineType({ commit, dispatch }, machineType) {
     await commit('setFilterMachineType', machineType)
-    dispatch('orderProducts')
+    dispatch('filterProducts')
+  },
+  async filterSearch({ commit, dispatch }, search) {
+    await commit('setFilterSearch', search)
+    dispatch('filterProducts')
   },
   async filterProducts({ commit }) {
     await commit('filterProducts')
@@ -76,4 +89,8 @@ export const actions = {
   },
 }
 
-export const getters = {}
+export const getters = {
+  getProducts(state) { return state.products },
+  getFilteredProducts(state) { return state.filteredProducts },
+  getProduct(state) { return state.product }
+}

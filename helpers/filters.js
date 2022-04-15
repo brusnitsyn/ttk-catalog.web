@@ -1,15 +1,15 @@
-export function filterProducts (filter, products) {
-  let filteredList = [...products]
+export function filterProducts(filter, products) {
+  let filteredList = products
 
   // Filter brand
-  if (filter.status !== 'all') {
-    const filtered = filteredList.filter(product => product.brand === filter.brand)
+  if (filter.brand !== 'all') {
+    const filtered = filteredList.filter(product => product.brand.name === filter.brand)
     filteredList = filtered
   }
 
   // Filter machine
   if (filter.machine !== 'all') {
-    const filtered = filteredList.filter(product => product.machine === filter.machine)
+    const filtered = filteredList.filter(product => product.machine.name === filter.machine)
     filteredList = filtered
   }
 
@@ -17,12 +17,12 @@ export function filterProducts (filter, products) {
   if (filter.search !== '') {
     const searchList = []
     const searchTerm = filter.search.toLowerCase()
-    for (let i = 0; i < filteredList.length; i++) {
+    for (let i = 0; i < products.length; i++) {
       if (
-        (filteredList[i].name !== null && filteredList[i].name.toLowerCase().includes(searchTerm)) ||
-        (filteredList[i].article !== null && filteredList[i].article.toLowerCase().includes(searchTerm))
+        (products[i].name !== null && products[i].name.toLowerCase().includes(searchTerm)) ||
+        (products[i].article !== null && products[i].article.toLowerCase().includes(searchTerm))
       ) {
-        searchList.push(filteredList[i])
+        searchList.push(products[i])
       }
     }
     filteredList = searchList
@@ -32,9 +32,8 @@ export function filterProducts (filter, products) {
 }
 
 import moment from 'moment'
-export function orderProducts (order, products) {
+export function orderProducts(order, products) {
   const orderedList = [...products]
-
   if (order === 'created_at') {
     orderedList.sort(function (a, b) {
       const unixA = moment(a.created_at).unix()

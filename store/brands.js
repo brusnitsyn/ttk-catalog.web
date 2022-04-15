@@ -1,7 +1,6 @@
 export const state = () => ({
   brands: [],
   brand: {},
-  length: 0
 })
 
 export const mutations = {
@@ -11,21 +10,17 @@ export const mutations = {
   setBrand(state, brand) {
     state.brand = brand
   },
-  setLength(state, length) {
-    state.length = length
-  }
 }
 
 export const actions = {
-  async getBrands(context) {
+  async fetchAllBrands(context) {
     const data = this.$axios.get('brands')
     const result = await data
     context.commit('setBrands', result.data.data)
-    context.commit('setLength', result.data.data.length)
   },
 
 }
 
 export const getters = {
-
+  getBrands(state) { return state.brands },
 }
