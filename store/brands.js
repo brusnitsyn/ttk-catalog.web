@@ -18,7 +18,10 @@ export const actions = {
     const result = await data
     context.commit('setBrands', result.data.data)
   },
+  async getRelationBrandMachineType({context}, brandId) {
 
+    context.commit('setBrandMachineTypes', filtered)
+  },
 }
 
 export const getters = {

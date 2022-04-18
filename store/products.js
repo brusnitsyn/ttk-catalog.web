@@ -5,6 +5,7 @@ export const state = () => ({
   filter: {
     search: '',
     brand: 'all',
+    machineType: 'all',
     machine: 'all',
     order: 'created_at',
   },

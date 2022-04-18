@@ -3,7 +3,13 @@ export function filterProducts(filter, products) {
 
   // Filter brand
   if (filter.brand !== 'all') {
-    const filtered = filteredList.filter(product => product.brand.name === filter.brand)
+    const filtered = filteredList.filter(product => product.machine.brand.name === filter.brand)
+    filteredList = filtered
+  }
+
+  // Filter machine types
+  if (filter.machineType !== 'all') {
+    const filtered = filteredList.filter(product => product.machine.machineType.name === filter.machineType)
     filteredList = filtered
   }
 
@@ -17,12 +23,12 @@ export function filterProducts(filter, products) {
   if (filter.search !== '') {
     const searchList = []
     const searchTerm = filter.search.toLowerCase()
-    for (let i = 0; i < products.length; i++) {
+    for (let i = 0; i < filteredList.length; i++) {
       if (
-        (products[i].name !== null && products[i].name.toLowerCase().includes(searchTerm)) ||
-        (products[i].article !== null && products[i].article.toLowerCase().includes(searchTerm))
+        (filteredList[i].name !== null && filteredList[i].name.toLowerCase().includes(searchTerm)) ||
+        (filteredList[i].article !== null && filteredList[i].article.toLowerCase().includes(searchTerm))
       ) {
-        searchList.push(products[i])
+        searchList.push(filteredList[i])
       }
     }
     filteredList = searchList
@@ -49,4 +55,18 @@ export function orderProducts(order, products) {
   }
 
   return orderedList
+}
+
+export function filterMachineTypesForBrand(brandId, machineTypes) {
+  let machinesList = machineTypes
+  const filtered = machinesList.filter(machineType => machineType.brand.id === brandId)
+
+  return filtered
+}
+
+export function filterMachineForType(machineTypeId, machines) {
+  let machinesList = machines
+  const filtered = machinesList.filter(machine => machine.machineType.id === machineTypeId)
+
+  return filtered
 }
