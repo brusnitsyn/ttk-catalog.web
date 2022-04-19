@@ -1,10 +1,35 @@
 <template>
-  <div class="scroll-smooth">
-    <Header class="sticky top-0 w-full bg-white bg-opacity-50 backdrop-blur-lg z-50" />
+  <div>
+    <Header
+      class="sticky top-0 w-full bg-white bg-opacity-50 backdrop-blur-lg z-50 "
+    />
     <Nuxt />
     <!-- <Footer /> -->
+    <ProductCreateForm v-if="openDialog" />
   </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters({
+      openDialog: 'ui/getOpenDialog',
+    }),
+  },
+  watch: {
+    openDialog(newValue, oldValue) {
+      document.body.classList.remove('overflow-hidden')
+      if (newValue) {
+        document.body.classList.add('overflow-hidden')
+      }
+    },
+  },
+  data() {
+    return {}
+  },
+}
+</script>
 
 <!-- <script>
 export default {

@@ -98,7 +98,6 @@
         </div>
       </div>
     </Container>
-    <ProductCreateForm />
   </div>
 </template>
 
@@ -106,11 +105,17 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'IndexPage',
+  data() {
+    return {
+
+    }
+  },
   computed: {
     ...mapGetters({
       products: 'products/getProducts',
       filteredProducts: 'products/getFilteredProducts',
       product: 'products/getProduct',
+      openDialog: 'ui/getOpenDialog'
     }),
   },
 
@@ -121,6 +126,8 @@ export default {
     if (!this.products.length) {
       this.$store.dispatch('products/fetchAllProducts')
     }
+
+    this.$store.dispatch('products/setShowCreateDialog', true)
   },
 }
 </script>

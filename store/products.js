@@ -9,6 +9,16 @@ export const state = () => ({
     machine: 'all',
     order: 'created_at',
   },
+  formData: {
+    name: '',
+    article: '',
+    actual_price: null,
+    discount_price: null,
+    weight: null,
+    image: '',
+    machine_id: null
+  },
+  showCreateDialog: false
 })
 
 import * as Filters from '~/helpers/filters'
@@ -18,6 +28,10 @@ export const mutations = {
   },
   setProduct(state, product) {
     state.product = product
+  },
+
+  setShowCreateDialog(state, value) {
+    state.showCreateDialog = value
   },
 
   // Search & filtering
@@ -62,6 +76,10 @@ export const actions = {
     const result = await data
     await commit('setProduct', result.data.data)
   },
+  async setShowCreateDialog({ commit, dispatch }, value) {
+    await commit('setShowCreateDialog', value)
+    await dispatch('ui/setOpenDialog', value, { root: true })
+  },
 
   // Search & filtering
   async filterOrder({ commit }, order) {
@@ -93,5 +111,9 @@ export const actions = {
 export const getters = {
   getProducts(state) { return state.products },
   getFilteredProducts(state) { return state.filteredProducts },
-  getProduct(state) { return state.product }
+  getProduct(state) { return state.product },
+
+  getFormData(state) { return state.formData },
+
+  getShowCreateDialog(state) { return state.showCreateDialog }
 }
