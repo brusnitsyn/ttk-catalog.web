@@ -17,7 +17,7 @@ export default {
   css: ['@/assets/css/tailwind.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: "@/plugins/vue-awesome-swiper", mode: "client" }],
+  plugins: [{ src: '@/plugins/vue-awesome-swiper', mode: 'client' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -25,18 +25,47 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: ['@nuxt/postcss8', '@nuxtjs/moment'],
 
+  // router: {
+  //   middleware: ['auth'],
+  // },
+
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: 'http://localhost:8000',
+        endpoints: {
+          login: { url: '/api/admin/login', method: 'post', propertyName: false },
+          logout: { url: '/api/admin/logout', method: 'post', propertyName: false },
+          refresh: {
+            url: '/api/admin/refresh',
+            method: 'post',
+            propertyName: false,
+          },
+          user: { url: '/api/user', method: 'get', propertyName: false },
+        },
+      },
+    },
+    redirect: {
+      login: '/admin/login',
+      logout: '/admin/login',
+      home: '/admin',
+    },
+  },
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    "dropzone-nuxt",
-    "nuxt-vue-multiselect",
+    '@nuxtjs/auth-next',
+    'dropzone-nuxt',
+    'nuxt-vue-multiselect',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://127.0.0.1:8000/api/',
+    baseURL: 'http://localhost:8000',
+    credentials: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

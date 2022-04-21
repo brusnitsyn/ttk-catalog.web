@@ -14,7 +14,7 @@ export const mutations = {
 
 export const actions = {
   async fetchAllBrands(context) {
-    const data = this.$axios.get('brands')
+    const data = this.$axios.get('/api/brands')
     const result = await data
     context.commit('setBrands', result.data.data)
   },

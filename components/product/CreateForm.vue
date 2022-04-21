@@ -139,12 +139,12 @@
           </div>
 
           <div class="col-span-6 md:col-span-3 space-y-1">
-            <label for="product-price" class="text-sm">Стоимость</label>
+            <label for="product-actualPrice" class="text-sm">Стоимость</label>
             <input
               type="text"
-              v-model="form.actual_price"
-              name="product-price"
-              id="product-price"
+              v-model="form.actualPrice"
+              name="product-actualPrice"
+              id="product-actualPrice"
               placeholder="0000000.00"
               class="
                 p-2
@@ -162,12 +162,12 @@
           </div>
 
           <div class="col-span-2 md:col-span-2 space-y-1">
-            <label for="product-price" class="text-sm">Длина</label>
+            <label for="product-length" class="text-sm">Длина</label>
             <input
               type="text"
-              v-model="form.actual_price"
-              name="product-price"
-              id="product-price"
+              v-model="form.length"
+              name="product-length"
+              id="product-length"
               placeholder="0000000.00"
               class="
                 p-2
@@ -184,12 +184,12 @@
             />
           </div>
           <div class="col-span-2 md:col-span-2 space-y-1">
-            <label for="product-price" class="text-sm">Ширина</label>
+            <label for="product-width" class="text-sm">Ширина</label>
             <input
               type="text"
-              v-model="form.actual_price"
-              name="product-price"
-              id="product-price"
+              v-model="form.width"
+              name="product-width"
+              id="product-width"
               placeholder="0000000.00"
               class="
                 p-2
@@ -206,12 +206,12 @@
             />
           </div>
           <div class="col-span-2 md:col-span-2 space-y-1">
-            <label for="product-price" class="text-sm">Высота</label>
+            <label for="product-height" class="text-sm">Высота</label>
             <input
               type="text"
-              v-model="form.actual_price"
-              name="product-price"
-              id="product-price"
+              v-model="form.height"
+              name="product-height"
+              id="product-height"
               placeholder="0000000.00"
               class="
                 p-2
@@ -228,14 +228,14 @@
             />
           </div>
           <div class="col-span-6 md:col-span-6 space-y-1">
-            <label for="product-weight" class="text-sm"
+            <label for="product-hole" class="text-sm"
               >Отверстие (опционально)</label
             >
             <input
               type="text"
-              name="product-weight"
-              v-model="form.weight"
-              id="product-weight"
+              name="product-hole"
+              v-model="form.hole"
+              id="product-hole"
               placeholder="1 отверстие - 20 мм, 4 отверстий - 10 мм"
               class="
                 p-2
@@ -269,7 +269,7 @@
             </multiselect>
           </div>
 
-          <div class="col-span-6 border-t border-gray-300 pt-4">
+          <!-- <div class="col-span-6 border-t border-gray-300 pt-4">
             <dropzone
               @vdropzone-file-added="onFileAdded"
               @vdropzone-error="onError"
@@ -379,7 +379,7 @@
                 </div>
               </div>
             </dropzone>
-          </div>
+          </div> -->
         </div>
       </form>
       <div class="pt-3.5 flex flex-row justify-end border-t border-gray-300">
@@ -399,7 +399,7 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters({
-      form: 'products/getFormData',
+      form: 'products/getProduct',
       machines: 'machines/getMachines',
     }),
   },

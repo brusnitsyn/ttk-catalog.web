@@ -37,7 +37,10 @@
       </aside>
       <div class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
         <div class="flex flex-col lg:flex-row">
-          <div class="grow grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-3">
+          <div
+            v-if="filteredProducts.length"
+            class="grow grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-3"
+          >
             <nuxt-link
               v-for="product in filteredProducts"
               :key="product.id"
@@ -46,6 +49,8 @@
               <LazyProductCard :product="product" />
             </nuxt-link>
           </div>
+
+          <ProductNoProductsCard v-else class="grow" />
 
           <div
             class="

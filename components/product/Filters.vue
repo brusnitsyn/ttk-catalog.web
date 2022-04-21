@@ -1,6 +1,5 @@
 <template>
-  <Loading v-if="$fetchState.pending"> </Loading>
-  <div v-else class="flex flex-col items-start">
+  <div class="flex flex-col items-start">
     <div v-if="brands.length">
       <h5 class="text-base font-semibold py-2 select-none">
         Производитель ({{ brands.length }})

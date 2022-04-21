@@ -66,15 +66,18 @@ export const mutations = {
 
 export const actions = {
   async fetchAllProducts({ commit }) {
-    const data = this.$axios.get('products')
+    const data = this.$axios.get('/api/products')
     const result = await data
     await commit('setProducts', result.data.data)
     await commit('setFilteredProducts', result.data.data)
   },
   async fetchSingleProduct({ commit }, productId) {
-    const data = this.$axios.get(`products/${productId}`)
+    const data = this.$axios.get(`/api/products/${productId}`)
     const result = await data
     await commit('setProduct', result.data.data)
+  },
+  async deleteSingleProduct({commit}, product) {
+
   },
   async setShowCreateDialog({ commit, dispatch }, value) {
     await commit('setShowCreateDialog', value)

@@ -31,6 +31,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  auth: false,
   computed: {
     ...mapGetters({
       product: 'products/getProduct',

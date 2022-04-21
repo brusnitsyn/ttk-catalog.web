@@ -3,19 +3,36 @@ export function filterProducts(filter, products) {
 
   // Filter brand
   if (filter.brand !== 'all') {
-    const filtered = filteredList.filter(product => product.machine.brand.name === filter.brand)
+    const filtered = filteredList.filter(
+      (product) => product.brand === filter.brand
+    )
     filteredList = filtered
   }
 
   // Filter machine types
   if (filter.machineType !== 'all') {
-    const filtered = filteredList.filter(product => product.machine.machineType.name === filter.machineType)
+    // const find = ({ name, machines, machineType }) =>
+    //   name.includes(filter.machineType) ||
+    //   (machines && machines.some(find)) ||
+    //   (machineType && machineType.some(find))
+    // const filtered = filteredList.filter(find)
+    const filtered = filteredList.filter(
+      (product) =>
+        product.machines.filter(
+          (machine) => machine.machineType.name === filter.machineType
+        ).length > 0
+    )
     filteredList = filtered
   }
 
   // Filter machine
   if (filter.machine !== 'all') {
-    const filtered = filteredList.filter(product => product.machine.name === filter.machine)
+    let filtered = []
+    filteredList.filter((product) => {
+      product.machines.filter((item) => {
+        if (item.name === filter.machine) filtered.push(product)
+      })
+    })
     filteredList = filtered
   }
 
@@ -25,8 +42,10 @@ export function filterProducts(filter, products) {
     const searchTerm = filter.search.toLowerCase()
     for (let i = 0; i < filteredList.length; i++) {
       if (
-        (filteredList[i].name !== null && filteredList[i].name.toLowerCase().includes(searchTerm)) ||
-        (filteredList[i].article !== null && filteredList[i].article.toLowerCase().includes(searchTerm))
+        (filteredList[i].name !== null &&
+          filteredList[i].name.toLowerCase().includes(searchTerm)) ||
+        (filteredList[i].article !== null &&
+          filteredList[i].article.toLowerCase().includes(searchTerm))
       ) {
         searchList.push(filteredList[i])
       }
@@ -59,14 +78,18 @@ export function orderProducts(order, products) {
 
 export function filterMachineTypesForBrand(brandId, machineTypes) {
   let machinesList = machineTypes
-  const filtered = machinesList.filter(machineType => machineType.brand.id === brandId)
+  const filtered = machinesList.filter(
+    (machineType) => machineType.brand.id === brandId
+  )
 
   return filtered
 }
 
 export function filterMachineForType(machineTypeId, machines) {
   let machinesList = machines
-  const filtered = machinesList.filter(machine => machine.machineType.id === machineTypeId)
+  const filtered = machinesList.filter(
+    (machine) => machine.machineType.id === machineTypeId
+  )
 
   return filtered
 }
