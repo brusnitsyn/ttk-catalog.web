@@ -16,7 +16,7 @@ export const state = () => ({
     discount_price: null,
     weight: null,
     image: '',
-    machine_id: null
+    machines: []
   },
   showCreateDialog: false
 })
