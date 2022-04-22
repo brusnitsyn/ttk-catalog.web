@@ -269,117 +269,73 @@
             </multiselect>
           </div>
 
-          <!-- <div class="col-span-6 border-t border-gray-300 pt-4">
-            <dropzone
-              @vdropzone-file-added="onFileAdded"
-              @vdropzone-error="onError"
-              @vdropzone-success="onSuccess"
-              @vdropzone-complete="onComplete"
-              @vdropzone-thumbnail="onThumbnail"
-              :includeStyling="false"
-              :useCustomSlot="true"
-              :destroyDropzone="true"
-              ref="myDropzone"
-              class="
-                py-16
-                border-2 border-dashed
-                flex
-                justify-center
-                items-center
-                hover:border-accent
-                group
-              "
-              id="dropzone"
-              :options="dropzoneOptions"
+          <div class="col-span-6 border-t border-gray-300 pt-4">
+            <label
+              for="imagePreview"
+              class="form-label inline-block mb-2 text-gray-700"
+              >Главное изображение</label
             >
-              <div
-                class="
-                  flex flex-col
-                  justify-center
-                  items-center
-                  group-hover:text-accent
-                "
-                data-dropzone-placeholder
-              >
-                <i>
-                  <svg
-                    width="49"
-                    height="49"
-                    viewBox="0 0 49 49"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M33.526 4.32642C40.3045 4.32642 44.8583 9.08264 44.8583 16.1599V32.493C44.8583 39.5702 40.3045 44.3264 33.524 44.3264H16.1907C9.41213 44.3264 4.85834 39.5702 4.85834 32.493V16.1599C4.85834 9.08264 9.41213 4.32642 16.1907 4.32642H33.526ZM35.7315 25.4265C33.5876 24.0891 31.9325 25.9673 31.486 26.5679C31.0556 27.1479 30.6855 27.7877 30.2954 28.4276C29.3421 30.0065 28.25 31.8269 26.3595 32.8858C23.6123 34.4069 21.5267 33.0055 20.0264 31.9859C19.4633 31.6061 18.9163 31.247 18.3712 31.0075C17.0278 30.4276 15.8191 31.088 14.0251 33.3667C13.0839 34.5576 12.1507 35.7382 11.2055 36.9146C10.6404 37.6185 10.7751 38.7041 11.5373 39.1747C12.7541 39.9239 14.2383 40.3264 15.9156 40.3264H32.7711C33.7224 40.3264 34.6757 40.1964 35.5847 39.8992C37.6321 39.2304 39.2571 37.699 40.1058 35.6763C40.8218 33.9755 41.1697 31.9116 40.5 30.1943C40.2767 29.6247 39.9429 29.0942 39.4743 28.6278C38.2455 27.4079 37.0971 26.2686 35.7315 25.4265ZM17.8561 12.3264C15.0988 12.3264 12.8583 14.5699 12.8583 17.3264C12.8583 20.083 15.0988 22.3264 17.8561 22.3264C20.6113 22.3264 22.8538 20.083 22.8538 17.3264C22.8538 14.5699 20.6113 12.3264 17.8561 12.3264Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </i>
-                <div class="text-center">
-                  <span class="text-sm block">Главное изображение</span>
-                  <span class="text-sm block"
-                    >Поддерживаемые форматы: PNG, JPG</span
-                  >
-                </div>
-              </div>
-            </dropzone>
-            <dropzone
-              @vdropzone-file-added="onFileAdded"
-              @vdropzone-error="onError"
-              @vdropzone-success="onSuccess"
-              @vdropzone-complete="onComplete"
-              @vdropzone-thumbnail="onThumbnail"
-              :includeStyling="false"
-              :useCustomSlot="true"
-              :destroyDropzone="true"
-              ref="myDropzone"
+            <input
               class="
-                py-16
-                mt-3.5
-                border-2 border-dashed
-                flex
-                justify-center
-                items-center
-                hover:border-accent
-                group
+                form-control
+                block
+                w-full
+                px-3
+                py-1.5
+                text-base
+                font-normal
+                text-gray-700
+                bg-white bg-clip-padding
+                border border-solid border-gray-300
+                rounded
+                transition
+                ease-in-out
+                m-0
+                focus:text-gray-700
+                focus:bg-white
+                focus:border-blue-600
+                focus:outline-none
               "
-              id="dropzone"
-              :options="dropzoneOptions"
+              type="file"
+              @change="handleImagePreviewUpload"
+              id="imagePreview"
+              ref="previewImage"
+            />
+          </div>
+          <div class="col-span-6 border-t border-gray-300 pt-4">
+            <label
+              for="carouselImage"
+              class="form-label inline-block mb-2 text-gray-700"
+              >Дополнительные изображения</label
             >
-              <div
-                class="
-                  flex flex-col
-                  justify-center
-                  items-center
-                  group-hover:text-accent
-                "
-                data-dropzone-placeholder
-              >
-                <i>
-                  <svg
-                    width="49"
-                    height="49"
-                    viewBox="0 0 49 49"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M33.526 4.32642C40.3045 4.32642 44.8583 9.08264 44.8583 16.1599V32.493C44.8583 39.5702 40.3045 44.3264 33.524 44.3264H16.1907C9.41213 44.3264 4.85834 39.5702 4.85834 32.493V16.1599C4.85834 9.08264 9.41213 4.32642 16.1907 4.32642H33.526ZM35.7315 25.4265C33.5876 24.0891 31.9325 25.9673 31.486 26.5679C31.0556 27.1479 30.6855 27.7877 30.2954 28.4276C29.3421 30.0065 28.25 31.8269 26.3595 32.8858C23.6123 34.4069 21.5267 33.0055 20.0264 31.9859C19.4633 31.6061 18.9163 31.247 18.3712 31.0075C17.0278 30.4276 15.8191 31.088 14.0251 33.3667C13.0839 34.5576 12.1507 35.7382 11.2055 36.9146C10.6404 37.6185 10.7751 38.7041 11.5373 39.1747C12.7541 39.9239 14.2383 40.3264 15.9156 40.3264H32.7711C33.7224 40.3264 34.6757 40.1964 35.5847 39.8992C37.6321 39.2304 39.2571 37.699 40.1058 35.6763C40.8218 33.9755 41.1697 31.9116 40.5 30.1943C40.2767 29.6247 39.9429 29.0942 39.4743 28.6278C38.2455 27.4079 37.0971 26.2686 35.7315 25.4265ZM17.8561 12.3264C15.0988 12.3264 12.8583 14.5699 12.8583 17.3264C12.8583 20.083 15.0988 22.3264 17.8561 22.3264C20.6113 22.3264 22.8538 20.083 22.8538 17.3264C22.8538 14.5699 20.6113 12.3264 17.8561 12.3264Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </i>
-                <div class="text-center">
-                  <span class="text-sm block">
-                    Дополнительные изображения
-                  </span>
-                  <span class="text-sm block">
-                    Поддерживаемые форматы: PNG, JPG
-                  </span>
-                </div>
-              </div>
-            </dropzone>
-          </div> -->
+            <input
+              class="
+                form-control
+                block
+                w-full
+                px-3
+                py-1.5
+                text-base
+                font-normal
+                text-gray-700
+                bg-white bg-clip-padding
+                border border-solid border-gray-300
+                rounded
+                transition
+                ease-in-out
+                m-0
+                focus:text-gray-700
+                focus:bg-white
+                focus:border-blue-600
+                focus:outline-none
+              "
+              type="file"
+              @change="handleCarouselImageUpload"
+              id="carouselImage"
+              ref="carouselImage"
+              multiple
+            />
+          </div>
         </div>
       </form>
       <div class="pt-3.5 flex flex-row justify-end border-t border-gray-300">
@@ -395,9 +351,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
+  data() {
+    return {
+      // dropzoneOptions: {
+      //   url: 'https://lo.org/post',
+      //   thumbnailWidth: 150,
+      //   maxFilesize: 0.5,
+      //   headers: { 'My-Awesome-Header': 'header value' },
+      // },
+    }
+  },
   computed: {
+    ...mapState(['products']),
     ...mapGetters({
       form: 'products/getProduct',
       machines: 'machines/getMachines',
@@ -406,6 +373,14 @@ export default {
   methods: {
     closeForm() {
       this.$store.dispatch('products/setShowCreateDialog', false)
+    },
+    handleImagePreviewUpload() {
+      console.log(this.$refs.previewImage.files[0])
+      this.form.previewImage = this.$refs.previewImage.files[0]
+    },
+    handleCarouselImageUpload() {
+      console.log(this.$refs.carouselImage.files)
+      this.form.carouselImage = this.$refs.carouselImage.files[0]
     },
   },
 }

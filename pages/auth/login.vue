@@ -63,25 +63,28 @@
 <script>
 export default {
   layout: 'admin',
+  middleware: 'auth',
   data() {
     return {
       form: {
         email: '',
-        password: ''
-      }
+        password: '',
+      },
     }
   },
   methods: {
     async login() {
-      await this.$auth.loginWith('laravelSanctum', {data: this.form})
-      .then(response => {
-        this.$router.push('/admin')
-        console.log(response)
-      }).catch(error => {
-        console.log(error)
-      })
-    }
-  }
+      await this.$auth
+        .loginWith('laravelSanctum', { data: this.form })
+        .then((response) => {
+          this.$router.push('/admin')
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+  },
 }
 </script>
 

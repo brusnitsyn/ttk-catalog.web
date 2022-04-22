@@ -145,6 +145,7 @@
                 text-center
                 items-center
                 mr-3
+
               "
             >
               {{ $auth.user.name }}

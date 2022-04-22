@@ -86,25 +86,36 @@
 <script>
 export default {
   layout: 'admin',
+  auth: 'guest',
   data() {
     return {
       form: {
         name: '',
         email: '',
-        password: ''
-      }
+        password: '',
+      },
     }
   },
   methods: {
     async register() {
-      await this.$axios.post('/api/admin/register', this.form)
-      .then(response => {
-        console.log(response)
-      }).catch(error => {
-        console.log(error)
+      await this.$axios
+        .post('/api/admin/register', this.form)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      await this.$auth.loginWith('laravelSanctum', {
+        data: {
+          email: this.form.email,
+          password: this.form.password,
+        },
+      }).then((response) => {
+        this.$router.push('/')
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

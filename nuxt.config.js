@@ -35,21 +35,20 @@ export default {
         provider: 'laravel/sanctum',
         url: 'http://localhost:8000',
         endpoints: {
-          login: { url: '/api/admin/login', method: 'post', propertyName: false },
-          logout: { url: '/api/admin/logout', method: 'post', propertyName: false },
+          login: { url: '/api/admin/login', method: 'post' },
+          logout: { url: '/api/admin/logout', method: 'post' },
           refresh: {
             url: '/api/admin/refresh',
-            method: 'post',
-            propertyName: false,
+            method: 'post'
           },
-          user: { url: '/api/user', method: 'get', propertyName: false },
+          user: { url: '/api/user', method: 'get' },
         },
       },
     },
     redirect: {
-      login: '/admin/login',
-      logout: '/admin/login',
-      home: '/admin',
+      login: '/auth/login',
+      logout: '/',
+      home: '/',
     },
   },
 
