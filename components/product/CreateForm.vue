@@ -262,7 +262,7 @@
               selected-label="Выбрано"
               :multiple="true"
               deselect-label="Отменить выбор"
-              v-model="form.machines"
+              v-model="this.form.machines"
               :options="machines"
             >
               <span slot="noResult">Нет результатов</span>
@@ -355,18 +355,15 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
-      // dropzoneOptions: {
-      //   url: 'https://lo.org/post',
-      //   thumbnailWidth: 150,
-      //   maxFilesize: 0.5,
-      //   headers: { 'My-Awesome-Header': 'header value' },
-      // },
+      form: {
+        previewImage: {}
+      }
     }
   },
   computed: {
     ...mapState(['products']),
     ...mapGetters({
-      form: 'products/getProduct',
+      preDataform: 'products/getProduct',
       machines: 'machines/getMachines',
     }),
   },
@@ -382,6 +379,12 @@ export default {
       console.log(this.$refs.carouselImage.files)
       this.form.carouselImage = this.$refs.carouselImage.files[0]
     },
+  },
+  mounted() {
+      this.$store.dispatch('machines/fetchAllMachines')
+  },
+  created (){
+    this.form = Object.assign({}, this.preDataform);
   },
 }
 </script>
