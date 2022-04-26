@@ -12,10 +12,16 @@ export const state = () => ({
   formData: {
     name: '',
     article: '',
-    actual_price: null,
-    discount_price: null,
+    actualPrice: null,
+    discountPrice: 0,
     weight: null,
-    image: '',
+    width: null,
+    height: null,
+    length: null,
+    hole: '',
+    previewImage: null,
+    brand: null,
+    carouselImages: [],
     machines: []
   },
   showCreateDialog: false
@@ -28,6 +34,14 @@ export const mutations = {
   },
   setProduct(state, product) {
     state.product = product
+  },
+
+  pushProductCarouselImage(state, image) {
+    state.formData.carouselImages.push(image)
+    //state.product.carouselImages.push(image)
+  },
+  addProduct(state, product) {
+    state.products.push(product)
   },
 
   setShowCreateDialog(state, value) {
@@ -66,18 +80,44 @@ export const mutations = {
 
 export const actions = {
   async fetchAllProducts({ commit }) {
-    const data = this.$axios.get('/api/products')
+    const data = await this.$axios.get('/api/products')
     const result = await data
     await commit('setProducts', result.data.data)
     await commit('setFilteredProducts', result.data.data)
   },
   async fetchSingleProduct({ commit }, productId) {
-    const data = this.$axios.get(`/api/products/${productId}`)
+    const data = await this.$axios.get(`/api/products/${productId}`)
     const result = await data
     await commit('setProduct', result.data.data)
   },
-  async deleteSingleProduct({commit}, product) {
+  async deleteSingleProduct({ commit }, product) {
 
+  },
+  async pushSingleProduct({ commit }, product) {
+
+    let sendData = new FormData()
+
+    sendData.append('name', product.name)
+    sendData.append('article', product.article)
+    sendData.append('actualPrice', product.actualPrice)
+    sendData.append('discountPrice', product.discountPrice)
+    sendData.append('weight', product.weight)
+    sendData.append('width', product.width)
+    sendData.append('height', product.height)
+    sendData.append('length', product['length'])
+    sendData.append('hole', product.hole)
+    sendData.append('previewImage', product.previewImage)
+    sendData.append('brandId', product.brand.id)
+    sendData.append('carouselImages', product.carouselImages)
+    sendData.append('machines', JSON.stringify(product.machines))
+
+    const data = await this.$axios.post('/api/products', sendData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    const result = await data
+    await commit('addProduct', result.data.data)
   },
   async setShowCreateDialog({ commit, dispatch }, value) {
     await commit('setShowCreateDialog', value)

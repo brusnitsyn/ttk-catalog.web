@@ -12,7 +12,7 @@
         select-none
       "
     >
-      <nuxt-img src="/img/product-test-img.png" alt="" srcset="" />
+      <img src="/img/product-test-img.png" alt="" srcset="" />
     </div>
     <div class="px-2 flex flex-col pt-2 pb-4 gap-y-0.5 justify-between h-full">
       <div class="flex flex-col">

@@ -132,7 +132,7 @@ export default {
       this.$store.dispatch('products/fetchAllProducts')
     }
 
-    this.$store.dispatch('products/setShowCreateDialog', true)
+    // this.$store.dispatch('products/setShowCreateDialog', true)
   },
 }
 </script>

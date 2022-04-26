@@ -116,6 +116,39 @@
           </div>
 
           <div class="col-span-6 md:col-span-3 space-y-1">
+            <label for="product-brands" class="text-sm">Бренд</label>
+            <multiselect
+              label="name"
+              track-by="name"
+              placeholder="Выберите бренд"
+              select-label="[Enter] Выбрать"
+              selected-label="Выбрано"
+              deselect-label="Отменить выбор"
+              v-model="form.brand"
+              :options="brands"
+            >
+              <span slot="noResult">Нет результатов</span>
+            </multiselect>
+          </div>
+
+          <div class="col-span-6 md:col-span-3 space-y-1">
+            <label for="product-machines" class="text-sm">Техника</label>
+            <multiselect
+              label="name"
+              track-by="name"
+              placeholder="Выберите технику"
+              select-label="[Enter] Выбрать"
+              selected-label="Выбрано"
+              :multiple="true"
+              deselect-label="Отменить выбор"
+              v-model="form.machines"
+              :options="machines"
+            >
+              <span slot="noResult">Нет результатов</span>
+            </multiselect>
+          </div>
+
+          <div class="col-span-6 md:col-span-3 space-y-1">
             <label for="product-weight" class="text-sm">Масса</label>
             <input
               type="text"
@@ -252,23 +285,6 @@
             />
           </div>
 
-          <div class="col-span-6 border-t border-gray-300 pt-3 space-y-1">
-            <label for="product-machines" class="text-sm">Техника</label>
-            <multiselect
-              label="name"
-              track-by="name"
-              placeholder="Выберите технику"
-              select-label="[Enter] Выбрать"
-              selected-label="Выбрано"
-              :multiple="true"
-              deselect-label="Отменить выбор"
-              v-model="this.form.machines"
-              :options="machines"
-            >
-              <span slot="noResult">Нет результатов</span>
-            </multiselect>
-          </div>
-
           <div class="col-span-6 border-t border-gray-300 pt-4">
             <label
               for="imagePreview"
@@ -343,7 +359,7 @@
           <NuxtButton :outline="true"> Отмена </NuxtButton>
         </div> -->
         <div>
-          <NuxtButton> Добавить </NuxtButton>
+          <button @click="addProduct">Добавить</button>
         </div>
       </div>
     </div>
@@ -355,15 +371,15 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
-      form: {
-        previewImage: {}
-      }
+      form: {},
     }
   },
   computed: {
     ...mapState(['products']),
     ...mapGetters({
-      preDataform: 'products/getProduct',
+      preDataForm: 'products/getProduct',
+      newProductForm: 'products/getFormData',
+      brands: 'brands/getBrands',
       machines: 'machines/getMachines',
     }),
   },
@@ -371,20 +387,29 @@ export default {
     closeForm() {
       this.$store.dispatch('products/setShowCreateDialog', false)
     },
-    handleImagePreviewUpload() {
-      console.log(this.$refs.previewImage.files[0])
-      this.form.previewImage = this.$refs.previewImage.files[0]
+    handleImagePreviewUpload(e) {
+      this.form.previewImage = e.target.files[0]
     },
-    handleCarouselImageUpload() {
-      console.log(this.$refs.carouselImage.files)
-      this.form.carouselImage = this.$refs.carouselImage.files[0]
+    handleCarouselImageUpload(e) {
+      for (var i = 0; i < e.target.files.length; i++) {
+        this.$store.commit(
+          'products/pushProductCarouselImage',
+          e.target.files[i]
+        )
+      }
+    },
+
+    addProduct() {
+      this.$store.dispatch('products/pushSingleProduct', this.form)
     },
   },
   mounted() {
-      this.$store.dispatch('machines/fetchAllMachines')
+    this.$store.dispatch('machines/fetchAllMachines')
+    this.$store.dispatch('brands/fetchAllBrands')
   },
-  created (){
-    this.form = Object.assign({}, this.preDataform);
+  created() {
+    if (this.preDataForm.length) this.form = Object.assign({}, this.preDataform)
+    else this.form = Object.assign({}, this.newProductForm)
   },
 }
 </script>

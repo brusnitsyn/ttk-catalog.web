@@ -106,14 +106,14 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-      await this.$auth.loginWith('laravelSanctum', {
-        data: {
-          email: this.form.email,
-          password: this.form.password,
-        },
-      }).then((response) => {
-        this.$router.push('/')
-      })
+      // await this.$auth.loginWith('laravelSanctum', {
+      //   data: {
+      //     email: this.form.email,
+      //     password: this.form.password,
+      //   },
+      // }).then((response) => {
+      //   this.$router.push('/')
+      // })
     },
   },
 }
