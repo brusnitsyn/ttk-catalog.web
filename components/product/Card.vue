@@ -12,7 +12,7 @@
         select-none
       "
     >
-      <img src="/img/product-test-img.png" alt="" srcset="" />
+      <img :src="`http://localhost:8000/storage/${product.previewImage}`" alt="" srcset="" />
     </div>
     <div class="px-2 flex flex-col pt-2 pb-4 gap-y-0.5 justify-between h-full">
       <div class="flex flex-col">
@@ -22,11 +22,11 @@
         }}</span>
       </div>
       <div class="pt-1 flex flex-col">
-        <s v-if="product.discountPrice" class="text-orange-400 font-inter"
+        <s v-if="product.discountPrice > 0" class="text-orange-400 font-inter"
           >{{ product.actualPrice }} ₽</s
         >
         <span
-          v-if="product.discountPrice"
+          v-if="product.discountPrice > 0"
           class="text-orange-600 font-bold text-lg font-inter"
           >{{ product.discountPrice }} ₽</span
         >

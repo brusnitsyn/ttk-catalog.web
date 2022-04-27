@@ -13,7 +13,7 @@ export const state = () => ({
     name: '',
     article: '',
     actualPrice: null,
-    discountPrice: 0,
+    discountPrice: undefined,
     weight: null,
     width: null,
     height: null,
@@ -94,7 +94,6 @@ export const actions = {
 
   },
   async pushSingleProduct({ commit }, product) {
-
     let sendData = new FormData()
 
     sendData.append('name', product.name)
@@ -108,7 +107,9 @@ export const actions = {
     sendData.append('hole', product.hole)
     sendData.append('previewImage', product.previewImage)
     sendData.append('brandId', product.brand.id)
-    sendData.append('carouselImages', product.carouselImages)
+    product.carouselImages.forEach((img) => {
+      sendData.append('carouselImages[]', img.raw)
+    })
     sendData.append('machines', JSON.stringify(product.machines))
 
     const data = await this.$axios.post('/api/products', sendData, {

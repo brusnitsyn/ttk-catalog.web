@@ -17,13 +17,23 @@ export default {
   css: ['@/assets/css/tailwind.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '@/plugins/vue-awesome-swiper', mode: 'client' }],
+  plugins: [{ src: '@/plugins/vue-awesome-swiper', mode: 'client' }, { src: '@/plugins/element-ui' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxt/postcss8', '@nuxtjs/moment'],
+  buildModules: ['@nuxt/postcss8', '@nuxtjs/moment', '@nuxt/image',],
+
+  serverMiddleware: {
+    '/laravelimg': '~/server/middleware/laravelimg.js'
+  },
+
+  image: {
+    // permitted domains where the files are stored
+    domains: ['http://127.0.0.1:8000/'],
+    baseURL: "http://127.0.0.1:8000/",
+  },
 
   // router: {
   //   middleware: ['auth'],
@@ -58,6 +68,7 @@ export default {
     '@nuxtjs/auth-next',
     'dropzone-nuxt',
     'nuxt-vue-multiselect',
+
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

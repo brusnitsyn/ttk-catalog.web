@@ -318,40 +318,49 @@
               ref="previewImage"
             />
           </div>
-          <div class="col-span-6 border-t border-gray-300 pt-4">
-            <label
-              for="carouselImage"
-              class="form-label inline-block mb-2 text-gray-700"
-              >Дополнительные изображения</label
-            >
-            <input
-              class="
-                form-control
-                block
-                w-full
-                px-3
-                py-1.5
-                text-base
-                font-normal
-                text-gray-700
-                bg-white bg-clip-padding
-                border border-solid border-gray-300
-                rounded
-                transition
-                ease-in-out
-                m-0
-                focus:text-gray-700
-                focus:bg-white
-                focus:border-blue-600
-                focus:outline-none
-              "
-              type="file"
-              @change="handleCarouselImageUpload"
-              id="carouselImage"
-              ref="carouselImage"
-              multiple
-            />
-          </div>
+          <el-upload
+            class="border-t col-span-6 border-gray-300 pt-4"
+            action=" "
+            list-type="picture-card"
+            :on-change="onChangeUploader"
+            :multiple="true"
+            :auto-upload="false"
+            :file-list="form.carouselImages"
+          >
+            <i slot="default" class="el-icon-plus"></i>
+            <div slot="file" slot-scope="{ file }">
+              <img
+                class="el-upload-list__item-thumbnail"
+                :src="file.url"
+                alt=""
+              />
+              <span class="el-upload-list__item-actions">
+                <span
+                  class="el-upload-list__item-preview"
+                  @click="handlePictureCardPreview(file)"
+                >
+                  <i class="el-icon-zoom-in"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleDownload(file)"
+                >
+                  <i class="el-icon-download"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleRemove(file)"
+                >
+                  <i class="el-icon-delete"></i>
+                </span>
+              </span>
+            </div>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="" />
+          </el-dialog>
         </div>
       </form>
       <div class="pt-3.5 flex flex-row justify-end border-t border-gray-300">
@@ -372,10 +381,12 @@ export default {
   data() {
     return {
       form: {},
+      dialogImageUrl: '',
+      dialogVisible: false,
+      disabled: false,
     }
   },
   computed: {
-    ...mapState(['products']),
     ...mapGetters({
       preDataForm: 'products/getProduct',
       newProductForm: 'products/getFormData',
@@ -390,13 +401,19 @@ export default {
     handleImagePreviewUpload(e) {
       this.form.previewImage = e.target.files[0]
     },
-    handleCarouselImageUpload(e) {
-      for (var i = 0; i < e.target.files.length; i++) {
-        this.$store.commit(
-          'products/pushProductCarouselImage',
-          e.target.files[i]
-        )
-      }
+    handleRemove(file) {
+      console.log(file)
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
+    },
+    handleDownload(file) {
+      console.log(file)
+    },
+    onChangeUploader(file) {
+      console.log(file)
+      this.$store.commit('products/pushProductCarouselImage', file)
     },
 
     addProduct() {
@@ -406,10 +423,13 @@ export default {
   mounted() {
     this.$store.dispatch('machines/fetchAllMachines')
     this.$store.dispatch('brands/fetchAllBrands')
+
+    this.form = Object.assign({}, this.preDataform)
+    //if (this.preDataForm != undefined) this.form = Object.assign({}, this.preDataform)
+    //else this.form = Object.assign({}, this.newProductForm)
   },
   created() {
-    if (this.preDataForm.length) this.form = Object.assign({}, this.preDataform)
-    else this.form = Object.assign({}, this.newProductForm)
+
   },
 }
 </script>
