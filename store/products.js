@@ -9,21 +9,24 @@ export const state = () => ({
     machine: 'all',
     order: 'created_at',
   },
-  formData: {
-    name: '',
-    article: '',
-    actualPrice: null,
-    discountPrice: undefined,
-    weight: null,
-    width: null,
-    height: null,
-    length: null,
-    hole: '',
-    previewImage: null,
-    brand: null,
-    carouselImages: [],
-    machines: []
-  },
+  // formData: {
+  //   name: '',
+  //   article: '',
+  //   originalArticle: '',
+  //   actualPrice: 0,
+  //   discountPrice: 0,
+  //   weight: 0,
+  //   width: null,
+  //   diameter: null,
+  //   thickness: null,
+  //   height: null,
+  //   length: null,
+  //   hole: '',
+  //   previewImage: null,
+  //   brand: null,
+  //   carouselImages: [],
+  //   machines: []
+  // },
   showCreateDialog: false
 })
 

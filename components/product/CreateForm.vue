@@ -68,7 +68,7 @@
       </div>
       <form class="p-3.5 flex flex-col overflow-auto scrollbar">
         <div class="grid grid-cols-6 gap-6">
-          <div class="col-span-6 md:col-span-3 space-y-1">
+          <div class="col-span-6 md:col-span-6 space-y-1">
             <label for="product-name" class="text-sm">Наименование</label>
             <input
               type="text"
@@ -99,6 +99,29 @@
               v-model="form.article"
               name="product-article"
               id="product-article"
+              placeholder="РЗЗ.65.01.002"
+              class="
+                p-2
+                focus:outline-none
+                focus:border-opacity-0
+                focus:ring-2
+                focus:ring-accent
+                border border-gray-300
+                rounded-lg
+                bg-gray-100
+                shadow
+                w-full
+              "
+            />
+          </div>
+
+          <div class="col-span-6 md:col-span-3 space-y-1">
+            <label for="product-originalArticle" class="text-sm">Оригинальный артикул</label>
+            <input
+              type="text"
+              v-model="form.originalArticle"
+              name="product-originalArticle"
+              id="product-originalArticle"
               placeholder="РЗЗ.65.01.002"
               class="
                 p-2
@@ -178,6 +201,31 @@
               v-model="form.actualPrice"
               name="product-actualPrice"
               id="product-actualPrice"
+              placeholder="0000000.00"
+              class="
+                p-2
+                focus:outline-none
+                focus:border-opacity-0
+                focus:ring-2
+                focus:ring-accent
+                border border-gray-300
+                rounded-lg
+                bg-gray-100
+                shadow
+                w-full
+              "
+            />
+          </div>
+
+          <div class="col-span-6 md:col-span-3 space-y-1">
+            <label for="product-discountPrice" class="text-sm"
+              >Стоимость по акции</label
+            >
+            <input
+              type="text"
+              v-model="form.discountPrice"
+              name="product-discountPrice"
+              id="product-discountPrice"
               placeholder="0000000.00"
               class="
                 p-2
@@ -413,6 +461,8 @@ export default {
     },
     onChangeUploader(file) {
       console.log(file)
+      this.form.carouselImages = []
+      this.form.carouselImages.push(file);
       this.$store.commit('products/pushProductCarouselImage', file)
     },
 
@@ -424,7 +474,8 @@ export default {
     this.$store.dispatch('machines/fetchAllMachines')
     this.$store.dispatch('brands/fetchAllBrands')
 
-    this.form = Object.assign({}, this.preDataform)
+    if(this.preDataForm)
+      this.form = Object.assign({}, this.preDataform)
     //if (this.preDataForm != undefined) this.form = Object.assign({}, this.preDataform)
     //else this.form = Object.assign({}, this.newProductForm)
   },
