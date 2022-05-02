@@ -116,7 +116,9 @@
           </div>
 
           <div class="col-span-6 md:col-span-3 space-y-1">
-            <label for="product-originalArticle" class="text-sm">Оригинальный артикул</label>
+            <label for="product-originalArticle" class="text-sm"
+              >Оригинальный артикул</label
+            >
             <input
               type="text"
               v-model="form.originalArticle"
@@ -172,29 +174,6 @@
           </div>
 
           <div class="col-span-6 md:col-span-3 space-y-1">
-            <label for="product-weight" class="text-sm">Масса</label>
-            <input
-              type="text"
-              name="product-weight"
-              v-model="form.weight"
-              id="product-weight"
-              placeholder="0000.00"
-              class="
-                p-2
-                focus:outline-none
-                focus:border-opacity-0
-                focus:ring-2
-                focus:ring-accent
-                border border-gray-300
-                rounded-lg
-                bg-gray-100
-                shadow
-                w-full
-              "
-            />
-          </div>
-
-          <div class="col-span-6 md:col-span-3 space-y-1">
             <label for="product-actualPrice" class="text-sm">Стоимость</label>
             <input
               type="text"
@@ -216,7 +195,6 @@
               "
             />
           </div>
-
           <div class="col-span-6 md:col-span-3 space-y-1">
             <label for="product-discountPrice" class="text-sm"
               >Стоимость по акции</label
@@ -243,13 +221,13 @@
           </div>
 
           <div class="col-span-2 md:col-span-2 space-y-1">
-            <label for="product-length" class="text-sm">Длина</label>
+            <label for="product-weight" class="text-sm">Масса</label>
             <input
               type="text"
-              v-model="form.length"
-              name="product-length"
-              id="product-length"
-              placeholder="0000000.00"
+              name="product-weight"
+              v-model="form.weight"
+              id="product-weight"
+              placeholder="0000.00"
               class="
                 p-2
                 focus:outline-none
@@ -287,6 +265,51 @@
             />
           </div>
           <div class="col-span-2 md:col-span-2 space-y-1">
+            <label for="product-diameter" class="text-sm">Диаметр</label>
+            <input
+              type="text"
+              v-model="form.diameter"
+              name="product-diameter"
+              id="product-diameter"
+              placeholder="0000000.00"
+              class="
+                p-2
+                focus:outline-none
+                focus:border-opacity-0
+                focus:ring-2
+                focus:ring-accent
+                border border-gray-300
+                rounded-lg
+                bg-gray-100
+                shadow
+                w-full
+              "
+            />
+          </div>
+
+          <div class="col-span-2 md:col-span-2 space-y-1">
+            <label for="product-thickness" class="text-sm">Толщина</label>
+            <input
+              type="text"
+              v-model="form.thickness"
+              name="product-thickness"
+              id="product-thickness"
+              placeholder="0000000.00"
+              class="
+                p-2
+                focus:outline-none
+                focus:border-opacity-0
+                focus:ring-2
+                focus:ring-accent
+                border border-gray-300
+                rounded-lg
+                bg-gray-100
+                shadow
+                w-full
+              "
+            />
+          </div>
+          <div class="col-span-2 md:col-span-2 space-y-1">
             <label for="product-height" class="text-sm">Высота</label>
             <input
               type="text"
@@ -308,15 +331,134 @@
               "
             />
           </div>
+          <div class="col-span-2 md:col-span-2 space-y-1">
+            <label for="product-length" class="text-sm">Длина</label>
+            <input
+              type="text"
+              v-model="form.length"
+              name="product-length"
+              id="product-length"
+              placeholder="0000000.00"
+              class="
+                p-2
+                focus:outline-none
+                focus:border-opacity-0
+                focus:ring-2
+                focus:ring-accent
+                border border-gray-300
+                rounded-lg
+                bg-gray-100
+                shadow
+                w-full
+              "
+            />
+          </div>
+
           <div class="col-span-6 md:col-span-6 space-y-1">
             <label for="product-hole" class="text-sm"
-              >Отверстие (опционально)</label
+              >Отверстие</label
             >
             <input
               type="text"
               name="product-hole"
               v-model="form.hole"
               id="product-hole"
+              placeholder="1 отверстие - 20 мм, 4 отверстий - 10 мм"
+              class="
+                p-2
+                focus:outline-none
+                focus:border-opacity-0
+                focus:ring-2
+                focus:ring-accent
+                border border-gray-300
+                rounded-lg
+                bg-gray-100
+                shadow
+                w-full
+              "
+            />
+          </div>
+          <div class="col-span-6 md:col-span-6 space-y-1">
+            <label for="product-mountingHole" class="text-sm"
+              >Монтажное отверстие</label
+            >
+            <input
+              type="text"
+              name="product-mountingHole"
+              v-model="form.mountingHole"
+              id="product-mountingHole"
+              placeholder="1 отверстие - 20 мм, 4 отверстий - 10 мм"
+              class="
+                p-2
+                focus:outline-none
+                focus:border-opacity-0
+                focus:ring-2
+                focus:ring-accent
+                border border-gray-300
+                rounded-lg
+                bg-gray-100
+                shadow
+                w-full
+              "
+            />
+          </div>
+          <div class="col-span-6 md:col-span-6 space-y-1">
+            <label for="product-captureWidth" class="text-sm"
+              >Ширина захвата</label
+            >
+            <input
+              type="text"
+              name="product-captureWidth"
+              v-model="form.captureWidth"
+              id="product-captureWidth"
+              placeholder="1 отверстие - 20 мм, 4 отверстий - 10 мм"
+              class="
+                p-2
+                focus:outline-none
+                focus:border-opacity-0
+                focus:ring-2
+                focus:ring-accent
+                border border-gray-300
+                rounded-lg
+                bg-gray-100
+                shadow
+                w-full
+              "
+            />
+          </div>
+          <div class="col-span-6 md:col-span-6 space-y-1">
+            <label for="product-thread" class="text-sm"
+              >Резьба</label
+            >
+            <input
+              type="text"
+              name="product-thread"
+              v-model="form.thread"
+              id="product-thread"
+              placeholder="1 отверстие - 20 мм, 4 отверстий - 10 мм"
+              class="
+                p-2
+                focus:outline-none
+                focus:border-opacity-0
+                focus:ring-2
+                focus:ring-accent
+                border border-gray-300
+                rounded-lg
+                bg-gray-100
+                shadow
+                w-full
+              "
+            />
+          </div>
+          <div class="col-span-6 md:col-span-6 space-y-1">
+            <label for="product-distanceBetweenHoles" class="text-sm"
+              >Расстояние между отверстиями</label
+            >
+            <input
+              type="text"
+              name="product-distanceBetweenHoles"
+              v-model="form.distanceBetweenHoles"
+              id="product-distanceBetweenHoles"
               placeholder="1 отверстие - 20 мм, 4 отверстий - 10 мм"
               class="
                 p-2
@@ -339,76 +481,69 @@
               class="form-label inline-block mb-2 text-gray-700"
               >Главное изображение</label
             >
-            <input
-              class="
-                form-control
-                block
-                w-full
-                px-3
-                py-1.5
-                text-base
-                font-normal
-                text-gray-700
-                bg-white bg-clip-padding
-                border border-solid border-gray-300
-                rounded
-                transition
-                ease-in-out
-                m-0
-                focus:text-gray-700
-                focus:bg-white
-                focus:border-blue-600
-                focus:outline-none
-              "
-              type="file"
-              @change="handleImagePreviewUpload"
-              id="imagePreview"
-              ref="previewImage"
-            />
+            <el-upload
+              action=" "
+              :limit="1"
+              name="imagePreview"
+              ref="uploaderImagePreview"
+              list-type="picture-card"
+              :on-change="onChangeUploaderPreviewImage"
+              :auto-upload="false"
+              :file-list="form.previewImage"
+            >
+              <div v-if="file" slot="file" slot-scope="{ file }">
+                <img
+                  class="el-upload-list__item-thumbnail"
+                  :src="file.url"
+                  alt=""
+                />
+                <span class="el-upload-list__item-actions">
+                  <span
+                    class="el-upload-list__item-delete"
+                    @click="handleRemovePreviewImage(file)"
+                  >
+                    <i class="el-icon-delete"></i>
+                  </span>
+                </span>
+              </div>
+            </el-upload>
           </div>
-          <el-upload
-            class="border-t col-span-6 border-gray-300 pt-4"
-            action=" "
-            list-type="picture-card"
-            :on-change="onChangeUploader"
-            :multiple="true"
-            :auto-upload="false"
-            :file-list="form.carouselImages"
-          >
-            <i slot="default" class="el-icon-plus"></i>
-            <div slot="file" slot-scope="{ file }">
-              <img
-                class="el-upload-list__item-thumbnail"
-                :src="file.url"
-                alt=""
-              />
-              <span class="el-upload-list__item-actions">
-                <span
-                  class="el-upload-list__item-preview"
-                  @click="handlePictureCardPreview(file)"
-                >
-                  <i class="el-icon-zoom-in"></i>
+
+          <div class="border-t col-span-6 border-gray-300 pt-4">
+            <label
+              for="carouselImages"
+              class="form-label inline-block mb-2 text-gray-700"
+            >
+              Дополнительные изображения
+            </label>
+            <el-upload
+              action=" "
+              name="carouselImages"
+              ref="uploaderCarouselImages"
+              list-type="picture-card"
+              :on-change="onChangeUploaderCarouselImages"
+              :multiple="true"
+              :auto-upload="false"
+              :file-list="form.carouselImages"
+            >
+              <i slot="default" class="el-icon-plus"></i>
+              <div slot="file" slot-scope="{ file }">
+                <img
+                  class="el-upload-list__item-thumbnail"
+                  :src="file.url"
+                  alt=""
+                />
+                <span class="el-upload-list__item-actions">
+                  <span
+                    class="el-upload-list__item-delete"
+                    @click="handleRemoveCarouselImages(file)"
+                  >
+                    <i class="el-icon-delete"></i>
+                  </span>
                 </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleDownload(file)"
-                >
-                  <i class="el-icon-download"></i>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleRemove(file)"
-                >
-                  <i class="el-icon-delete"></i>
-                </span>
-              </span>
-            </div>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="" />
-          </el-dialog>
+              </div>
+            </el-upload>
+          </div>
         </div>
       </form>
       <div class="pt-3.5 flex flex-row justify-end border-t border-gray-300">
@@ -429,15 +564,11 @@ export default {
   data() {
     return {
       form: {},
-      dialogImageUrl: '',
-      dialogVisible: false,
-      disabled: false,
     }
   },
   computed: {
     ...mapGetters({
       preDataForm: 'products/getProduct',
-      newProductForm: 'products/getFormData',
       brands: 'brands/getBrands',
       machines: 'machines/getMachines',
     }),
@@ -446,24 +577,28 @@ export default {
     closeForm() {
       this.$store.dispatch('products/setShowCreateDialog', false)
     },
-    handleImagePreviewUpload(e) {
-      this.form.previewImage = e.target.files[0]
+    handleRemovePreviewImage(file) {
+      this.$refs.uploaderImagePreview.clearFiles()
     },
-    handleRemove(file) {
-      console.log(file)
+    onChangeUploaderPreviewImage(file, fileList) {
+      this.form.previewImage = fileList
     },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
+
+    handleRemoveCarouselImages(file) {
+      let files = this.form.carouselImages
+      this.form.carouselImages.forEach((img, index, obj) => {
+        if(img.raw.uid === file.raw.uid) {
+          files.splice(index, 1)
+        }
+      })
+
+      this.$refs.uploaderCarouselImages.fileList = files
     },
-    handleDownload(file) {
-      console.log(file)
-    },
-    onChangeUploader(file) {
-      console.log(file)
+    onChangeUploaderCarouselImages(file, fileList) {
       this.form.carouselImages = []
-      this.form.carouselImages.push(file);
-      this.$store.commit('products/pushProductCarouselImage', file)
+      fileList.forEach((file) => {
+        this.form.carouselImages.push(file);
+      })
     },
 
     addProduct() {
@@ -476,8 +611,6 @@ export default {
 
     if(this.preDataForm)
       this.form = Object.assign({}, this.preDataform)
-    //if (this.preDataForm != undefined) this.form = Object.assign({}, this.preDataform)
-    //else this.form = Object.assign({}, this.newProductForm)
   },
   created() {
 

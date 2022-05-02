@@ -110,6 +110,7 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'IndexPage',
+  layout: 'index',
   data() {
     return {
 
