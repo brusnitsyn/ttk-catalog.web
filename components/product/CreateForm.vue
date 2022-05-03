@@ -355,9 +355,7 @@
           </div>
 
           <div class="col-span-6 md:col-span-6 space-y-1">
-            <label for="product-hole" class="text-sm"
-              >Отверстие</label
-            >
+            <label for="product-hole" class="text-sm">Отверстие</label>
             <input
               type="text"
               name="product-hole"
@@ -380,7 +378,7 @@
           </div>
           <div class="col-span-6 md:col-span-6 space-y-1">
             <label for="product-mountingHole" class="text-sm"
-              >Монтажное отверстие</label
+              >Крепежное отверстие</label
             >
             <input
               type="text"
@@ -427,9 +425,7 @@
             />
           </div>
           <div class="col-span-6 md:col-span-6 space-y-1">
-            <label for="product-thread" class="text-sm"
-              >Резьба</label
-            >
+            <label for="product-thread" class="text-sm">Резьба</label>
             <input
               type="text"
               name="product-thread"
@@ -482,30 +478,17 @@
               >Главное изображение</label
             >
             <el-upload
+              class="avatar-uploader"
               action=" "
-              :limit="1"
               name="imagePreview"
               ref="uploaderImagePreview"
-              list-type="picture-card"
-              :on-change="onChangeUploaderPreviewImage"
+              :on-change="handleUploaderPreviewSuccess"
+              :before-upload="beforePreviewUpload"
               :auto-upload="false"
-              :file-list="form.previewImage"
+              :show-file-list="false"
             >
-              <div v-if="file" slot="file" slot-scope="{ file }">
-                <img
-                  class="el-upload-list__item-thumbnail"
-                  :src="file.url"
-                  alt=""
-                />
-                <span class="el-upload-list__item-actions">
-                  <span
-                    class="el-upload-list__item-delete"
-                    @click="handleRemovePreviewImage(file)"
-                  >
-                    <i class="el-icon-delete"></i>
-                  </span>
-                </span>
-              </div>
+              <img v-if="previewImage" :src="previewImage" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </div>
 
@@ -563,31 +546,75 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
-      form: {},
+      form: {
+        name: null,
+        article: null,
+        originalArticle: null,
+        actualPrice: null,
+        discountPrice: null,
+        weight: null,
+        width: null,
+        diameter: null,
+        thickness: null,
+        height: null,
+        length: null,
+        hole: null,
+        mountingHole: null,
+        captureWidth: null,
+        thread: null,
+        distanceBetweenHoles: null,
+        description: null,
+        previewImage: '',
+      },
+      previewImage: '',
     }
   },
   computed: {
     ...mapGetters({
-      preDataForm: 'products/getProduct',
+      product: 'products/getProduct',
       brands: 'brands/getBrands',
       machines: 'machines/getMachines',
     }),
+  },
+  watch: {
+    // product: function (value) {
+    //   this.form = Object.assign({}, value)
+    // },
   },
   methods: {
     closeForm() {
       this.$store.dispatch('products/setShowCreateDialog', false)
     },
-    handleRemovePreviewImage(file) {
-      this.$refs.uploaderImagePreview.clearFiles()
+    beforePreviewUpload(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isPNG = file.type === 'image/png'
+
+      if (!isJPG) {
+        this.$message.error('Avatar picture must be JPG format!')
+      }
+      if (!isPNG) {
+        this.$message.error('Avatar picture must be PNG format!')
+      }
+      return isJPG && isPNG
     },
-    onChangeUploaderPreviewImage(file, fileList) {
-      this.form.previewImage = fileList
+    handleUploaderPreviewSuccess(file, fileList) {
+      this.$refs.uploaderImagePreview.clearFiles()
+      this.form.previewImage = file
+      this.previewImage = URL.createObjectURL(file.raw)
     },
 
     handleRemoveCarouselImages(file) {
       let files = this.form.carouselImages
       this.form.carouselImages.forEach((img, index, obj) => {
-        if(img.raw.uid === file.raw.uid) {
+        if (!img.raw) {
+          console.log(img)
+          if (img.uid === file.uid) {
+            files.splice(index, 1)
+          }
+
+          return
+        }
+        if (img.raw.uid === file.raw.uid) {
           files.splice(index, 1)
         }
       })
@@ -597,7 +624,7 @@ export default {
     onChangeUploaderCarouselImages(file, fileList) {
       this.form.carouselImages = []
       fileList.forEach((file) => {
-        this.form.carouselImages.push(file);
+        this.form.carouselImages.push(file)
       })
     },
 
@@ -605,15 +632,16 @@ export default {
       this.$store.dispatch('products/pushSingleProduct', this.form)
     },
   },
+  // activated() {
+  //   if (this.product) this.form = Object.assign({}, this.product)
+  // },
   mounted() {
     this.$store.dispatch('machines/fetchAllMachines')
     this.$store.dispatch('brands/fetchAllBrands')
-
-    if(this.preDataForm)
-      this.form = Object.assign({}, this.preDataform)
   },
   created() {
-
+    this.form = Object.assign({}, this.product)
+    this.previewImage = this.form.previewImage
   },
 }
 </script>
@@ -636,5 +664,29 @@ export default {
 }
 .scrollbar::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

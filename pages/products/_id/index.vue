@@ -2,14 +2,14 @@
   <Loading v-if="$fetchState.pending" />
   <Container v-else>
     <dir class="py-1">
-      <button @click="$router.go(-1)" class="cursor-pointer"> Назад </button>
+      <button @click="$router.go(-1)" class="cursor-pointer">Назад</button>
     </dir>
     <div class="flex flex-col lg:flex-row gap-x-24">
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
         <div class="bg-gray-200 rounded-xl max-h-[448px]">
-          <div class="flex items-center justify-center py-9 px-9">
+          <div class="flex items-center justify-center py-9 px-9 lg:h-[376px]">
             <img
-              :src="`http://localhost:8000/storage/${image}`"
+              :src="image"
               class="w-full h-full"
               loading="lazy"
               :alt="product.name"
@@ -21,10 +21,9 @@
             v-for="image in product.carouselImages"
             :key="image.id"
             class="bg-gray-200 rounded-xl flex justify-center"
-
           >
             <img
-              :src="`http://localhost:8000/storage/${image.url}`"
+              :src="image.url"
               :alt="product.name"
               loading="lazy"
               @click="selectImage(image.url)"
@@ -77,7 +76,7 @@
               </span>
             </div>
           </li>
-          <li v-if="product.width">
+          <li v-if="product.width > 0">
             <div class="flex flex-row justify-between">
               <span class="font-inter text-lg">Ширина</span>
               <div
@@ -88,7 +87,7 @@
               </span>
             </div>
           </li>
-          <li v-if="product.diameter">
+          <li v-if="product.diameter > 0">
             <div class="flex flex-row justify-between">
               <span class="font-inter text-lg">Диаметр</span>
               <div
@@ -99,7 +98,7 @@
               </span>
             </div>
           </li>
-          <li v-if="product.thickness">
+          <li v-if="product.thickness > 0">
             <div class="flex flex-row justify-between">
               <span class="font-inter text-lg">Толщина</span>
               <div
@@ -110,7 +109,7 @@
               </span>
             </div>
           </li>
-          <li v-if="product.height">
+          <li v-if="product.height > 0">
             <div class="flex flex-row justify-between">
               <span class="font-inter text-lg">Высота</span>
               <div
@@ -121,14 +120,14 @@
               </span>
             </div>
           </li>
-          <li v-if="product.length">
+          <li v-if="product['length'] > 0">
             <div class="flex flex-row justify-between">
               <span class="font-inter text-lg">Длина</span>
               <div
                 class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
               ></div>
               <span class="font-inter text-lg font-semibold">
-                {{ product.length }}
+                {{ product['length'] }}
               </span>
             </div>
           </li>
@@ -217,7 +216,7 @@ export default {
   layout: 'index',
   data() {
     return {
-      image: ''
+      image: '',
     }
   },
   computed: {
@@ -225,10 +224,15 @@ export default {
       product: 'products/getProduct',
     }),
   },
+  watch: {
+    product: function(value) {
+      this.selectImage(value.previewImage)
+    }
+  },
   methods: {
     selectImage(image) {
       this.image = image
-    }
+    },
   },
   async fetch() {
     await this.$store.dispatch(
@@ -237,15 +241,14 @@ export default {
     )
   },
   activated() {
-    this.$fetch();
+    this.$fetch()
   },
   mounted() {
-    if(!this.product.carouselImages > 0)
-      this.selectImage(this.product.previewImage)
+
   },
   created() {
 
-  }
+  },
 }
 </script>
 

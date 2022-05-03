@@ -97,30 +97,33 @@ export const actions = {
 
   },
   async pushSingleProduct({ commit }, product) {
-    let sendData = new FormData()
+    const sendData = new FormData()
 
     sendData.append('name', product.name)
     sendData.append('article', product.article)
-    sendData.append('originalArticle', product.originalArticle)
-    sendData.append('actualPrice', product.actualPrice)
-    sendData.append('discountPrice', product.discountPrice)
+    sendData.append('originalArticle', (typeof product.originalArticle === 'undefined') ? '' : product.originalArticle)
+    sendData.append('actualPrice', (typeof product.actualPrice === 'undefined') ? '' : product.actualPrice)
+    sendData.append('discountPrice', (typeof product.discountPrice === 'undefined') ? '' : product.discountPrice)
     sendData.append('weight', product.weight)
-    sendData.append('width', product.width)
-    sendData.append('diameter', product.diameter)
-    sendData.append('thickness', product.thickness)
-    sendData.append('height', product.height)
-    sendData.append('length', product['length'])
-    sendData.append('hole', product.hole)
-    sendData.append('mountingHole', product.mountingHole)
-    sendData.append('captureWidth', product.captureWidth)
-    sendData.append('thread', product.thread)
-    sendData.append('distanceBetweenHoles', product.distanceBetweenHoles)
-    sendData.append('description', product.description)
-    sendData.append('previewImage', product.previewImage[0].raw)
+    sendData.append('width', (typeof product.width === 'undefined') ? '' : product.width)
+    sendData.append('diameter', (typeof product.diameter === 'undefined') ? '' : product.diameter)
+    sendData.append('thickness', (typeof product.thickness === 'undefined') ? '' : product.thickness)
+    sendData.append('height', (typeof product.height === 'undefined') ? '' : product.height)
+    sendData.append('length', (typeof product['length'] === 'undefined') ? '' : product['length'])
+    sendData.append('hole', (typeof product.hole === 'undefined') ? '' : product.hole)
+    sendData.append('mountingHole', (typeof product.mountingHole === 'undefined') ? '' : product.mountingHole)
+    sendData.append('captureWidth', (typeof product.captureWidth === 'undefined') ? '' : product.captureWidth)
+    sendData.append('thread', (typeof product.thread === 'undefined') ? '' : product.thread)
+    sendData.append('distanceBetweenHoles', (typeof product.distanceBetweenHoles === 'undefined') ? '' : product.distanceBetweenHoles)
+    sendData.append('description', (typeof product.description === 'undefined') ? '' : product.description)
+
+    sendData.append('previewImage', product.previewImage.raw)
     sendData.append('brandId', product.brand.id)
+
     product.carouselImages.forEach((img) => {
       sendData.append('carouselImages[]', img.raw)
     })
+
     sendData.append('machines', JSON.stringify(product.machines))
 
     const data = await this.$axios.post('/api/products', sendData, {

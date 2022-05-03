@@ -12,7 +12,7 @@
         select-none
       "
     >
-      <img :src="`http://localhost:8000/storage/${product.previewImage}`" alt="" srcset="" />
+      <img :src="product.previewImage" alt="" srcset="" />
     </div>
     <div class="px-2 flex flex-col pt-2 pb-4 gap-y-0.5 justify-between h-full">
       <div class="flex flex-col">

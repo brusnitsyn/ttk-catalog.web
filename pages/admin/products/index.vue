@@ -11,7 +11,14 @@
       <h1 class="text-2xl font-semibold">Все товары</h1>
       <button
         @click="onOpenDialog"
-        class="px-3 py-2.5 bg-accent hover:bg-accent-dark rounded-md text-white"
+        class="
+          px-3
+          py-2.5
+          bg-orange-400
+          hover:bg-accent-dark
+          rounded-md
+          text-white
+        "
       >
         <div class="flex gap-x-2">
           <i>
@@ -155,8 +162,7 @@
               <!-- <td class="px-6 py-4">{{ product.manufacturer }}</td> -->
               <td class="px-6 py-4">{{ product.actualPrice }}</td>
               <td class="px-6 py-4 text-right">
-                <a
-                  href="#"
+                <button
                   @click="onEditProduct(product)"
                   class="
                     font-medium
@@ -164,12 +170,12 @@
                     dark:text-blue-500
                     hover:underline
                   "
-                  >Редактировать</a
                 >
+                  Редактировать
+                </button>
               </td>
               <td class="px-6 py-4 text-left">
                 <button
-                  href="#"
                   @click="onDeleteProduct(this)"
                   class="
                     font-medium
@@ -190,7 +196,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters } from 'vuex'
 export default {
   middleware: 'auth',
   computed: {
@@ -198,15 +204,15 @@ export default {
     //   products: (state) => state.products.products,
     // }),
     ...mapGetters({
-      products: 'products/getProducts'
-    })
+      products: 'products/getProducts',
+    }),
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     onOpenDialog() {
-      this.$store.commit("products/setShowCreateDialog", true);
+      this.$store.commit('products/setShowCreateDialog', true)
     },
     onShowAcceptDialog() {
       // this.$store.commit("admin/ui/setAcceptDialogHeader", "Удаление товара");
@@ -214,27 +220,26 @@ export default {
       //   "admin/ui/setAcceptDialogBody",
       //   "Вы действительно хотите удалить товар?"
       // );
-
       // this.$store.commit("admin/ui/setVisibilityAcceptDialog", true);
     },
     onCheckAllProduct() {
       //this.products
     },
     onDeleteProduct(product) {
-      this.$store.commit("products/deleteSingleProduct", product);
+      this.$store.commit('products/deleteSingleProduct', product)
     },
     onEditProduct(product) {
-      this.$store.commit("products/setProduct", product);
-      this.$store.commit("products/setShowCreateDialog", true);
+      this.$store.commit('products/setProduct', product)
+      this.$store.commit('products/setShowCreateDialog', true)
     },
   },
   async fetch() {
-    await this.$store.dispatch("products/fetchAllProducts");
+    await this.$store.dispatch('products/fetchAllProducts')
   },
   mounted() {
-    if(!this.products.length) this.$store.dispatch("products/fetchAllProducts");
+    if (!this.products.length) this.$store.dispatch('products/fetchAllProducts')
   },
-};
+}
 </script>
 
 <style>
