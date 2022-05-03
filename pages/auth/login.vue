@@ -63,7 +63,7 @@
 <script>
 export default {
   layout: 'admin',
-  middleware: 'auth',
+  auth: 'guest',
   data() {
     return {
       form: {

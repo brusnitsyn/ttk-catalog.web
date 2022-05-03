@@ -13,6 +13,8 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  ssr: false,
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/css/tailwind.css'],
 
@@ -43,15 +45,15 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'http://localhost:8000',
+        url: 'https://dv-ttk.ru/api',
         endpoints: {
-          login: { url: '/api/admin/login', method: 'post' },
-          logout: { url: '/api/admin/logout', method: 'post' },
+          login: { url: '/admin/login', method: 'post' },
+          logout: { url: '/admin/logout', method: 'post' },
           refresh: {
-            url: '/api/admin/refresh',
+            url: '/admin/refresh',
             method: 'post'
           },
-          user: { url: '/api/user', method: 'get' },
+          user: { url: '/user', method: 'get' },
         },
       },
     },
@@ -74,7 +76,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://localhost:8000',
+    baseURL: 'https://dv-ttk.ru',
     credentials: true,
   },
 

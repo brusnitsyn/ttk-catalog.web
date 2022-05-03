@@ -113,7 +113,10 @@ export default {
   layout: 'index',
   data() {
     return {
-
+      // products: [],
+      // filteredProducts: [],
+      // product: {},
+      // openDialog: false
     }
   },
   computed: {
