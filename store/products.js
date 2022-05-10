@@ -83,13 +83,13 @@ export const mutations = {
 
 export const actions = {
   async fetchAllProducts({ commit }) {
-    const data = await this.$axios.get('/api/products')
+    const data = await this.$axios.get('/products')
     const result = await data
     await commit('setProducts', result.data.data)
     await commit('setFilteredProducts', result.data.data)
   },
   async fetchSingleProduct({ commit }, productId) {
-    const data = await this.$axios.get(`/api/products/${productId}`)
+    const data = await this.$axios.get(`/products/${productId}`)
     const result = await data
     await commit('setProduct', result.data.data)
   },
@@ -126,7 +126,7 @@ export const actions = {
 
     sendData.append('machines', JSON.stringify(product.machines))
 
-    const data = await this.$axios.post('/api/products', sendData, {
+    const data = await this.$axios.post('/products', sendData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

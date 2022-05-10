@@ -16,27 +16,19 @@
             />
           </div>
         </div>
-        <div class="grid grid-cols-3 gap-x-4">
-          <div
-            v-for="image in product.carouselImages"
-            :key="image.id"
-            class="bg-gray-200 rounded-xl flex justify-center"
-          >
-            <img
-              :src="image.url"
-              :alt="product.name"
-              loading="lazy"
-              @click="selectImage(image.url)"
-              class="py-3 w-20"
-            />
-          </div>
-          <!-- <div class="bg-gray-200 rounded-xl flex justify-center">
-            <img :src="product.image" :alt="product.name" loading="lazy" class="py-3 w-20" />
-          </div>
-          <div class="bg-gray-200 rounded-xl flex justify-center">
-            <img :src="product.image" :alt="product.name" loading="lazy" class="py-3 w-20" />
-          </div> -->
-        </div>
+        <swiper class="w-full" :options="productCarouserSwiperOptions">
+          <swiper-slide v-for="image in product.carouselImages" :key="image.id">
+            <div class="bg-gray-200 rounded-xl flex justify-center">
+              <img
+                :src="image.url"
+                :alt="product.name"
+                loading="lazy"
+                @click="selectImage(image.url)"
+                class="py-3 w-20"
+              />
+            </div>
+          </swiper-slide>
+        </swiper>
       </div>
       <div class="flex flex-col flex-grow">
         <h1 class="font-inter font-bold text-2xl max-w-lg">
@@ -204,10 +196,37 @@
             </div>
           </li>
         </ul>
+
+        <div class="flex flex-row border-t pt-4 mt-4">
+          <span class="font-inter font-semibold text-xl">{{ price }}</span>
+          <el-input-number
+            class="text-lg"
+            @change="handleChange"
+            v-model="productSelectCount"
+            :min="1"
+            :max="99"
+          />
+        </div>
       </div>
     </div>
   </Container>
 </template>
+
+<style>
+.el-input-number__decrease:hover:not(.is-disabled)
+  ~ .el-input
+  .el-input__inner:not(.is-disabled),
+.el-input-number__increase:hover:not(.is-disabled)
+  ~ .el-input
+  .el-input__inner:not(.is-disabled) {
+  border-color: #ea580c;
+}
+
+.el-input-number__decrease:hover,
+.el-input-number__increase:hover {
+  color: #ea580c;
+}
+</style>
 
 <script>
 import { mapGetters } from 'vuex'
@@ -217,6 +236,13 @@ export default {
   data() {
     return {
       image: '',
+      productCarouserSwiperOptions: {
+        slidesPerView: 3,
+        centeredSlides: true,
+        spaceBetween: 16,
+      },
+      productSelectCount: 1,
+      price: 0
     }
   },
   computed: {
@@ -233,6 +259,11 @@ export default {
     selectImage(image) {
       this.image = image
     },
+    handleChange(value) {
+      if(this.product.discountPrice <= 0) {
+        this.price = (this.product.actualPrice * value)
+      }
+    }
   },
   async fetch() {
     await this.$store.dispatch(
@@ -251,7 +282,4 @@ export default {
   },
 }
 </script>
-
-<style>
-</style>
 

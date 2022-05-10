@@ -7,12 +7,12 @@
         lg:py-6 lg:px-8
         flex
         justify-center
-        bg-gray-200
+        bg-gray-100
         rounded-lg
         select-none
       "
     >
-      <img :src="product.previewImage" alt="" srcset="" />
+      <img :src="product.previewImage" alt="" srcset="" class="w-full h-full" />
     </div>
     <div class="px-2 flex flex-col pt-2 pb-4 gap-y-0.5 justify-between h-full">
       <div class="flex flex-col">

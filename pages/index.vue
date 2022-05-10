@@ -1,107 +1,39 @@
 <template>
   <Loading v-if="$fetchState.pending" />
   <div v-else>
-    <Container class="lg:flex">
-      <aside class="fixed z-10 lg:z-0 lg:static">
-        <div
-          class="h-full overflow-auto pointer-events-none lg:overflow-visible"
-        >
-          <div
-            class="
-              hidden
-              lg:block
-              overflow-auto
-              pointer-events-auto
-              max-h-screen
-              sticky
-              top-24
-              w-60
-            "
-          >
+    <section class="w-full lg:mx-auto lg:max-w-7xl lg:px-4">
+      <client-only>
+        <swiper :options="bannersOptions" class="rounded-none lg:rounded-lg h-72 lg:h-[420px]">
+          <swiper-slide v-for="item in 5" :key="item">
             <div
-              class="
-                hidden
-                lg:flex
-                flex-col
-                overflow-y-auto
-                sticky
-                max-h-full
-                pb-4
-              "
+              class="h-full"
+              :style="{
+                backgroundImage: `url(
+                  http://localhost:8000/storage/banners/placeholder1248x420.png
+                )`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }"
             >
-              <!-- <h1 class="font-bold text-xl">Фильтры</h1> -->
-              <ProductFilters />
+              text {{ item }}
             </div>
-          </div>
-        </div>
-      </aside>
-      <div class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
-        <div class="flex flex-col lg:flex-row">
-          <div
-            v-if="filteredProducts.length"
-            class="grow grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-3"
-          >
-            <nuxt-link
-              v-for="product in filteredProducts"
-              :key="product.id"
-              :to="'/products/' + product.id"
-            >
-              <LazyProductCard :product="product" />
-            </nuxt-link>
-          </div>
-
-          <ProductNoProductsCard v-else class="grow" />
-
-          <div
-            class="
-              hidden
-              z-10
-              left-0
-              flex-none
-              w-full
-              mr-8
-              text-sm
-              bg-white
-              border-b border-gray-200 border-opacity-50
-              xl:relative xl:border-0
-              dark:border-gray-800
-              bg-opacity-80
-              dark:bg-gray-900 dark:bg-opacity-80
-              xl:bg-transparent
-              dark:xl:bg-transparent
-              lg:left-60
-              xl:left-0
-              sm:pl-6
-              lg:pl-4
-              xl:w-60
-              top-24
-              xl:block xl:top-0
-            "
-          >
-            <div
-              class="
-                hidden
-                xl:flex
-                flex-col
-                justify-between
-                overflow-y-auto
-                sticky
-                max-h-screen
-                -mt-10
-                pt-2
-                pb-4
-                top-24
-              "
-            >
-              <div>
-                <span
-                  >Узнавайте актуальность и цену товара по номеру телефона</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+          </swiper-slide>
+        </swiper>
+      </client-only>
+    </section>
+    <Container class="lg:flex lg:flex-col">
+      <section>
+        <h1 class="font-inter font-semibold text-lg pb-2 pt-4">Новинки</h1>
+        <client-only>
+          <swiper :options="swiperOptions">
+            <swiper-slide v-for="product in filteredProducts" :key="product.id">
+              <nuxt-link :to="'/products/' + product.id">
+                <LazyProductCard :product="product" />
+              </nuxt-link>
+            </swiper-slide>
+          </swiper>
+        </client-only>
+      </section>
     </Container>
   </div>
 </template>
@@ -113,18 +45,32 @@ export default {
   layout: 'index',
   data() {
     return {
-      // products: [],
-      // filteredProducts: [],
-      // product: {},
-      // openDialog: false
+      swiperOptions: {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        breakpoints: {
+          320: {
+            slidesPerView: 2,
+          },
+          480: {
+            slidesPerView: 3,
+          },
+          640: {
+            slidesPerView: 4,
+          }
+        }
+      },
+      bannersOptions: {
+        autoplay: {
+            delay: 5000,
+        },
+      }
     }
   },
   computed: {
     ...mapGetters({
       products: 'products/getProducts',
       filteredProducts: 'products/getFilteredProducts',
-      product: 'products/getProduct',
-      openDialog: 'ui/getOpenDialog'
     }),
   },
 
@@ -135,8 +81,6 @@ export default {
     if (!this.products.length) {
       this.$store.dispatch('products/fetchAllProducts')
     }
-
-    // this.$store.dispatch('products/setShowCreateDialog', true)
   },
 }
 </script>

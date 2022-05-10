@@ -28,7 +28,7 @@ export const mutations = {
 
 export const actions = {
   async fetchAllMachineTypes({commit}) {
-    const data = this.$axios.get('/api/machines-types')
+    const data = this.$axios.get('/machines-types')
     const result = await data
     await commit('setMachineTypes', result.data.data)
   },

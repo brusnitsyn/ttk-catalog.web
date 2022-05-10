@@ -1,19 +1,21 @@
 export const state = () => ({
-  openDialog: false
+  openMobileMenu: false,
 })
 
 export const mutations = {
-  setOpenDialog(state, value) {
-    state.openDialog = value
+  setOpenMobileMenu(state, value) {
+    state.openMobileMenu = value
   },
 }
 
 export const actions = {
-  async setOpenDialog({commit}, value) {
-    await commit('setOpenDialog', value)
+  async setOpenMobileMenu({ commit }, value) {
+    await commit('setOpenMobileMenu', value)
   },
 }
 
 export const getters = {
-  getOpenDialog(state) { return state.openDialog },
+  getOpenMobileMenu(state) {
+    return state.openMobileMenu
+  },
 }
