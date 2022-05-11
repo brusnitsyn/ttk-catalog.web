@@ -1,10 +1,8 @@
 <template>
-  <div class="relative flex flex-row group">
+  <div class="relative flex flex-row group border rounded-lg">
     <div
       class="
         pointer-events-none
-        border-l border-t border-b border-r-0
-        rounded-l-lg rounded-t-lg rounded-b-lg rounded-r-none
         bg-white
         border-gray-300
         group-hover:border-gray-400
@@ -38,9 +36,7 @@
         pl-3.5
         pr-2
         py-2.5
-        border-l-0 border-r border-t border-b
-        rounded-l-none rounded-r-lg rounded-t-lg rounded-b-lg
-        border-gray-300
+        bg-transparent
         placeholder-gray-400
         group-hover:border-gray-400 group-hover:placeholder-gray-600
         group-select:border-gray-400 group-select:placeholder-gray-600
