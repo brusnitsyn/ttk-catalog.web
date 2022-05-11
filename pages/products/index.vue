@@ -36,7 +36,7 @@
       <div class="flex flex-col lg:flex-row">
         <div
           v-if="filteredProducts.length"
-          class="grow grid grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-3"
+          class="grow grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-3"
         >
           <nuxt-link
             v-for="product in filteredProducts"

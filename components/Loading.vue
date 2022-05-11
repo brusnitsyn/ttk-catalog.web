@@ -1,5 +1,5 @@
 <template>
-  <div class="cssload-cssload-wrap2">
+  <div class="absolute left-0 right-0 top-0 bottom-0 bg-white z-50">
     <div class="cssload-wrap">
       <div class="cssload-overlay"></div>
 
@@ -25,9 +25,6 @@
 </template>
 
 <style scoped>
-.cssload-cssload-wrap2 {
-  overflow: hidden;
-}
 .cssload-wrap {
   position: absolute;
   width: 97px;
