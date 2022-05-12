@@ -61,14 +61,14 @@
     <div class="flex flex-col">
       <div>
         <table
-          class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+          class="w-full text-sm text-left text-gray-500"
         >
           <thead
             class="
               text-xs text-gray-700
               uppercase
               bg-gray-50
-              dark:bg-gray-700 dark:text-gray-400
+
             "
           >
             <tr>
@@ -86,9 +86,7 @@
                       border-gray-300
                       rounded
                       focus:ring-blue-500
-                      dark:focus:ring-blue-600 dark:ring-offset-gray-800
                       focus:ring-2
-                      dark:bg-gray-700 dark:border-gray-600
                     "
                   />
                   <label for="checkbox-all-search" class="sr-only"
@@ -114,9 +112,7 @@
               class="
                 bg-white
                 border-b
-                dark:bg-gray-800 dark:border-gray-700
                 hover:bg-gray-50
-                dark:hover:bg-gray-600
               "
               v-for="product in products"
               :key="product.id"
@@ -134,9 +130,8 @@
                       border-gray-300
                       rounded
                       focus:ring-blue-500
-                      dark:focus:ring-blue-600 dark:ring-offset-gray-800
                       focus:ring-2
-                      dark:bg-gray-700 dark:border-gray-600
+
                     "
                   />
                   <label for="checkbox-table-search-1" class="sr-only"
@@ -151,7 +146,6 @@
                   py-4
                   font-medium
                   text-gray-900
-                  dark:text-white
                   whitespace-nowrap
                 "
               >
@@ -167,7 +161,6 @@
                   class="
                     font-medium
                     text-blue-600
-                    dark:text-blue-500
                     hover:underline
                   "
                 >
@@ -180,7 +173,6 @@
                   class="
                     font-medium
                     text-accent
-                    dark:text-blue-500
                     hover:underline
                   "
                 >
@@ -212,7 +204,7 @@ export default {
   },
   methods: {
     onOpenDialog() {
-      this.$store.commit('products/setShowCreateDialog', true)
+      this.$router.push('/admin/products/create')
     },
     onShowAcceptDialog() {
       // this.$store.commit("admin/ui/setAcceptDialogHeader", "Удаление товара");
@@ -230,7 +222,8 @@ export default {
     },
     onEditProduct(product) {
       this.$store.commit('products/setProduct', product)
-      this.$store.commit('products/setShowCreateDialog', true)
+      this.$router.push('/admin/products/create')
+      // this.$store.commit('products/setShowCreateDialog', true)
     },
   },
   async fetch() {

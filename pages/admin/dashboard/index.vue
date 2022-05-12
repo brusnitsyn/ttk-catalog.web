@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Создать
-  </div>
+  <span>Dashboard</span>
 </template>
 
 <script>
