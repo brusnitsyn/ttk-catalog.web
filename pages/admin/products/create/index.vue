@@ -1,24 +1,36 @@
 <template>
   <!-- <Loading v-if="$fetchState.pending" /> -->
-  <div class="pt-6 px-4 flex flex-col w-1/2">
+  <div class="pt-6 px-4 flex flex-col">
     <div class="flex justify-between items-center">
       <h1 class="text-2xl font-semibold">Добавить товар</h1>
       <button @click="addAttribute" class="p-1">Добавить свойство</button>
     </div>
-    <div class="py-4 flex flex-col">
+    <div
+      class="
+        py-4
+        grid grid-cols-1
+        md:grid-cols-2
+        lg:grid-cols-4
+        md:gap-x-2
+        lg:gap-x-4
+      "
+    >
       <div>
         <label class="text-sm"> Наименование товара </label>
-        <el-input
-          placeholder="Крыло отвала"
-          :value="product.name"
-          @input="setProductName"
-        />
+        <el-input placeholder="Крыло отвала" v-model="tempProduct.name" />
       </div>
-      <div class="flex flex-col flex-grow gap-y-2 pt-2">
-        <div v-for="prop in product.properties" :key="prop.id">
-          <div class="flex flex-col gap-y-1">
-            <label>{{ prop.name }}</label>
-            <input
+      <div>
+        <label class="text-sm">Артикул</label>
+        <el-input placeholder="РЗЗ.65.01.002" v-model="tempProduct.article" />
+      </div>
+    </div>
+    <div class="flex flex-col flex-grow gap-y-2 pt-2">
+      <h2>Свойства</h2>
+      <div v-for="prop in product.properties" :key="prop.id">
+        <div class="flex flex-col gap-y-1">
+          <label>{{ prop.property.name }}</label>
+          <el-input v-model="prop.value" />
+          <!-- <input
               class="
                 p-2
                 focus:outline-none
@@ -33,8 +45,7 @@
               "
               type="text"
               v-model="prop.value"
-            />
-          </div>
+            /> -->
         </div>
       </div>
     </div>
@@ -44,8 +55,18 @@
 <script>
 import { mapGetters, mapMutations, mapState } from 'vuex'
 export default {
+  watch: {
+    product() {
+      this.tempProduct = Object.assign({}, this.product)
+    }
+  },
   computed: {
-    ...mapState('products', ['product'])
+
+    tempProduct() {
+      return Object.assign({}, this.product)
+    },
+
+    ...mapState('products', ['product']),
     // product() {
     //   return {...this.$store.state.products.product}
     // }
@@ -55,13 +76,14 @@ export default {
   },
   data() {
     return {
-      attributes: [],
-      form: {},
+      tempProduct: {}
     }
   },
   methods: {
-    ...mapMutations('products', ['setProductName']),
-    productNameChange(value) {},
+    // ...mapMutations('products', ['setProductName']),
+    // updateProductName(value) {
+    //   this.$store.commit('products/setProductName', value.target.value)
+    // },
     addAttribute() {
       this.$store.dispatch('products/setShowPropertiesDialog', true)
     },

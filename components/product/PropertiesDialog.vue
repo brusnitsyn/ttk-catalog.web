@@ -16,10 +16,12 @@
     <div class="p-6 bg-white rounded-lg w-full max-w-lg">
       <div class="grid grid-cols-6 gap-6">
         <div class="col-span-6 md:col-span-3 space-y-1">
-          <label class="text-sm" for="properties">Свойство</label>
+          <label class="text-sm">Свойство</label>
           <el-select
-            v-model="productProperty.propertyId"
+            v-model="productProperty.property"
             filterable
+            class="w-full"
+            value-key="id"
             no-data-text=""
             no-match-text="Нет подходящих свойств"
             placeholder="Выберите свойство"
@@ -28,7 +30,7 @@
               v-for="item in properties"
               :key="item.id"
               :label="item.name"
-              :value="item.id"
+              :value="item"
             >
             </el-option>
           </el-select>
@@ -79,7 +81,7 @@ export default {
         value: '',
         isDimension: false,
         dimension: '',
-        propertyId: 1,
+        property: {},
       },
     }
   },
