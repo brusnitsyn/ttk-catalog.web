@@ -54,9 +54,9 @@ export const mutations = {
   },
 
   // Product props
-  setProductName(state, name) {
-    state.product.name = name
-  },
+  // setProductName(state, name) {
+  //   state.product.name = name
+  // },
 
   setShowCreateDialog(state, value) {
     state.showCreateDialog = value
