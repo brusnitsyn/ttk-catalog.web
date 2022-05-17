@@ -99,7 +99,7 @@ export default {
   methods: {
     async register() {
       await this.$axios
-        .post('/api/admin/register', this.form)
+        .post('/admin/register', this.form)
         .then((response) => {
           console.log(response)
         })

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-start">
+  <div v-cloak class="flex flex-col items-start">
     <div v-if="brands.length">
       <h5 class="text-base font-semibold py-2 select-none">
         Производитель ({{ brands.length }})

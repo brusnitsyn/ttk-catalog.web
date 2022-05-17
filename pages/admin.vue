@@ -843,7 +843,8 @@
         </footer>
       </div>
     </div>
-    <ProductCreateForm v-if="showProductCreateForm" />
+    <!-- <ProductCreateForm v-if="showProductCreateForm" /> -->
+    <ProductPropertiesDialog v-if="showPropertiesDialog" />
   </div>
 </template>
 
@@ -854,7 +855,8 @@ export default {
   middleware: 'auth',
   computed: {
     ...mapGetters({
-      showProductCreateForm: 'products/getShowCreateDialog'
+      // showProductCreateForm: 'products/getShowCreateDialog',
+      showPropertiesDialog: 'products/getShowPropertiesDialog',
     })
   }
 }

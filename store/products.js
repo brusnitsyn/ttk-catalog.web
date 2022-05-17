@@ -27,7 +27,8 @@ export const state = () => ({
   //   carouselImages: [],
   //   machines: []
   // },
-  showCreateDialog: false
+  showCreateDialog: false,
+  showPropertiesDialog: false,
 })
 
 import * as Filters from '~/helpers/filters'
@@ -43,12 +44,25 @@ export const mutations = {
     state.formData.carouselImages.push(image)
     //state.product.carouselImages.push(image)
   },
+  pushProperty(state, property) {
+    if (state.product.properties === undefined)
+      state.product.properties = []
+    state.product.properties.push(property)
+  },
   addProduct(state, product) {
     state.products.push(product)
   },
 
+  // Product props
+  setProductName(state, name) {
+    state.product.name = name
+  },
+
   setShowCreateDialog(state, value) {
     state.showCreateDialog = value
+  },
+  setShowPropertiesDialog(state, value) {
+    state.showPropertiesDialog = value
   },
 
   // Search & filtering
@@ -96,6 +110,9 @@ export const actions = {
   async deleteSingleProduct({ commit }, product) {
 
   },
+  async changeProductName({ commit }, name) {
+    await commit('setProductName', name)
+  },
   async pushSingleProduct({ commit }, product) {
     const sendData = new FormData()
 
@@ -138,6 +155,10 @@ export const actions = {
     await commit('setShowCreateDialog', value)
     await dispatch('ui/setOpenDialog', value, { root: true })
   },
+  async setShowPropertiesDialog({ commit, dispatch }, value) {
+    await commit('setShowPropertiesDialog', value)
+    // await dispatch('ui/setOpenDialog', value, { root: true })
+  },
 
   // Search & filtering
   async filterOrder({ commit }, order) {
@@ -173,5 +194,6 @@ export const getters = {
 
   getFormData(state) { return state.formData },
 
-  getShowCreateDialog(state) { return state.showCreateDialog }
+  getShowCreateDialog(state) { return state.showCreateDialog },
+  getShowPropertiesDialog(state) { return state.showPropertiesDialog }
 }

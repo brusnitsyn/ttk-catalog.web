@@ -3,16 +3,19 @@
   <div v-else>
     <section class="w-full lg:mx-auto lg:max-w-7xl lg:px-4">
       <client-only>
-        <swiper :options="bannersOptions" class="rounded-none lg:rounded-lg h-72 lg:h-[420px]">
+        <swiper
+          :options="bannersOptions"
+          class="rounded-none lg:rounded-lg h-72 lg:h-[420px]"
+        >
           <swiper-slide v-for="item in 5" :key="item">
             <div
               class="h-full"
               :style="{
                 backgroundImage: `url(
-                  http://localhost:8000/storage/banners/placeholder1248x420.png
+                  http://localhost:3000/img/Group4.jpg
                 )`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center'
+                backgroundPosition: 'center',
               }"
             >
               text {{ item }}
@@ -57,14 +60,14 @@ export default {
           },
           640: {
             slidesPerView: 4,
-          }
-        }
+          },
+        },
       },
       bannersOptions: {
         autoplay: {
-            delay: 5000,
+          delay: 5000,
         },
-      }
+      },
     }
   },
   computed: {

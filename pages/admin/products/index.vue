@@ -60,17 +60,8 @@
     </div>
     <div class="flex flex-col">
       <div>
-        <table
-          class="w-full text-sm text-left text-gray-500"
-        >
-          <thead
-            class="
-              text-xs text-gray-700
-              uppercase
-              bg-gray-50
-
-            "
-          >
+        <table class="w-full text-sm text-left text-gray-500">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
               <th scope="col" class="p-4">
                 <div class="flex items-center">
@@ -85,8 +76,7 @@
                       bg-gray-100
                       border-gray-300
                       rounded
-                      focus:ring-blue-500
-                      focus:ring-2
+                      focus:ring-blue-500 focus:ring-2
                     "
                   />
                   <label for="checkbox-all-search" class="sr-only"
@@ -109,11 +99,7 @@
           </thead>
           <tbody>
             <tr
-              class="
-                bg-white
-                border-b
-                hover:bg-gray-50
-              "
+              class="bg-white border-b hover:bg-gray-50"
               v-for="product in products"
               :key="product.id"
             >
@@ -129,9 +115,7 @@
                       bg-gray-100
                       border-gray-300
                       rounded
-                      focus:ring-blue-500
-                      focus:ring-2
-
+                      focus:ring-blue-500 focus:ring-2
                     "
                   />
                   <label for="checkbox-table-search-1" class="sr-only"
@@ -141,13 +125,7 @@
               </td>
               <th
                 scope="row"
-                class="
-                  px-6
-                  py-4
-                  font-medium
-                  text-gray-900
-                  whitespace-nowrap
-                "
+                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
               >
                 {{ product.id }}
               </th>
@@ -158,11 +136,7 @@
               <td class="px-6 py-4 text-right">
                 <button
                   @click="onEditProduct(product)"
-                  class="
-                    font-medium
-                    text-blue-600
-                    hover:underline
-                  "
+                  class="font-medium text-blue-600 hover:underline"
                 >
                   Редактировать
                 </button>
@@ -170,11 +144,7 @@
               <td class="px-6 py-4 text-left">
                 <button
                   @click="onDeleteProduct(this)"
-                  class="
-                    font-medium
-                    text-accent
-                    hover:underline
-                  "
+                  class="font-medium text-accent hover:underline"
                 >
                   Удалить
                 </button>
@@ -189,6 +159,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+
 export default {
   middleware: 'auth',
   computed: {
