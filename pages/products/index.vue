@@ -1,55 +1,71 @@
 <template>
   <Loading v-if="$fetchState.pending" />
-  <Container v-else class="lg:flex">
-    <aside class="fixed z-10 lg:z-0 lg:static">
-      <div class="h-full overflow-auto pointer-events-none lg:overflow-visible">
+  <Container v-else class="flex flex-col">
+    <div class="lg:flex">
+      <aside class="fixed z-10 lg:z-0 lg:static">
         <div
-          class="
-            hidden
-            lg:block
-            overflow-auto
-            pointer-events-auto
-            max-h-screen
-            sticky
-            top-24
-            w-60
-          "
+          class="h-full overflow-auto pointer-events-none lg:overflow-visible"
         >
           <div
             class="
               hidden
-              lg:flex
-              flex-col
-              overflow-y-auto
+              lg:block
+              overflow-auto
+              pointer-events-auto
+              max-h-screen
               sticky
-              max-h-full
-              pb-4
+              top-24
+              w-60
             "
           >
-            <!-- <h1 class="font-bold text-xl">Фильтры</h1> -->
-            <ProductFilters />
+            <div
+              class="
+                hidden
+                lg:flex
+                flex-col
+                overflow-y-auto
+                sticky
+                max-h-full
+                pb-4
+              "
+            >
+              <!-- <h1 class="font-bold text-xl">Фильтры</h1> -->
+              <ProductFilters />
+            </div>
           </div>
         </div>
-      </div>
-    </aside>
-    <div class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
-      <div class="flex flex-col lg:flex-row">
-        <div
-          v-if="filteredProducts.length"
-          class="grow grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-3"
-        >
-          <nuxt-link
-            v-for="product in filteredProducts"
-            :key="product.id"
-            :to="'/products/' + product.id"
+      </aside>
+      <div class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+        <div class="flex flex-col lg:flex-row">
+          <div
+            v-if="filteredProducts.length"
+            class="grow grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-3"
           >
-            <LazyProductCard :product="product" />
-          </nuxt-link>
+            <nuxt-link
+              v-for="product in filteredProducts"
+              :key="product.id"
+              :to="'/products/' + product.id"
+            >
+              <LazyProductCard :product="product" />
+            </nuxt-link>
+          </div>
+
+          <ProductNoProductsCard v-else class="grow" />
         </div>
-
-        <ProductNoProductsCard v-else class="grow" />
-
       </div>
+    </div>
+    <div class="flex justify-center">
+      <el-pagination
+        :page-size.sync="pagination.perPage"
+        background
+        :pager-count="pagination.perPage"
+        @prev-click="paginationPrevClick"
+        @next-click="paginationNextClick"
+        @current-change="paginationCurrentChange"
+        layout="prev, pager, next"
+        :total="pagination.total"
+      >
+      </el-pagination>
     </div>
   </Container>
 </template>
@@ -72,16 +88,27 @@ export default {
       products: 'products/getProducts',
       filteredProducts: 'products/getFilteredProducts',
       product: 'products/getProduct',
-      openDialog: 'ui/getOpenDialog'
+      openDialog: 'ui/getOpenDialog',
+      pagination: 'products/getPagination'
     }),
   },
-
+  methods: {
+    paginationPrevClick() {
+      this.$store.dispatch('products/fetchAllProducts', this.pagination.links.prev)
+    },
+    paginationNextClick() {
+      this.$store.dispatch('products/fetchAllProducts', this.pagination.links.next)
+    },
+    paginationCurrentChange(page) {
+      this.$store.dispatch('products/fetchAllProducts', `/products?page=${page}`)
+    }
+  },
   async fetch() {
-    await this.$store.dispatch('products/fetchAllProducts')
+    await this.$store.dispatch('products/fetchAllProducts', '/products')
   },
   mounted() {
     if (!this.products.length) {
-      this.$store.dispatch('products/fetchAllProducts')
+      this.$store.dispatch('products/fetchAllProducts', '/products')
     }
 
     // this.$store.dispatch('products/setShowCreateDialog', true)

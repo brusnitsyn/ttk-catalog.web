@@ -29,6 +29,11 @@ export const actions = {
     const result = await data
     await commit('setMachines', result.data.data)
   },
+  async fetchSingleMachineForMachineType({ commit }, machineTypeId) {
+    const data = await this.$axios.get(`/machines?machineType=${machineTypeId}`)
+    const result = await data
+    await commit('setMachines', result.data.data)
+  },
   async setMachineTypeId({ commit }, machineTypeId) {
     await commit('setMachineTypeId', machineTypeId)
     await commit('filterMachinesForType')

@@ -11,24 +11,21 @@ export const state = () => ({
     machine: 'all',
     order: 'created_at',
   },
-  // formData: {
-  //   name: '',
-  //   article: '',
-  //   originalArticle: '',
-  //   actualPrice: 0,
-  //   discountPrice: 0,
-  //   weight: 0,
-  //   width: null,
-  //   diameter: null,
-  //   thickness: null,
-  //   height: null,
-  //   length: null,
-  //   hole: '',
-  //   previewImage: null,
-  //   brand: null,
-  //   carouselImages: [],
-  //   machines: []
-  // },
+  pagination: {
+    currentPage: 1,
+    from: 1,
+    lastPage: 1,
+    perPage: 15,
+    to: 3,
+    total: 3,
+    links: {
+      first: '',
+      last: '',
+      prev: '',
+      next: '',
+    },
+  },
+
   showCreateDialog: false,
   showPropertiesDialog: false,
 })
@@ -46,9 +43,32 @@ export const mutations = {
     state.formData.carouselImages.push(image)
     //state.product.carouselImages.push(image)
   },
+
   pushProperty(state, property) {
     state.product.properties.push(property)
   },
+  removeProperty(state, property) {
+    const properties = [...state.product.properties]
+    properties.forEach((prop, index, obj) => {
+      if (prop.id === property.id) {
+        state.product.properties.splice(index, 1)
+      }
+    })
+  },
+
+  setPagination(state, pagination) {
+    state.pagination.currentPage = pagination.currentPage
+    state.pagination.from = pagination.from
+    state.pagination.lastPage = pagination.lastPage
+    state.pagination.perPage = pagination.perPage
+    state.pagination.to = pagination.to
+    state.pagination.total = pagination.total
+    state.pagination.links.first = pagination.links.first
+    state.pagination.links.last = pagination.links.last
+    state.pagination.links.prev = pagination.links.prev
+    state.pagination.links.next = pagination.links.next
+  },
+
   addProduct(state, product) {
     state.products.push(product)
   },
@@ -96,57 +116,54 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchAllProducts({ commit }) {
-    const data = await this.$axios.get('/products')
+  async fetchAllProducts({ commit, state }, url) {
+    const data = await this.$axios.get(url)
     const result = await data
     await commit('setProducts', result.data.data)
     await commit('setFilteredProducts', result.data.data)
+    let pagination = {
+      links: {},
+    }
+    pagination.currentPage = result.data.meta.current_page
+    pagination.from = result.data.meta.from
+    pagination.lastPage = result.data.meta.last_page
+    pagination.perPage = result.data.meta.per_page
+    pagination.to = result.data.meta.to
+    pagination.total = result.data.meta.total
+    pagination.links.first = result.data.links.first
+    pagination.links.last = result.data.links.last
+    pagination.links.prev = result.data.links.prev
+    pagination.links.next = result.data.links.next
+
+    await commit('setPagination', pagination)
   },
   async fetchSingleProduct({ commit }, productId) {
     const data = await this.$axios.get(`/products/${productId}`)
     const result = await data
     await commit('setProduct', result.data.data)
   },
-  async deleteSingleProduct({ commit }, product) {
-
-  },
+  async deleteSingleProduct({ commit }, product) {},
   async changeProductName({ commit }, name) {
     await commit('setProductName', name)
   },
-  async pushSingleProduct({ commit }, product) {
+  async pushSingleProduct({ commit, state }, product) {
     const sendData = new FormData()
 
     sendData.append('name', product.name)
     sendData.append('article', product.article)
-    sendData.append('originalArticle', (typeof product.originalArticle === 'undefined') ? '' : product.originalArticle)
-    sendData.append('actualPrice', (typeof product.actualPrice === 'undefined') ? '' : product.actualPrice)
-    sendData.append('discountPrice', (typeof product.discountPrice === 'undefined') ? '' : product.discountPrice)
-    sendData.append('weight', product.weight)
-    sendData.append('width', (typeof product.width === 'undefined') ? '' : product.width)
-    sendData.append('diameter', (typeof product.diameter === 'undefined') ? '' : product.diameter)
-    sendData.append('thickness', (typeof product.thickness === 'undefined') ? '' : product.thickness)
-    sendData.append('height', (typeof product.height === 'undefined') ? '' : product.height)
-    sendData.append('length', (typeof product['length'] === 'undefined') ? '' : product['length'])
-    sendData.append('hole', (typeof product.hole === 'undefined') ? '' : product.hole)
-    sendData.append('mountingHole', (typeof product.mountingHole === 'undefined') ? '' : product.mountingHole)
-    sendData.append('captureWidth', (typeof product.captureWidth === 'undefined') ? '' : product.captureWidth)
-    sendData.append('thread', (typeof product.thread === 'undefined') ? '' : product.thread)
-    sendData.append('distanceBetweenHoles', (typeof product.distanceBetweenHoles === 'undefined') ? '' : product.distanceBetweenHoles)
-    sendData.append('description', (typeof product.description === 'undefined') ? '' : product.description)
+    sendData.append('brandId', product.brandId)
 
-    sendData.append('previewImage', product.previewImage.raw)
-    sendData.append('brandId', product.brand.id)
-
-    product.carouselImages.forEach((img) => {
-      sendData.append('carouselImages[]', img.raw)
+    product.images.forEach((img) => {
+      sendData.append('images[]', img.raw)
     })
 
     sendData.append('machines', JSON.stringify(product.machines))
+    sendData.append('properties', JSON.stringify(state.product.properties))
 
     const data = await this.$axios.post('/products', sendData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        'Content-Type': 'multipart/form-data',
+      },
     })
     const result = await data
     await commit('addProduct', result.data.data)
@@ -188,12 +205,28 @@ export const actions = {
 }
 
 export const getters = {
-  getProducts(state) { return state.products },
-  getFilteredProducts(state) { return state.filteredProducts },
-  getProduct(state) { return state.product },
+  getProducts(state) {
+    return state.products
+  },
+  getFilteredProducts(state) {
+    return state.filteredProducts
+  },
+  getProduct(state) {
+    return state.product
+  },
 
-  getFormData(state) { return state.formData },
+  getFormData(state) {
+    return state.formData
+  },
 
-  getShowCreateDialog(state) { return state.showCreateDialog },
-  getShowPropertiesDialog(state) { return state.showPropertiesDialog }
+  getShowCreateDialog(state) {
+    return state.showCreateDialog
+  },
+  getShowPropertiesDialog(state) {
+    return state.showPropertiesDialog
+  },
+
+  getPagination(state) {
+    return state.pagination
+  }
 }

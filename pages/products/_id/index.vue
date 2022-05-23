@@ -2,7 +2,10 @@
   <Loading v-if="$fetchState.pending" />
   <Container v-else>
     <dir class="py-1">
-      <button @click="$router.go(-1)" class="cursor-pointer text-black hover:text-orange-400 font-medium">
+      <button
+        @click="$router.go(-1)"
+        class="cursor-pointer text-black hover:text-orange-400 font-medium"
+      >
         <div class="flex items-center gap-x-1">
           <svg
             width="20"
@@ -34,7 +37,7 @@
           </div>
         </div>
         <swiper class="w-full" :options="productCarouserSwiperOptions">
-          <swiper-slide v-for="image in product.carouselImages" :key="image.id">
+          <swiper-slide v-for="image in product.images" :key="image.id">
             <div class="bg-gray-200 rounded-xl flex justify-center">
               <img
                 :src="image.url"
@@ -51,168 +54,27 @@
         <h1 class="font-inter font-bold text-2xl max-w-lg">
           {{ product.name }}
         </h1>
-        <ul class="pt-2 space-y-0.5">
-          <li>
+        <ol class="pt-2 space-y-0.5">
+          <li v-for="prop in product.properties" :key="prop.id">
             <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Артикул</span>
+              <span class="font-inter text-lg">{{ prop.property.name }}</span>
               <div
                 class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
               ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.article }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.originalArticle">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Оригинальный артикул</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.originalArticle }}
-              </span>
-            </div>
-          </li>
-          <li>
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Масса</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.weight }} кг.
-              </span>
-            </div>
-          </li>
-          <li v-if="product.width > 0">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Ширина</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.width }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.diameter > 0">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Диаметр</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.diameter }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.thickness > 0">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Толщина</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.thickness }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.height > 0">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Высота</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.height }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product['length'] > 0">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Длина</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product['length'] }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.hole">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Отверстие</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.hole }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.mountingHole">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Монтажное отверстие</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.mountingHole }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.captureWidth">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Ширина захвата</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.captureWidth }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.thread">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">Резьба</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.thread }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.distanceBetweenHoles">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg"
-                >Расстояние между отверстиями</span
-              >
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
-              <span class="font-inter text-lg font-semibold">
-                {{ product.distanceBetweenHoles }}
-              </span>
-            </div>
-          </li>
-          <li v-if="product.machines">
-            <div class="flex flex-row justify-between">
-              <div class="flex flex-grow items-start">
-                <span class="font-inter text-lg">Применяемость</span>
-                <div
-                  class="flex-grow border-b-2 border-dotted mt-5 mb-1.5 mx-1.5"
-                ></div>
-              </div>
-              <div class="font-inter text-lg font-semibold max-w-[180px]">
-                <span v-for="machine in product.machines" :key="machine.id">
-                  {{ machine.name }}
+              <div class="flex gap-x-1">
+                <span class="font-inter text-lg font-semibold">
+                  {{ prop.value }}
+                </span>
+                <span
+                  v-if="prop.isDimension"
+                  class="font-inter text-lg font-semibold"
+                >
+                  {{ prop.dimension }}
                 </span>
               </div>
             </div>
           </li>
-        </ul>
+        </ol>
 
         <div class="flex flex-row border-t pt-4 mt-4">
           <span class="font-inter font-semibold text-xl">{{ price }}</span>
@@ -269,7 +131,7 @@ export default {
   },
   watch: {
     product: function (value) {
-      this.selectImage(value.previewImage)
+      this.selectImage(value.images[0].url)
       this.price = value.actualPrice
     },
   },
