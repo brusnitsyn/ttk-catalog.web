@@ -1,7 +1,9 @@
 export const state = () => ({
   products: [],
   filteredProducts: [],
-  product: {},
+  product: {
+    properties: [],
+  },
   filter: {
     search: '',
     brand: 'all',
@@ -45,8 +47,6 @@ export const mutations = {
     //state.product.carouselImages.push(image)
   },
   pushProperty(state, property) {
-    if (state.product.properties === undefined)
-      state.product.properties = []
     state.product.properties.push(property)
   },
   addProduct(state, product) {

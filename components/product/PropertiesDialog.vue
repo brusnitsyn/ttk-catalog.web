@@ -13,7 +13,7 @@
       z-50
     "
   >
-    <div class="p-6 bg-white rounded-lg w-full max-w-lg">
+    <div class="p-6 bg-white rounded-lg w-full max-w-lg mx-4  ">
       <div class="grid grid-cols-6 gap-6">
         <div class="col-span-6 md:col-span-3 space-y-1">
           <label class="text-sm">Свойство</label>
