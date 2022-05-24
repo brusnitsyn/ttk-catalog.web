@@ -154,6 +154,19 @@
         </table>
       </div>
     </div>
+    <div class="flex justify-center pt-2">
+      <el-pagination
+        :page-size.sync="pagination.perPage"
+        background
+        :pager-count="pagination.perPage"
+        @prev-click="paginationPrevClick"
+        @next-click="paginationNextClick"
+        @current-change="paginationCurrentChange"
+        layout="prev, pager, next"
+        :total="pagination.total"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -168,6 +181,7 @@ export default {
     // }),
     ...mapGetters({
       products: 'products/getProducts',
+      pagination: 'products/getPagination',
     }),
   },
   data() {
@@ -196,12 +210,32 @@ export default {
       this.$router.push('/admin/products/create')
       // this.$store.commit('products/setShowCreateDialog', true)
     },
+
+    paginationPrevClick() {
+      this.$store.dispatch(
+        'products/fetchAllProducts',
+        this.pagination.links.prev
+      )
+    },
+    paginationNextClick() {
+      this.$store.dispatch(
+        'products/fetchAllProducts',
+        this.pagination.links.next
+      )
+    },
+    paginationCurrentChange(page) {
+      this.$store.dispatch(
+        'products/fetchAllProducts',
+        `/products?page=${page}`
+      )
+    },
   },
   async fetch() {
-    await this.$store.dispatch('products/fetchAllProducts')
+    await this.$store.dispatch('products/fetchAllProducts', '/products')
   },
   mounted() {
-    if (!this.products.length) this.$store.dispatch('products/fetchAllProducts')
+    if (!this.products.length)
+      this.$store.dispatch('products/fetchAllProducts', '/products')
   },
 }
 </script>

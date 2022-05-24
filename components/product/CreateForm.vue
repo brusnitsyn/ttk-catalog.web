@@ -607,7 +607,6 @@ export default {
       let files = this.form.carouselImages
       this.form.carouselImages.forEach((img, index, obj) => {
         if (!img.raw) {
-          console.log(img)
           if (img.uid === file.uid) {
             files.splice(index, 1)
           }

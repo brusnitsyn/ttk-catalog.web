@@ -78,11 +78,11 @@ export default {
   },
 
   async fetch() {
-    await this.$store.dispatch('products/fetchAllProducts')
+    await this.$store.dispatch('products/fetchAllProducts', '/products')
   },
   mounted() {
     if (!this.products.length) {
-      this.$store.dispatch('products/fetchAllProducts')
+      this.$store.dispatch('products/fetchAllProducts', '/products')
     }
   },
 }

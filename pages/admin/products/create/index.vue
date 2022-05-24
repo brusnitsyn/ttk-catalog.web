@@ -125,8 +125,8 @@
         <h2 class="pt-3 pb-1">Изображения</h2>
         <el-upload
           action=" "
-          name="carouselImages"
-          ref="uploaderCarouselImages"
+          name="images"
+          ref="uploaderProductImages"
           class="mb-3"
           list-type="picture-card"
           :on-change="onChangeUploaderProductImages"
