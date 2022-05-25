@@ -2,7 +2,7 @@
   <!-- <Loading v-if="$fetchState.pending" /> -->
   <div class="pt-6 px-4">
     <h1 class="text-2xl font-semibold">Добавить товар</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 md:gap-x-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 md:gap-x-2 pb-4">
       <div class="flex flex-col gap-y-2">
         <div class="grid grid-cols-1 lg:grid-cols-6 gap-y-2 md:gap-x-2">
           <div class="col-span-6 lg:col-span-3">
@@ -79,6 +79,47 @@
               </el-option>
             </el-select>
           </div>
+          <div class="col-span-6 lg:col-span-2">
+            <label class="text-sm">Категория</label>
+            <el-select
+              v-model="tempProduct.categoryId"
+              filterable
+              class="w-full"
+              no-data-text="Нет данных"
+              no-match-text="Категории не найдены"
+              placeholder="Выберите категорию"
+            >
+              <el-option
+                v-for="item in categories"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          <div class="col-span-6 lg:col-span-2">
+            <label class="text-sm">Цена</label>
+            <el-input
+              v-model="tempProduct.actualPrice"
+              type="number"
+              class="w-full"
+              placeholder="Введите цену"
+            >
+            </el-input>
+          </div>
+          <div class="col-span-6 lg:col-span-2">
+            <label class="text-sm">Цена распродажи</label>
+            <el-input
+              v-model="tempProduct.discountPrice"
+              :disabled="!(tempProduct.categoryId == 1)"
+              type="number"
+              class="w-full"
+              placeholder="Введите цену распродажи"
+            >
+
+            </el-input>
+          </div>
           <div class="col-span-6">
             <label class="text-sm">Описание</label>
             <el-input
@@ -153,7 +194,9 @@
         </el-upload>
       </div>
     </div>
-    <el-button type="success" @click="sendDataProductToUpload">Добавить</el-button>
+    <el-button type="success" @click="sendDataProductToUpload"
+      >Добавить</el-button
+    >
   </div>
   <!-- <div class="pt-6 px-4 flex flex-col">
     <div class="flex justify-between items-center">
@@ -209,6 +252,7 @@ export default {
       brands: 'brands/getBrands',
       machineTypes: 'machineTypes/getMachineTypesForBrand',
       machines: 'machines/getMachines',
+      categories: 'products/getCategories',
     }),
 
     //...mapState('products', ['product']),
@@ -224,12 +268,12 @@ export default {
       selectedMachineType: null,
       tempProduct: {
         images: [],
-        machines: []
+        machines: [],
+        categoryId: 2
       },
     }
   },
   methods: {
-
     sendDataProductToUpload() {
       this.$store.dispatch('products/pushSingleProduct', this.tempProduct)
     },
@@ -241,9 +285,11 @@ export default {
     },
     selectMachineType(machineTypeId) {
       this.tempProduct.machines = []
-      this.$store.dispatch('machines/fetchSingleMachineForMachineType', machineTypeId)
+      this.$store.dispatch(
+        'machines/fetchSingleMachineForMachineType',
+        machineTypeId
+      )
     },
-
 
     addAttribute() {
       this.$store.dispatch('products/setShowPropertiesDialog', true)
@@ -278,8 +324,9 @@ export default {
   mounted() {
     this.$store.dispatch('brands/fetchAllBrands')
     this.$store.dispatch('machineTypes/fetchAllMachineTypes')
+    this.$store.dispatch('products/fetchAllCategories')
     // this.$store.dispatch('machines/fetchAllMachines')
-  }
+  },
 }
 </script>
 

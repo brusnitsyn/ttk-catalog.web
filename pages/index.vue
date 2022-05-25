@@ -7,18 +7,45 @@
           :options="bannersOptions"
           class="rounded-none lg:rounded-lg h-72 lg:h-[420px]"
         >
-          <swiper-slide v-for="item in 5" :key="item">
+          <swiper-slide v-for="banner in banners" :key="banner.id">
             <div
               class="h-full"
               :style="{
-                backgroundImage: `url(
-                  http://localhost:3000/img/Group4.jpg
-                )`,
+                backgroundImage: `url(${banner.image.url})`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: 'top',
               }"
             >
-              text {{ item }}
+              <div
+                class="
+                  flex flex-col
+                  h-full
+                  justify-end
+                  px-3.5
+                  py-2.5
+                  lg:gap-y-4 lg:px-5 lg:py-4
+                "
+              >
+                <span
+                  class="
+                    font-inter
+                    text-xl
+                    lg:text-3xl
+                    font-bold
+                    uppercase
+                    text-white
+                    w-[420px]
+                  "
+                >
+                  {{ banner.header }}
+                </span>
+                <a
+                  :href="banner.url"
+                  class="font-inter text-xl font-bold text-orange-400"
+                >
+                  ПОДРОБНЕЕ
+                </a>
+              </div>
             </div>
           </swiper-slide>
         </swiper>
@@ -74,11 +101,13 @@ export default {
     ...mapGetters({
       products: 'products/getProducts',
       filteredProducts: 'products/getFilteredProducts',
+      banners: 'banners/getBanners',
     }),
   },
 
   async fetch() {
     await this.$store.dispatch('products/fetchAllProducts', '/products')
+    await this.$store.dispatch('banners/fetchAllBanners')
   },
   mounted() {
     if (!this.products.length) {

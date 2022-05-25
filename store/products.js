@@ -1,9 +1,11 @@
 export const state = () => ({
   products: [],
   filteredProducts: [],
+  categories: [],
   product: {
     properties: [],
   },
+
   filter: {
     search: '',
     brand: 'all',
@@ -34,6 +36,9 @@ import * as Filters from '~/helpers/filters'
 export const mutations = {
   setProducts(state, products) {
     state.products = products
+  },
+  setCategories(state, categories) {
+    state.categories = categories
   },
   setProduct(state, product) {
     state.product = product
@@ -142,7 +147,12 @@ export const actions = {
     const result = await data
     await commit('setProduct', result.data.data)
   },
-  async deleteSingleProduct({ commit }, product) {},
+  async fetchAllCategories({ commit }) {
+    const data = await this.$axios.get('/categories')
+    const result = await data
+    await commit('setCategories', result.data.data)
+  },
+  async deleteSingleProduct({ commit }, product) { },
   async changeProductName({ commit }, name) {
     await commit('setProductName', name)
   },
@@ -151,7 +161,10 @@ export const actions = {
 
     sendData.append('name', product.name)
     sendData.append('article', product.article)
+    sendData.append('actualPrice', product.actualPrice)
+    product.discountPrice ? sendData.append('discountPrice', product.discountPrice) : sendData.append('discountPrice', '')
     sendData.append('brandId', product.brandId)
+    sendData.append('categoryId', product.categoryId)
 
     product.images.forEach((img) => {
       sendData.append('images[]', img.raw)
@@ -228,5 +241,9 @@ export const getters = {
 
   getPagination(state) {
     return state.pagination
+  },
+
+  getCategories(state) {
+    return state.categories
   }
 }

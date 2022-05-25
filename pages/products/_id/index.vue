@@ -1,7 +1,7 @@
 <template>
   <Loading v-if="$fetchState.pending" />
   <Container v-else>
-    <dir class="py-1">
+    <div class="py-4">
       <button
         @click="$router.go(-1)"
         class="cursor-pointer text-black hover:text-orange-400 font-medium"
@@ -23,7 +23,7 @@
           Назад
         </div>
       </button>
-    </dir>
+    </div>
     <div class="flex flex-col lg:flex-row gap-x-24">
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
         <div class="bg-gray-200 rounded-xl">
@@ -50,10 +50,25 @@
           </swiper-slide>
         </swiper>
       </div>
-      <div class="flex flex-col flex-grow">
-        <h1 class="font-inter font-bold text-2xl max-w-lg">
-          {{ product.name }}
-        </h1>
+      <div class="flex flex-col flex-grow bg-white rounded-md px-2 py-1">
+        <div class="flex">
+          <div
+            :style="{
+              backgroundColor: product.category.color,
+            }"
+            class="px-4 py-2 rounded-md mb-3"
+          >
+            {{ product.category.name }}
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <h1 class="font-inter font-bold text-2xl max-w-lg">
+            {{ product.name }}
+          </h1>
+          <span class="font-inter">
+            Артикул: {{ product.article }}
+          </span>
+        </div>
         <ol class="pt-2 space-y-0.5">
           <li v-for="prop in product.properties" :key="prop.id">
             <div class="flex flex-row justify-between">
@@ -76,15 +91,18 @@
           </li>
         </ol>
 
-        <div class="flex flex-row border-t pt-4 mt-4">
-          <span class="font-inter font-semibold text-xl">{{ price }}</span>
-          <el-input-number
+        <div class="flex flex-row pt-4 mt-4">
+          <div class="flex flex-col">
+            <span class="font-inter font-semibold text-lg">Стоимость</span>
+            <span class="font-inter font-semibold text-xl">{{ price }}</span>
+          </div>
+          <!-- <el-input-number
             class="text-lg"
             @change="handleChange"
             v-model="productSelectCount"
             :min="1"
             :max="99"
-          />
+          /> -->
         </div>
       </div>
     </div>

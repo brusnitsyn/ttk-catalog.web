@@ -12,7 +12,15 @@ export const mutations = {
   },
   pushBanner(state, banner) {
     state.banners.push(banner)
-  }
+  },
+  removeBanner(state, banner) {
+    const banners = [...state.banners]
+    banners.forEach((item, index, obj) => {
+      if (item.id === banner.id) {
+        state.banners.splice(index, 1)
+      }
+    })
+  },
 }
 
 export const actions = {
@@ -21,10 +29,9 @@ export const actions = {
     const result = await data
     context.commit('setBanners', result.data.data)
   },
-  async postBanner({commit}, banner) {
+  async postBanner({ commit }, banner) {
     const formData = new FormData;
     formData.append('header', banner.header)
-    formData.append('subheader', banner.subheader)
     formData.append('url', banner.url)
     formData.append('image', banner.image)
 
@@ -35,9 +42,13 @@ export const actions = {
     })
     const result = await data
     await commit('pushBanner', result.data.data)
+  },
+  async deleteBanner({ commit }, banner) {
+    this.$axios.delete(`/banners/${banner.id}`, banner)
+    await commit('removeBanner', banner)
   }
 }
 
 export const getters = {
-  getBrands(state) { return state.brands },
+  getBanners(state) { return state.banners },
 }
