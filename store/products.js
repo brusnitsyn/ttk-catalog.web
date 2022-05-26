@@ -1,5 +1,6 @@
 export const state = () => ({
   products: [],
+  productsByFilterNew: [],
   filteredProducts: [],
   categories: [],
   product: {
@@ -91,6 +92,9 @@ export const mutations = {
   },
 
   // Search & filtering
+  setProductsByFilterNew(state, products) {
+    state.productsByFilterNew = products
+  },
   setFilteredProducts(state, products) {
     state.filteredProducts = products
   },
@@ -141,6 +145,42 @@ export const actions = {
     pagination.links.next = result.data.links.next
 
     await commit('setPagination', pagination)
+  },
+  async fetchProductsByFilter({ commit }, params) {
+    const data = await this.$axios.get('/products', {
+      params,
+      paramsSerializer: function paramsSerializer(params) {
+        return Object.entries(Object.assign({}, params)).
+          map(([key, value]) => `${key}=${value}`).
+          join('&');
+      }
+    })
+    const result = await data
+    await commit('setProducts', result.data.data)
+
+    let pagination = {
+      links: {},
+    }
+    pagination.currentPage = result.data.meta.current_page
+    pagination.from = result.data.meta.from
+    pagination.lastPage = result.data.meta.last_page
+    pagination.perPage = result.data.meta.per_page
+    pagination.to = result.data.meta.to
+    pagination.total = result.data.meta.total
+    pagination.links.first = result.data.links.first
+    pagination.links.last = result.data.links.last
+    pagination.links.prev = result.data.links.prev
+    pagination.links.next = result.data.links.next
+    await commit('setPagination', pagination)
+  },
+  async fetchProductsByFilterNew({ commit }) {
+    const params = { category: 1 }
+    const data = await this.$axios.get('/products', {
+      params,
+    })
+
+    const result = await data
+    await commit('setProductsByFilterNew', result.data.data)
   },
   async fetchSingleProduct({ commit }, productId) {
     const data = await this.$axios.get(`/products/${productId}`)
@@ -245,5 +285,8 @@ export const getters = {
 
   getCategories(state) {
     return state.categories
+  },
+  getProductsByFilterNew(state) {
+    return state.productsByFilterNew
   }
 }

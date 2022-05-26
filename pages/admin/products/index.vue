@@ -224,18 +224,16 @@ export default {
       )
     },
     paginationCurrentChange(page) {
-      this.$store.dispatch(
-        'products/fetchAllProducts',
-        `/products?page=${page}`
-      )
+      const params = { page: page }
+      this.$store.dispatch('products/fetchProductsByFilter', params)
     },
   },
   async fetch() {
-    await this.$store.dispatch('products/fetchAllProducts', '/products')
+    await this.$store.dispatch('products/fetchProductsByFilter')
   },
   mounted() {
     if (!this.products.length)
-      this.$store.dispatch('products/fetchAllProducts', '/products')
+      this.$store.dispatch('products/fetchProductsByFilter')
   },
 }
 </script>

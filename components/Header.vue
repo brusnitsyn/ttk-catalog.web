@@ -22,7 +22,7 @@
           <nuxt-link :to="`/contacts`">Контакты</nuxt-link>
         </div>
 
-        <!-- <ProductSearchInput class=" w-64" /> -->
+        <ProductSearchInput class=" w-64" />
       </div>
     </Container>
   </div>

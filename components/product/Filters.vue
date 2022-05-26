@@ -1,64 +1,47 @@
 <template>
-  <div v-cloak class="flex flex-col items-start">
-    <div v-if="brands.length">
-      <h5 class="text-base font-semibold py-2 select-none">
-        Производитель ({{ brands.length }})
-      </h5>
-      <ul>
-        <li v-for="brand in brands" :key="brand.id" class="text-sm px-2 py-1">
-          <a @click="sortingBrand(brand)" class="cursor-pointer select-none">
-            {{ brand.name }}
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div v-if="machineTypesForBrand.length">
-      <h5 class="text-base font-semibold py-2 select-none">
-        Тип техники ({{ machineTypesForBrand.length }})
-      </h5>
-      <ul>
-        <li
-          v-for="machineType in machineTypesForBrand"
-          :key="machineType.id"
-          class="px-2 py-1"
-        >
-          <a
-            @click="sortingMachineType(machineType)"
-            class="cursor-pointer select-none text-sm"
-          >
+  <div class="flex flex-col items-stretch border rounded-md">
+    <!-- <h4 class="font-inter font-semibold pt-2 px-2">Фильтры</h4> -->
+    <el-collapse v-model="activeNames" @change="handleChange" class="mb-2">
+      <el-collapse-item title="Производитель" name="1" class="text-left px-2">
+        <div class="flex flex-col justify-start items-start">
+          <el-radio-group v-model="filters.brand">
+            <div class="flex flex-col gap-y-2.5 px-1">
+              <el-radio v-for="brand in brands" :key="brand.id" :label="brand.id">{{ brand.name }}</el-radio>
+            </div>
+          </el-radio-group>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item title="Тип техники" name="2" class="text-left px-2">
+        <div class="flex flex-col justify-start items-start">
+          <el-link :underline="false" @click="filters.type = machineType.id" v-for="machineType in machineTypesForBrand"
+            :key="machineType.id">
             {{ machineType.name }}
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div v-if="machinesForType.length">
-      <h5 class="text-base font-semibold py-2 select-none">
-        Техника ({{ machinesForType.length }})
-      </h5>
-      <ul>
-        <li
-          v-for="machine in machinesForType"
-          :key="machine.id"
-          class="px-2 py-1"
-        >
-          <a
-            @click="sortingMachine(machine)"
-            class="cursor-pointer select-none text-sm"
-          >
+          </el-link>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item title="Техника" name="3" class="text-left px-2">
+        <div class="flex flex-col justify-start items-start">
+          <el-link :underline="false" v-for="machine in machinesForType" :key="machine.id"
+            @click="filters.machine = machine.id">
             {{ machine.name }}
-          </a>
-        </li>
-      </ul>
-    </div>
+          </el-link>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
 
-    <a
-      @click="resetFilters"
-      v-if="machineTypesForBrand.length"
-      class="text-sm cursor-pointer pt-6 hover:text-orange-600 select-none"
-      >Сбросить фильтры</a
-    >
+    <div class="flex flex-col gap-y-2 px-2 pb-2">
+      <div>
+        <el-button @click="applyFilters" class="w-full" v-if="Object.getOwnPropertyNames(filters).length > 0"
+          type="primary">
+          Применить
+        </el-button>
+      </div>
+      <div>
+        <el-button class="w-full" @click="resetFilters" v-if="Object.getOwnPropertyNames(filters).length > 0">
+          Сбросить
+        </el-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -66,7 +49,9 @@
 import { mapGetters } from 'vuex'
 export default {
   data() {
-    return {}
+    return {
+      filters: {},
+    }
   },
   computed: {
     ...mapGetters({
@@ -80,10 +65,12 @@ export default {
     }),
   },
   methods: {
+    applyFilters() {
+      this.$store.dispatch('products/fetchProductsByFilter', this.filters)
+    },
     sortingBrand(brand) {
       this.resetFilters()
-      this.$store.dispatch('products/filterBrand', brand.name)
-      this.$store.dispatch('machineTypes/setBrandId', brand.id)
+      this.$store.dispatch('products/fetchProductsByFilter', brand.name)
     },
     sortingMachineType(machineType) {
       this.$store.dispatch('products/filterMachineType', machineType.name)
@@ -94,11 +81,8 @@ export default {
     },
 
     resetFilters() {
-      this.$store.dispatch('products/filterBrand', 'all')
-      this.$store.dispatch('products/filterMachineType', 'all')
-      this.$store.dispatch('products/filterMachine', 'all')
-      this.$store.dispatch('machineTypes/setBrandId', 0)
-      this.$store.dispatch('machines/setMachineTypeId', 0)
+      this.filters = {}
+      this.$store.dispatch('products/fetchProductsByFilter')
     },
   },
   async fetch() {
@@ -121,4 +105,7 @@ export default {
 </script>
 
 <style>
+.el-collapse {
+  border-top: 0px !important;
+}
 </style>

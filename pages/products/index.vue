@@ -1,7 +1,7 @@
 <template>
   <Loading v-if="$fetchState.pending" />
   <Container v-else class="flex flex-col">
-    <div class="lg:flex">
+    <div class="lg:flex lg:gap-x-4">
       <aside class="fixed z-10 lg:z-0 lg:static">
         <div
           class="h-full overflow-auto pointer-events-none lg:overflow-visible"
@@ -38,11 +38,11 @@
       <div class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
         <div class="flex flex-col lg:flex-row">
           <div
-            v-if="filteredProducts.length"
+            v-if="products.length"
             class="grow grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-3"
           >
             <nuxt-link
-              v-for="product in filteredProducts"
+              v-for="product in products"
               :key="product.id"
               :to="'/products/' + product.id"
             >
@@ -89,26 +89,33 @@ export default {
       filteredProducts: 'products/getFilteredProducts',
       product: 'products/getProduct',
       openDialog: 'ui/getOpenDialog',
-      pagination: 'products/getPagination'
+      pagination: 'products/getPagination',
     }),
   },
   methods: {
     paginationPrevClick() {
-      this.$store.dispatch('products/fetchAllProducts', this.pagination.links.prev)
+      this.$store.dispatch(
+        'products/fetchAllProducts',
+        this.pagination.links.prev
+      )
     },
     paginationNextClick() {
-      this.$store.dispatch('products/fetchAllProducts', this.pagination.links.next)
+      this.$store.dispatch(
+        'products/fetchAllProducts',
+        this.pagination.links.next
+      )
     },
     paginationCurrentChange(page) {
-      this.$store.dispatch('products/fetchAllProducts', `/products?page=${page}`)
-    }
+      const params = { page: page }
+      this.$store.dispatch('products/fetchProductsByFilter', params)
+    },
   },
   async fetch() {
-    await this.$store.dispatch('products/fetchAllProducts', '/products')
+    await this.$store.dispatch('products/fetchProductsByFilter')
   },
   mounted() {
     if (!this.products.length) {
-      this.$store.dispatch('products/fetchAllProducts', '/products')
+      this.$store.dispatch('products/fetchProductsByFilter')
     }
 
     // this.$store.dispatch('products/setShowCreateDialog', true)

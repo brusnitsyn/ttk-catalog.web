@@ -58,7 +58,8 @@ export default {
   },
   methods: {
     handleSearch: debounce(function (e) {
-      this.$store.dispatch('products/filterSearch', e.target.value)
+      let filter = {'search': e.target.value}
+      this.$store.dispatch('products/fetchProductsByFilter', filter)
     }, 500),
     goPageResult() {
       this.$router.push('/')
