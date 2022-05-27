@@ -1,5 +1,9 @@
 <template>
-  <div class="relative flex flex-row group border rounded-lg">
+  <el-input @input="handleSearch" @keyup.enter="goPageResult" placeholder="Поиск товара" v-model="search"
+    class="input-with-select">
+    <el-button slot="append" icon="el-icon-search"></el-button>
+  </el-input>
+  <!-- <div class="relative flex flex-row group border rounded-lg">
     <div
       class="
         pointer-events-none
@@ -45,20 +49,20 @@
       "
       placeholder="Поиск товара"
     />
-  </div>
+  </div> -->
 </template>
 
 <script>
 import { debounce } from '~/helpers/index'
 export default {
-  computed: {
-    search() {
-      return this.$store.state.products.filter.search
-    },
+  data() {
+    return {
+      search: ''
+    }
   },
   methods: {
     handleSearch: debounce(function (e) {
-      let filter = {'search': e.target.value}
+      let filter = { 'search': this.search }
       this.$store.dispatch('products/fetchProductsByFilter', filter)
     }, 500),
     goPageResult() {

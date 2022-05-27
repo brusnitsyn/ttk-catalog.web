@@ -2,22 +2,12 @@
   <Loading v-if="$fetchState.pending" />
   <Container v-else>
     <div class="py-4">
-      <button
-        @click="$router.go(-1)"
-        class="cursor-pointer text-black hover:text-orange-400 font-medium"
-      >
+      <button @click="$router.go(-1)" class="cursor-pointer text-black hover:text-orange-400 font-medium">
         <div class="flex items-center gap-x-1">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M16.0303 4.46967C16.2966 4.73594 16.3208 5.1526 16.1029 5.44621L16.0303 5.53033L9.561 12L16.0303 18.4697C16.2966 18.7359 16.3208 19.1526 16.1029 19.4462L16.0303 19.5303C15.7641 19.7966 15.3474 19.8208 15.0538 19.6029L14.9697 19.5303L7.96967 12.5303C7.7034 12.2641 7.6792 11.8474 7.89705 11.5538L7.96967 11.4697L14.9697 4.46967C15.2626 4.17678 15.7374 4.17678 16.0303 4.46967Z"
-              fill="currentColor"
-            />
+              fill="currentColor" />
           </svg>
 
           Назад
@@ -28,94 +18,86 @@
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
         <div class="bg-gray-200 rounded-xl">
           <div class="flex items-center justify-center py-9 px-9">
-            <img
-              :src="image"
-              class="object-center object-cover h-full max-h-[300px]"
-              loading="lazy"
-              :alt="product.name"
-            />
+            <img :src="image" class="object-center object-cover h-full max-h-[300px]" loading="lazy"
+              :alt="product.name" />
           </div>
         </div>
         <swiper class="w-full" :options="productCarouserSwiperOptions">
           <swiper-slide v-for="image in product.images" :key="image.id">
             <div class="bg-gray-200 rounded-xl flex justify-center">
-              <img
-                :src="image.url"
-                :alt="product.name"
-                loading="lazy"
-                @click="selectImage(image.url)"
-                class="py-3 w-20"
-              />
+              <img :src="image.url" :alt="product.name" loading="lazy" @click="selectImage(image.url)"
+                class="py-3 w-20" />
             </div>
           </swiper-slide>
         </swiper>
       </div>
-      <div class="flex flex-col flex-grow bg-white rounded-md px-2 py-1">
-        <div class="flex">
-          <div
-            :style="{
-              backgroundColor: product.category.color,
-            }"
-            class="px-4 py-2 rounded-md mb-3"
-          >
+      <div class="flex flex-col flex-grow px-2 py-1">
+        <div class="flex" v-if="product.category">
+          <div :style="{
+            backgroundColor: product.category.color,
+          }" class="px-4 py-2 rounded-md mb-3">
             {{ product.category.name }}
           </div>
         </div>
-        <div class="flex flex-col">
-          <h1 class="font-inter font-bold text-2xl max-w-lg">
-            {{ product.name }}
-          </h1>
-          <span class="font-inter">
-            Артикул: {{ product.article }}
-          </span>
+        <div class="flex flex-row justify-between">
+          <div class="flex flex-col">
+            <h1 class="font-inter font-bold text-2xl max-w-lg">
+              {{ product.name }}
+            </h1>
+            <span class="font-inter text-gray-400 text-sm">
+              Артикул: {{ product.article }}
+            </span>
+          </div>
         </div>
-        <ol class="pt-2 space-y-0.5">
+        <div class="flex flex-col pt-3">
+          <div class="flex flex-row justify-between">
+            <div class="flex items-center gap-x-2.5">
+              <el-input-number size="small" class="text-lg" @change="handleChange" v-model="productSelectCount" :min="1"
+                :max="99" />
+              <div class="items-center">
+                <span class="font-inter text-lg">{{ price }} ₽</span>
+                <span class="font-inter text-sm text-gray-500 pl-1.5 leading-7">
+                  с НДС / за {{ productSelectCount }} шт.
+                </span>
+              </div>
+            </div>
+            <el-button v-if="product.forSale" type="primary">
+              Купить
+            </el-button>
+            <el-popover v-else placement="top" width="258" trigger="hover"
+              content="Пожалуйста, уточните наличие и стоимость у менеджера.">
+              <el-button slot="reference" type="primary">+7 (909)-909-90-90</el-button>
+            </el-popover>
+          </div>
+          <!-- <div class="flex">
+
+          </div> -->
+        </div>
+        <h2 class="pb-1.5 pt-3 font-lg font-inter font-semibold">Характеристики</h2>
+        <ol class="space-y-0.5">
           <li v-for="prop in product.properties" :key="prop.id">
             <div class="flex flex-row justify-between">
-              <span class="font-inter text-lg">{{ prop.property.name }}</span>
-              <div
-                class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"
-              ></div>
+              <span class="font-inter">{{ prop.property.name }}</span>
+              <div class="flex-grow border-b-2 border-dotted border-gray-400 mb-1.5 mx-1.5"></div>
               <div class="flex gap-x-1">
-                <span class="font-inter text-lg font-semibold">
+                <span class="font-inter font-semibold">
                   {{ prop.value }}
                 </span>
-                <span
-                  v-if="prop.isDimension"
-                  class="font-inter text-lg font-semibold"
-                >
+                <span v-if="prop.isDimension" class="font-inter font-semibold">
                   {{ prop.dimension }}
                 </span>
               </div>
             </div>
           </li>
         </ol>
-
-        <div class="flex flex-row pt-4 mt-4">
-          <div class="flex flex-col">
-            <span class="font-inter font-semibold text-lg">Стоимость</span>
-            <span class="font-inter font-semibold text-xl">{{ price }}</span>
-          </div>
-          <!-- <el-input-number
-            class="text-lg"
-            @change="handleChange"
-            v-model="productSelectCount"
-            :min="1"
-            :max="99"
-          /> -->
-        </div>
       </div>
     </div>
   </Container>
 </template>
 
 <style>
-.el-input-number__decrease:hover:not(.is-disabled)
-  ~ .el-input
-  .el-input__inner:not(.is-disabled),
-.el-input-number__increase:hover:not(.is-disabled)
-  ~ .el-input
-  .el-input__inner:not(.is-disabled) {
+.el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),
+.el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled) {
   border-color: #ea580c;
 }
 
@@ -172,8 +154,8 @@ export default {
   activated() {
     this.$fetch()
   },
-  mounted() {},
-  created() {},
+  mounted() { },
+  created() { },
 }
 </script>
 

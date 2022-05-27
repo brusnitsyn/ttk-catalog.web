@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-stretch border rounded-md">
     <!-- <h4 class="font-inter font-semibold pt-2 px-2">Фильтры</h4> -->
-    <el-collapse v-model="activeNames" @change="handleChange" class="mb-2">
+    <el-collapse class="mb-2">
       <el-collapse-item title="Производитель" name="1" class="text-left px-2">
         <div class="flex flex-col justify-start items-start">
           <el-radio-group v-model="filters.brand">
@@ -29,15 +29,14 @@
       </el-collapse-item>
     </el-collapse>
 
-    <div class="flex flex-col gap-y-2 px-2 pb-2">
+    <div v-if="Object.entries(filters).length" class="flex flex-col gap-y-2 px-2 pb-2">
       <div>
-        <el-button @click="applyFilters" class="w-full" v-if="Object.getOwnPropertyNames(filters).length > 0"
-          type="primary">
+        <el-button @click="applyFilters" class="w-full" type="primary">
           Применить
         </el-button>
       </div>
       <div>
-        <el-button class="w-full" @click="resetFilters" v-if="Object.getOwnPropertyNames(filters).length > 0">
+        <el-button class="w-full" @click="resetFilters">
           Сбросить
         </el-button>
       </div>
