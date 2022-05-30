@@ -192,7 +192,9 @@ export const actions = {
     const result = await data
     await commit('setCategories', result.data.data)
   },
-  async deleteSingleProduct({ commit }, product) { },
+  async deleteSingleProduct({ commit }, product) {
+
+  },
   async changeProductName({ commit }, name) {
     await commit('setProductName', name)
   },

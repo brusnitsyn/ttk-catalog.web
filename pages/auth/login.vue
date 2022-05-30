@@ -1,15 +1,28 @@
 <template>
-  <div
-    class="
+  <div class="
       min-h-screen
       h-full
       bg-[#EEF6FF]
       flex flex-row
       justify-center
       items-center
-    "
-  >
-    <div class="p-6 bg-white rounded-lg drop-shadow-lg border border-gray-300">
+    ">
+    <el-form @submit="submitForm" ref="loginForm" :rules="rules" :model="form"
+      class="p-5 shadow-md rounded-md border bg-white">
+      <h2 class="py-4 text-center font-inter">Добро пожаловать</h2>
+      <el-form-item prop="email">
+        <el-input v-model="form.email" type="email" prefix-icon="el-icon-user" placeholder="example@domain.ru">
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input v-model="form.password" type="password" prefix-icon="el-icon-key" placeholder="Пароль"></el-input>
+      </el-form-item>
+      <div class="pt-2">
+        <el-button type="primary" @click="submitForm">Войти</el-button>
+      </div>
+
+    </el-form>
+    <!-- <div class="p-6 bg-white rounded-lg drop-shadow-lg border border-gray-300">
       <div class="flex justify-center items-center pb-3 pt-4">
         <LogoShort />
       </div>
@@ -56,7 +69,7 @@
         />
         <NuxtButton> Войти </NuxtButton>
       </form>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -70,19 +83,36 @@ export default {
         email: '',
         password: '',
       },
+      rules: {
+        email: [
+          { required: true, message: 'Введите адрес электронной почты', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: 'Введите пароль', trigger: 'blur' },
+          { min: 6, message: 'Минимальная длина пароля составляет 6 символов', trigger: 'blur' }
+        ],
+      }
     }
   },
   methods: {
-    async login() {
+    async onSubmit() {
       await this.$auth
         .loginWith('laravelSanctum', { data: this.form })
         .then((response) => {
           this.$router.push('/admin')
-          console.log(response)
         })
         .catch((error) => {
           console.log(error)
         })
+    },
+    submitForm() {
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          this.onSubmit()
+        } else {
+          return false;
+        }
+      });
     },
   },
 }
