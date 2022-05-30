@@ -3,7 +3,7 @@
     <Header
       class="sticky top-0 w-full bg-white bg-opacity-50 backdrop-blur-lg z-50"
     />
-    <Nuxt keep-alive :keep-alive-props="{ max: 10 }" />
+    <Nuxt keep-alive :keep-alive-props="{ max: 10 }" class="min-h-screen" />
     <Footer />
     <MobileMenu class="md:hidden" />
   </div>

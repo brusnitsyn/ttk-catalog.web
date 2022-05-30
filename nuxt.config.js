@@ -19,22 +19,25 @@ export default {
   css: ['@/assets/css/tailwind.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '@/plugins/VueAwesomeSwiper', mode: 'client' }, { src: '@/plugins/element-ui' }],
+  plugins: [
+    { src: '@/plugins/VueAwesomeSwiper', mode: 'client' },
+    { src: '@/plugins/element-ui' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxt/postcss8', '@nuxtjs/moment', '@nuxt/image',],
+  buildModules: ['@nuxt/postcss8', '@nuxtjs/moment', '@nuxt/image'],
 
   serverMiddleware: {
-    '/laravelimg': '~/server/middleware/laravelimg.js'
+    '/laravelimg': '~/server/middleware/laravelimg.js',
   },
 
   image: {
     // permitted domains where the files are stored
     domains: ['http://127.0.0.1:8000/'],
-    baseURL: "http://127.0.0.1:8000/",
+    baseURL: 'http://127.0.0.1:8000/',
   },
 
   // router: {
@@ -51,7 +54,7 @@ export default {
           logout: { url: '/admin/logout', method: 'post' },
           refresh: {
             url: '/admin/refresh',
-            method: 'post'
+            method: 'post',
           },
           user: { url: '/user', method: 'get' },
         },
@@ -70,7 +73,6 @@ export default {
     '@nuxtjs/auth-next',
     'dropzone-nuxt',
     'nuxt-vue-multiselect',
-
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

@@ -64,6 +64,18 @@
           </swiper>
         </client-only>
       </section>
+      <section>
+        <h1 class="font-inter font-semibold text-lg pb-2 pt-4">Товары со скидкой</h1>
+        <client-only>
+          <swiper :options="swiperOptions">
+            <swiper-slide v-for="product in newProducts" :key="product.id">
+              <nuxt-link :to="'/products/' + product.id">
+                <LazyProductCard :product="product" />
+              </nuxt-link>
+            </swiper-slide>
+          </swiper>
+        </client-only>
+      </section>
     </Container>
   </div>
 </template>

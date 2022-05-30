@@ -2,7 +2,7 @@
   <button
     v-if="!isOpenMobileMenu"
     @click="setOpenMobileMenu(true)"
-    class="fixed right-6 bottom-6 rounded-full p-3 bg-yellow-300"
+    class="fixed right-6 bottom-6 rounded-full p-3 bg-yellow-300 z-50"
   >
     <svg
       width="33"
@@ -47,6 +47,7 @@
       bottom-3
       right-3
       left-3
+      z-50
     "
   >
     <div class="flex flex-row justify-end">
@@ -78,7 +79,12 @@
     </div>
     <div class="mt-2">
       <ProductSearchInput />
-
+      <div class="flex flex-col gap-y-2.5 font-inter pt-3.5 px-1.5">
+        <nuxt-link :to="`/`">Главная</nuxt-link>
+        <nuxt-link :to="`/products`">Каталог</nuxt-link>
+        <nuxt-link :to="`/info`">О нас</nuxt-link>
+        <nuxt-link :to="`/contacts`">Контакты</nuxt-link>
+      </div>
     </div>
   </div>
 </template>

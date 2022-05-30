@@ -3,8 +3,11 @@
   <Container v-else class="flex flex-col">
     <div class="lg:flex lg:gap-x-4">
       <aside class="fixed z-10 lg:z-0 lg:static">
-        <div class="h-full overflow-auto pointer-events-none lg:overflow-visible">
-          <div class="
+        <div
+          class="h-full overflow-auto pointer-events-none lg:overflow-visible"
+        >
+          <div
+            class="
               hidden
               lg:block
               overflow-auto
@@ -13,8 +16,10 @@
               sticky
               top-[82px]
               w-60
-            ">
-            <div class="
+            "
+          >
+            <div
+              class="
                 hidden
                 lg:flex
                 flex-col
@@ -22,7 +27,8 @@
                 sticky
                 max-h-full
                 pb-4
-              ">
+              "
+            >
               <!-- <h1 class="font-bold text-xl">Фильтры</h1> -->
               <div class="space-y-2">
                 <ProductSearchInput />
@@ -33,22 +39,35 @@
         </div>
       </aside>
       <div class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
-        <div class="flex flex-col lg:flex-row">
-          <div v-if="products.length" class="grow grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-3">
-            <nuxt-link v-for="product in products" :key="product.id" :to="'/products/' + product.id">
+        <div class="flex flex-col">
+          <div
+            v-if="products.length"
+            class="grow grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-3"
+          >
+            <nuxt-link
+              v-for="product in products"
+              :key="product.id"
+              :to="'/products/' + product.id"
+            >
               <LazyProductCard :product="product" />
             </nuxt-link>
           </div>
-
           <ProductNoProductsCard v-else class="grow" />
+          <div v-if="pagination.lastPage > 1" class="flex justify-center">
+            <el-pagination
+              :page-size.sync="pagination.perPage"
+              background
+              :pager-count="pagination.perPage"
+              @prev-click="paginationPrevClick"
+              @next-click="paginationNextClick"
+              @current-change="paginationCurrentChange"
+              layout="prev, pager, next"
+              :total="pagination.total"
+            >
+            </el-pagination>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="flex justify-center">
-      <el-pagination :page-size.sync="pagination.perPage" background :pager-count="pagination.perPage"
-        @prev-click="paginationPrevClick" @next-click="paginationNextClick" @current-change="paginationCurrentChange"
-        layout="prev, pager, next" :total="pagination.total">
-      </el-pagination>
     </div>
   </Container>
 </template>
