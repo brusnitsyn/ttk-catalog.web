@@ -52,7 +52,7 @@
       </client-only>
     </section>
     <Container class="lg:flex lg:flex-col">
-      <section>
+      <section v-if="newProducts.length">
         <h1 class="font-inter font-semibold text-lg pb-2 pt-4">Новинки</h1>
         <client-only>
           <swiper :options="swiperOptions">
@@ -64,11 +64,11 @@
           </swiper>
         </client-only>
       </section>
-      <section>
+      <section v-if="saleProducts.length">
         <h1 class="font-inter font-semibold text-lg pb-2 pt-4">Товары со скидкой</h1>
         <client-only>
           <swiper :options="swiperOptions">
-            <swiper-slide v-for="product in newProducts" :key="product.id">
+            <swiper-slide v-for="product in saleProducts" :key="product.id">
               <nuxt-link :to="'/products/' + product.id">
                 <LazyProductCard :product="product" />
               </nuxt-link>
@@ -112,8 +112,8 @@ export default {
   computed: {
     ...mapGetters({
       products: 'products/getProducts',
-      newProducts: 'products/getProductsByFilterNew',
-      filteredProducts: 'products/getFilteredProducts',
+      newProducts: 'products/getProductsNew',
+      saleProducts: 'products/getProductsSale',
       banners: 'banners/getBanners',
     }),
   },

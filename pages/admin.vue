@@ -1,8 +1,8 @@
 <template>
   <div class="flex relative">
-    <el-menu router="true" default-active="1" class="el-menu-vertical h-full" :collapse="openMenu">
+    <el-menu :router=true default-active="1" class="el-menu-vertical h-full" :collapse="openMenu">
       <el-menu-item @click="changeMenu">
-        <i :class="(openMenu) ? 'el-icon-arrow-right' : 'el-icon-arrow-left' "></i>
+        <i :class="(openMenu) ? 'el-icon-arrow-right' : 'el-icon-arrow-left'"></i>
         <span>Скрыть меню</span>
       </el-menu-item>
       <el-menu-item index="1" :route="{ name: 'admin-dashboard' }">
@@ -14,13 +14,49 @@
           <i class="el-icon-goods"></i>
           <span>Товары</span>
         </template>
-        <el-menu-item index="2-1" :route="{ name: 'admin-products' }">
+        <el-menu-item-group title="Товары">
+          <el-menu-item index="2-1" :route="{ name: 'admin-products' }">
+            <i class="el-icon-menu"></i>
+            <span>Все товары</span>
+          </el-menu-item>
+          <el-menu-item index="2-2" :route="{ name: 'admin-products-create' }">
+            <i class="el-icon-circle-plus-outline"></i>
+            <span>Добавить товар</span>
+          </el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group title="Категории">
+          <el-menu-item index="3-1" :route="{ name: 'admin-products' }">
+            <i class="el-icon-circle-plus-outline"></i>
+            <span>Добавить категорию</span>
+          </el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group title="Техника">
+          <el-menu-item index="4-1" :route="{ name: 'admin-products' }">
+            <i class="el-icon-circle-plus-outline"></i>
+            <span>Добавить производителя</span>
+          </el-menu-item>
+          <el-menu-item index="4-2" :route="{ name: 'admin-products-create' }">
+            <i class="el-icon-circle-plus-outline"></i>
+            <span>Добавить тип техники</span>
+          </el-menu-item>
+          <el-menu-item index="4-3" :route="{ name: 'admin-products-create' }">
+            <i class="el-icon-circle-plus-outline"></i>
+            <span>Добавить технику</span>
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">
+          <i class="el-icon-user"></i>
+          <span>Пользователи</span>
+        </template>
+        <el-menu-item index="3-1" :route="{ name: 'admin-users' }">
           <i class="el-icon-menu"></i>
-          <span>Все товары</span>
+          <span>Все пользователи</span>
         </el-menu-item>
-        <el-menu-item index="2-2" :route="{ name: 'admin-products-create' }">
+        <el-menu-item index="3-2" :route="{ name: 'admin-users-create' }">
           <i class="el-icon-circle-plus-outline"></i>
-          <span>Добавить товар</span>
+          <span>Добавить пользователя</span>
         </el-menu-item>
       </el-submenu>
     </el-menu>
@@ -28,7 +64,7 @@
     <el-container class="ml-[64px]">
       <Nuxt class="w-full" />
     </el-container>
-    <ProductPropertiesDialog v-if="showPropertiesDialog" />
+    <!-- <ProductPropertiesDialog v-if="showPropertiesDialog" /> -->
   </div>
 </template>
 
@@ -50,7 +86,7 @@ export default {
   computed: {
     ...mapGetters({
       // showProductCreateForm: 'products/getShowCreateDialog',
-      showPropertiesDialog: "products/getShowPropertiesDialog",
+      // showPropertiesDialog: "products/getShowPropertiesDialog",
     }),
   },
 }

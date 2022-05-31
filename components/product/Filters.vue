@@ -13,10 +13,11 @@
       </el-collapse-item>
       <el-collapse-item title="Тип техники" name="2" class="text-left px-2">
         <div class="flex flex-col justify-start items-start">
-          <el-link :underline="false" @click="filters.type = machineType.id" v-for="machineType in machineTypesForBrand"
-            :key="machineType.id">
-            {{ machineType.name }}
-          </el-link>
+          <el-radio-group v-model="filters.type">
+            <div class="flex flex-col gap-y-2.5 px-1">
+              <el-radio v-for="machineType in machineTypes" :key="machineType.id" :label="machineType.id">{{ machineType.name }}</el-radio>
+            </div>
+          </el-radio-group>
         </div>
       </el-collapse-item>
       <el-collapse-item title="Техника" name="3" class="text-left px-2">
@@ -67,17 +68,17 @@ export default {
     applyFilters() {
       this.$store.dispatch('products/fetchProductsByFilter', this.filters)
     },
-    sortingBrand(brand) {
-      this.resetFilters()
-      this.$store.dispatch('products/fetchProductsByFilter', brand.name)
-    },
-    sortingMachineType(machineType) {
-      this.$store.dispatch('products/filterMachineType', machineType.name)
-      this.$store.dispatch('machines/setMachineTypeId', machineType.id)
-    },
-    sortingMachine(machine) {
-      this.$store.dispatch('products/filterMachine', machine.name)
-    },
+    // sortingBrand(brand) {
+    //   this.resetFilters()
+    //   this.$store.dispatch('products/fetchProductsByFilter', brand.name)
+    // },
+    // sortingMachineType(machineType) {
+    //   this.$store.dispatch('products/filterMachineType', machineType.name)
+    //   this.$store.dispatch('machines/setMachineTypeId', machineType.id)
+    // },
+    // sortingMachine(machine) {
+    //   this.$store.dispatch('products/filterMachine', machine.name)
+    // },
 
     resetFilters() {
       this.filters = {}

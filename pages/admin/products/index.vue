@@ -7,16 +7,16 @@
         flex-row justify-between
       ">
       <el-page-header @back="$router.go(-1)" class="text-2xl font-semibold" title="Назад" content="Все товары" />
-      <nuxt-link :to="{ name: 'admin-products-create' }">
+      <!-- <nuxt-link :to="{ name: 'admin-products-create' }">
         <el-button type="primary">Добавить товар</el-button>
-      </nuxt-link>
+      </nuxt-link> -->
     </div>
     <el-table ref="multipleTable" :data="products" class="w-full" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" />
       <el-table-column property="name" label="Наименование" width="200" />
       <el-table-column property="article" label="Артикул" width="120" />
       <el-table-column property="actualPrice" label="Стоимость" width="120" />
-      <el-table-column label="Действия">
+      <el-table-column label="Действия" min-width="200">
         <template slot-scope="scope">
           <el-button type="text">Редактировать</el-button>
           <el-button type="text" @click="handleDelete(scope.$index, scope.row)">Удалить</el-button>

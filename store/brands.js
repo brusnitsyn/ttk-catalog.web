@@ -10,6 +10,9 @@ export const mutations = {
   setBrand(state, brand) {
     state.brand = brand
   },
+  pushBrand(state, brand) {
+    state.brands.push(brand)
+  }
 }
 
 export const actions = {
@@ -18,9 +21,10 @@ export const actions = {
     const result = await data
     context.commit('setBrands', result.data.data)
   },
-  async getRelationBrandMachineType({context}, brandId) {
-
-    context.commit('setBrandMachineTypes', filtered)
+  async postSingleBrand({ commit }, brand) {
+    const data = this.$axios.post('/brands', brand)
+    const result = await data
+    commit('pushBrand', result.data.data)
   },
 }
 

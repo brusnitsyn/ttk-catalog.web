@@ -14,6 +14,9 @@ export const mutations = {
   setMachine(state, machine) {
     state.machine = machine
   },
+  pushMachine(state, machine) {
+    state.machine.push(machine)
+  },
   filterMachinesForType(state) {
     const machines = [...state.machines]
     state.machinesForType = filterMachineForType(state.selectedMachineTypeId, machines)
@@ -33,6 +36,11 @@ export const actions = {
     const data = await this.$axios.get(`/machines?machineType=${machineTypeId}`)
     const result = await data
     await commit('setMachines', result.data.data)
+  },
+  async postSingleMachine({ commit }, machine) {
+    const data = this.$axios.post('/machines', machine)
+    const result = await data
+    await commit('pushMachine', result.data.data)
   },
   async setMachineTypeId({ commit }, machineTypeId) {
     await commit('setMachineTypeId', machineTypeId)

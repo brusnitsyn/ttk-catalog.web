@@ -1,15 +1,15 @@
 <template>
   <Loading v-if="$fetchState.pending" />
   <Container v-else class="flex flex-col">
-    <div class="lg:flex lg:gap-x-4">
-      <aside class="fixed z-10 lg:z-0 lg:static">
+    <div class="md:flex md:gap-x-4">
+      <aside class="fixed z-10 md:z-0 md:static">
         <div
-          class="h-full overflow-auto pointer-events-none lg:overflow-visible"
+          class="h-full overflow-auto pointer-events-none md:overflow-visible"
         >
           <div
             class="
               hidden
-              lg:block
+              md:block
               overflow-auto
               pointer-events-auto
               max-h-screen
@@ -21,7 +21,7 @@
             <div
               class="
                 hidden
-                lg:flex
+                md:flex
                 flex-col
                 overflow-y-auto
                 sticky
@@ -38,11 +38,11 @@
           </div>
         </div>
       </aside>
-      <div class="w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+      <div class="w-full min-w-0 md:static md:max-h-full md:overflow-visible">
         <div class="flex flex-col">
           <div
             v-if="products.length"
-            class="grow grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-3"
+            class="grow grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3"
           >
             <nuxt-link
               v-for="product in products"

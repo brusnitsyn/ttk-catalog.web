@@ -1,18 +1,10 @@
 export const state = () => ({
   products: [],
-  productsByFilterNew: [],
-  filteredProducts: [],
+  productsNew: [],
+  productsSale: [],
   categories: [],
   product: {
     properties: [],
-  },
-
-  filter: {
-    search: '',
-    brand: 'all',
-    machineType: 'all',
-    machine: 'all',
-    order: 'created_at',
   },
   pagination: {
     currentPage: 1,
@@ -33,7 +25,6 @@ export const state = () => ({
   showPropertiesDialog: false,
 })
 
-import * as Filters from '~/helpers/filters'
 export const mutations = {
   setProducts(state, products) {
     state.products = products
@@ -43,6 +34,12 @@ export const mutations = {
   },
   setProduct(state, product) {
     state.product = product
+  },
+  setProductsNew(state, products) {
+    state.productsNew = products
+  },
+  setProductsSale(state, products) {
+    state.productsSale = products
   },
 
   pushProductCarouselImage(state, image) {
@@ -89,38 +86,6 @@ export const mutations = {
   },
   setShowPropertiesDialog(state, value) {
     state.showPropertiesDialog = value
-  },
-
-  // Search & filtering
-  setProductsByFilterNew(state, products) {
-    state.productsByFilterNew = products
-  },
-  setFilteredProducts(state, products) {
-    state.filteredProducts = products
-  },
-  setFilterBrand(state, brand) {
-    state.filter.brand = brand
-  },
-  setFilterMachine(state, machine) {
-    state.filter.machine = machine
-  },
-  setFilterMachineType(state, machineType) {
-    state.filter.machineType = machineType
-  },
-  setFilterSearch(state, search) {
-    state.filter.search = search
-  },
-  serOrder(state, order) {
-    state.filter.order = order
-  },
-  filterProducts(state) {
-    const products = [...state.products]
-    state.filteredProducts = products
-    state.filteredProducts = Filters.filterProducts(state.filter, products)
-  },
-  orderProducts(state) {
-    const products = [...state.filteredProducts]
-    state.filteredProducts = Filters.orderProducts(state.filter.order, products)
   },
 }
 
@@ -180,7 +145,16 @@ export const actions = {
     })
 
     const result = await data
-    await commit('setProductsByFilterNew', result.data.data)
+    await commit('setProductsNew', result.data.data)
+  },
+  async fetchProductsByFilterSale({ commit }) {
+    const params = { category: 2 }
+    const data = await this.$axios.get('/products', {
+      params,
+    })
+
+    const result = await data
+    await commit('setProductsSale', result.data.data)
   },
   async fetchSingleProduct({ commit }, productId) {
     const data = await this.$axios.get(`/products/${productId}`)
@@ -194,9 +168,6 @@ export const actions = {
   },
   async deleteSingleProduct({ commit }, product) {
 
-  },
-  async changeProductName({ commit }, name) {
-    await commit('setProductName', name)
   },
   async pushSingleProduct({ commit, state }, product) {
     const sendData = new FormData()
@@ -231,40 +202,11 @@ export const actions = {
     await commit('setShowPropertiesDialog', value)
     // await dispatch('ui/setOpenDialog', value, { root: true })
   },
-
-  // Search & filtering
-  async filterOrder({ commit }, order) {
-    await commit('setOrder', order)
-    await commit('orderProducts')
-  },
-  async filterBrand({ commit, dispatch }, brand) {
-    await commit('setFilterBrand', brand)
-    dispatch('filterProducts')
-  },
-  async filterMachine({ commit, dispatch }, machine) {
-    await commit('setFilterMachine', machine)
-    dispatch('filterProducts')
-  },
-  async filterMachineType({ commit, dispatch }, machineType) {
-    await commit('setFilterMachineType', machineType)
-    dispatch('filterProducts')
-  },
-  async filterSearch({ commit, dispatch }, search) {
-    await commit('setFilterSearch', search)
-    dispatch('filterProducts')
-  },
-  async filterProducts({ commit }) {
-    await commit('filterProducts')
-    await commit('orderProducts')
-  },
 }
 
 export const getters = {
   getProducts(state) {
     return state.products
-  },
-  getFilteredProducts(state) {
-    return state.filteredProducts
   },
   getProduct(state) {
     return state.product
@@ -288,7 +230,10 @@ export const getters = {
   getCategories(state) {
     return state.categories
   },
-  getProductsByFilterNew(state) {
-    return state.productsByFilterNew
+  getProductsNew(state) {
+    return state.productsNew
+  },
+  getProductsSale(state) {
+    return state.productsSale
   }
 }
