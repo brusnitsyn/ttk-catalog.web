@@ -41,6 +41,13 @@ export const mutations = {
   setProductsSale(state, products) {
     state.productsSale = products
   },
+  popProduct(state, product) {
+    state.products.forEach((item, index) => {
+      if (item.id === product.id) {
+        state.products.splice(index, 1)
+      }
+    })
+  },
 
   pushProductCarouselImage(state, image) {
     state.formData.carouselImages.push(image)
@@ -115,10 +122,10 @@ export const actions = {
     const data = await this.$axios.get('/products', {
       params,
       paramsSerializer: function paramsSerializer(params) {
-        return Object.entries(Object.assign({}, params)).
-          map(([key, value]) => `${key}=${value}`).
-          join('&');
-      }
+        return Object.entries(Object.assign({}, params))
+          .map(([key, value]) => `${key}=${value}`)
+          .join('&')
+      },
     })
     const result = await data
     await commit('setProducts', result.data.data)
@@ -139,7 +146,7 @@ export const actions = {
     await commit('setPagination', pagination)
   },
   async fetchProductsByFilterNew({ commit }) {
-    const params = { category: 1 }
+    const params = { category: 2 }
     const data = await this.$axios.get('/products', {
       params,
     })
@@ -148,7 +155,7 @@ export const actions = {
     await commit('setProductsNew', result.data.data)
   },
   async fetchProductsByFilterSale({ commit }) {
-    const params = { category: 2 }
+    const params = { category: 3 }
     const data = await this.$axios.get('/products', {
       params,
     })
@@ -167,7 +174,8 @@ export const actions = {
     await commit('setCategories', result.data.data)
   },
   async deleteSingleProduct({ commit }, product) {
-
+    await this.$axios.delete(`/products/${product.id}`)
+    await commit('popProduct', product)
   },
   async pushSingleProduct({ commit, state }, product) {
     const sendData = new FormData()
@@ -175,8 +183,11 @@ export const actions = {
     sendData.append('name', product.name)
     sendData.append('article', product.article)
     sendData.append('actualPrice', product.actualPrice)
-    product.discountPrice ? sendData.append('discountPrice', product.discountPrice) : sendData.append('discountPrice', '')
+    product.discountPrice
+      ? sendData.append('discountPrice', product.discountPrice)
+      : sendData.append('discountPrice', '')
     sendData.append('brandId', product.brandId)
+    sendData.append('typeId', product.typeId)
     sendData.append('categoryId', product.categoryId)
 
     product.images.forEach((img) => {
@@ -235,5 +246,5 @@ export const getters = {
   },
   getProductsSale(state) {
     return state.productsSale
-  }
+  },
 }

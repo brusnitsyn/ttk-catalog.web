@@ -36,22 +36,28 @@
             />
           </div>
         </div>
-        <swiper class="w-full" :options="productCarouserSwiperOptions">
-          <swiper-slide v-for="image in product.images" :key="image.id">
-            <div class="bg-gray-200 rounded-xl flex justify-center">
-              <img
-                :src="image.url"
-                :alt="product.name"
-                loading="lazy"
-                @click="selectImage(image.url)"
-                class="py-3 w-20"
-              />
-            </div>
-          </swiper-slide>
-        </swiper>
+        <client-only>
+          <swiper
+            class="w-full"
+            :options="productCarouserSwiperOptions"
+            v-if="product.images.length > 1"
+          >
+            <swiper-slide v-for="image in product.images" :key="image.id">
+              <div class="bg-gray-200 rounded-xl flex justify-center">
+                <img
+                  :src="image.url"
+                  :alt="product.name"
+                  loading="lazy"
+                  @click="selectImage(image.url)"
+                  class="py-3 w-20"
+                />
+              </div>
+            </swiper-slide>
+          </swiper>
+        </client-only>
       </div>
       <div class="flex flex-col flex-grow px-2 py-1">
-        <div class="flex" v-if="product.category">
+        <div class="flex" v-if="product.category && product.category.id != 1">
           <div
             :style="{
               backgroundColor: product.category.color,
@@ -72,7 +78,7 @@
           </div>
         </div>
         <div class="flex flex-col pt-3">
-          <div class="flex flex-row justify-between">
+          <div class="flex flex-col md:flex-row justify-between">
             <div
               class="
                 flex flex-col
@@ -82,7 +88,6 @@
               "
             >
               <el-input-number
-
                 class="text-lg order-1 md:order-none"
                 @change="handleChange"
                 v-model="productSelectCount"
@@ -90,7 +95,10 @@
                 :max="99"
               />
               <div class="flex flex-col items-start">
-                <s v-if="product.discountPrice" class="font-inter text-sm leading-4">
+                <s
+                  v-if="product.discountPrice"
+                  class="font-inter text-sm leading-4"
+                >
                   {{ product.actualPrice }} ₽
                 </s>
                 <div class="flex flex-row">
@@ -98,12 +106,14 @@
                   <span
                     class="font-inter text-sm text-gray-500 pl-1.5 leading-7"
                   >
-                    с НДС / за {{ productSelectCount }} шт.
+                    без НДС / за {{ productSelectCount }} шт.
                   </span>
                 </div>
               </div>
             </div>
-            <div class="flex flex-col justify-center">
+            <div
+              class="flex flex-col justify-center pt-4 md:pt-0 w-full md:w-auto"
+            >
               <el-button v-if="product.forSale" type="primary">
                 Купить
               </el-button>
@@ -114,9 +124,9 @@
                 trigger="hover"
                 content="Пожалуйста, уточните наличие и стоимость у менеджера."
               >
-                <el-button slot="reference" type="primary"
-                  >+7 (909)-909-90-90</el-button
-                >
+                <el-button slot="reference" type="primary" class="w-full">
+                  +7 (914)-043-89-22
+                </el-button>
               </el-popover>
             </div>
           </div>

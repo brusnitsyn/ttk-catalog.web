@@ -111,22 +111,18 @@ export default {
   },
   computed: {
     ...mapGetters({
-      products: 'products/getProducts',
+      banners: 'banners/getBanners',
       newProducts: 'products/getProductsNew',
       saleProducts: 'products/getProductsSale',
-      banners: 'banners/getBanners',
     }),
   },
 
   async fetch() {
-    await this.$store.dispatch('products/fetchAllProducts', '/products')
     await this.$store.dispatch('banners/fetchAllBanners')
     await this.$store.dispatch('products/fetchProductsByFilterNew')
   },
   mounted() {
-    if (!this.products.length) {
-      this.$store.dispatch('products/fetchAllProducts', '/products')
-    }
+
   },
 }
 </script>
