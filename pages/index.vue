@@ -21,6 +21,7 @@
                   flex flex-col
                   h-full
                   justify-end
+                  items-start
                   px-3.5
                   py-2.5
                   lg:gap-y-4 lg:px-5 lg:py-4
@@ -34,17 +35,19 @@
                     font-bold
                     uppercase
                     text-white
-                    w-[420px]
+                    md:w-[380px]
+                    lg:w-[420px]
                   "
                 >
                   {{ banner.header }}
                 </span>
-                <a
+                <el-link
                   :href="banner.url"
-                  class="font-inter text-xl font-bold text-orange-400"
+                  type="primary"
+                  class="font-inter text-xl font-bold"
                 >
                   ПОДРОБНЕЕ
-                </a>
+                </el-link>
               </div>
             </div>
           </swiper-slide>
@@ -65,7 +68,9 @@
         </client-only>
       </section>
       <section v-if="saleProducts.length">
-        <h1 class="font-inter font-semibold text-lg pb-2 pt-4">Товары со скидкой</h1>
+        <h1 class="font-inter font-semibold text-lg pb-2 pt-4">
+          Товары со скидкой
+        </h1>
         <client-only>
           <swiper :options="swiperOptions">
             <swiper-slide v-for="product in saleProducts" :key="product.id">

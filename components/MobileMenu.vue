@@ -82,8 +82,8 @@
       <div class="flex flex-col gap-y-2.5 font-inter pt-3.5 px-1.5">
         <nuxt-link :to="`/`">Главная</nuxt-link>
         <nuxt-link :to="`/products`">Каталог</nuxt-link>
-        <nuxt-link :to="`/info`">О нас</nuxt-link>
-        <nuxt-link :to="`/contacts`">Контакты</nuxt-link>
+        <!-- <nuxt-link :to="`/info`">О нас</nuxt-link>
+        <nuxt-link :to="`/contacts`">Контакты</nuxt-link> -->
       </div>
     </div>
   </div>
