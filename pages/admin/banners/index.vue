@@ -61,7 +61,7 @@
         </swiper>
       </client-only>
     </div>
-    <el-dialog title="Добавить слайд" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="Добавить слайд" :visible.sync="dialogVisible" width="80%">
       <el-form label-position="top">
         <el-form-item label="Заголовок" prop="header">
           <el-input v-model="banner.header" />

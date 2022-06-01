@@ -1,9 +1,9 @@
 <template>
   <!-- <Loading v-if="$fetchState.pending" /> -->
   <div class="pt-6 px-4">
-    <div class="flex justify-between">
+    <div class="flex flex-col md:flex-row justify-between">
       <h1 class="text-2xl font-semibold">Добавить товар</h1>
-      <div>
+      <div class="py-2 md:py-0">
         <el-button
           @click="dialogBrandVisible = !dialogBrandVisible"
           type="primary"
@@ -154,7 +154,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-white px-3 py-2 rounded-md">
+      <div class="bg-white md:px-3 py-2 rounded-md">
         <div class="flex justify-between items-center">
           <h2>Свойства</h2>
           <el-button
@@ -227,7 +227,7 @@
     <el-dialog
       title="Добавить производителя"
       :visible.sync="dialogBrandVisible"
-      width="30%"
+      width="80%"
     >
       <el-form ref="dialogCreateBrand" label-position="top">
         <el-form-item label="Наименование" prop="name">
@@ -245,7 +245,7 @@
     <el-dialog
       title="Добавить тип техники"
       :visible.sync="dialogMachineTypeVisible"
-      width="30%"
+      width="80%"
     >
       <el-form ref="dialogCreateMachineType" label-position="top">
         <el-form-item label="Наименование" prop="name">
@@ -283,7 +283,7 @@
     <el-dialog
       title="Добавить технику"
       :visible.sync="dialogMachineVisible"
-      width="95%"
+      width="80%"
     >
       <el-form ref="dialogCreateMachine" label-position="top">
         <el-form-item label="Наименование" prop="name">
@@ -339,7 +339,7 @@
     <el-dialog
       title="Добавить свойство"
       :visible.sync="dialogPropertiesShow"
-      width="100%"
+      width="80%"
     >
       <el-form ref="dialogProperties" label-position="top">
         <el-form-item label="Свойство" prop="property">
