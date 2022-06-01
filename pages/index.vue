@@ -120,6 +120,7 @@ export default {
   async fetch() {
     await this.$store.dispatch('banners/fetchAllBanners')
     await this.$store.dispatch('products/fetchProductsByFilterNew')
+    await this.$store.dispatch('products/fetchProductsByFilterSale')
   },
   mounted() {
 

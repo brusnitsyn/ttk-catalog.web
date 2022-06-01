@@ -427,7 +427,7 @@ export default {
       tempProduct: {
         images: [],
         machines: [],
-        categoryId: 2
+        categoryId: 1
       },
       machineTypesForBrand: [],
       brand: {

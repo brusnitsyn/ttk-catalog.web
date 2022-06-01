@@ -2,22 +2,12 @@
   <Loading v-if="$fetchState.pending" />
   <Container v-else>
     <div class="py-4">
-      <button
-        @click="$router.go(-1)"
-        class="cursor-pointer text-black hover:text-orange-400 font-medium"
-      >
+      <button @click="$router.go(-1)" class="cursor-pointer text-black hover:text-orange-400 font-medium">
         <div class="flex items-center gap-x-1">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M16.0303 4.46967C16.2966 4.73594 16.3208 5.1526 16.1029 5.44621L16.0303 5.53033L9.561 12L16.0303 18.4697C16.2966 18.7359 16.3208 19.1526 16.1029 19.4462L16.0303 19.5303C15.7641 19.7966 15.3474 19.8208 15.0538 19.6029L14.9697 19.5303L7.96967 12.5303C7.7034 12.2641 7.6792 11.8474 7.89705 11.5538L7.96967 11.4697L14.9697 4.46967C15.2626 4.17678 15.7374 4.17678 16.0303 4.46967Z"
-              fill="currentColor"
-            />
+              fill="currentColor" />
           </svg>
 
           Назад
@@ -28,29 +18,16 @@
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
         <div class="bg-gray-200 rounded-xl">
           <div class="flex items-center justify-center py-9 px-9">
-            <img
-              :src="image"
-              class="object-center object-cover h-full max-h-[300px]"
-              loading="lazy"
-              :alt="product.name"
-            />
+            <img :src="image" class="object-center object-cover h-full max-h-[300px]" loading="lazy"
+              :alt="product.name" />
           </div>
         </div>
         <client-only>
-          <swiper
-            class="w-full"
-            :options="productCarouserSwiperOptions"
-            v-if="product.images.length > 1"
-          >
+          <swiper class="w-full" :options="productCarouserSwiperOptions" v-if="product.images.length > 1">
             <swiper-slide v-for="image in product.images" :key="image.id">
               <div class="bg-gray-200 rounded-xl flex justify-center">
-                <img
-                  :src="image.url"
-                  :alt="product.name"
-                  loading="lazy"
-                  @click="selectImage(image.url)"
-                  class="py-3 w-20"
-                />
+                <img :src="image.url" :alt="product.name" loading="lazy" @click="selectImage(image.url)"
+                  class="py-3 w-20" />
               </div>
             </swiper-slide>
           </swiper>
@@ -58,12 +35,9 @@
       </div>
       <div class="flex flex-col flex-grow px-2 py-1">
         <div class="flex" v-if="product.category && product.category.id != 1">
-          <div
-            :style="{
-              backgroundColor: product.category.color,
-            }"
-            class="px-4 py-2 rounded-md mb-3"
-          >
+          <div :style="{
+            backgroundColor: product.category.color,
+          }" class="px-4 py-2 rounded-md mb-3">
             {{ product.category.name }}
           </div>
         </div>
@@ -79,51 +53,32 @@
         </div>
         <div class="flex flex-col pt-3">
           <div class="flex flex-col md:flex-row justify-between">
-            <div
-              class="
+            <div class="
                 flex flex-col
                 md:flex-row md:items-center
                 gap-y-2.5
                 md:gap-y-0 md:gap-x-2.5
-              "
-            >
-              <el-input-number
-                class="text-lg order-1 md:order-none"
-                @change="handleChange"
-                v-model="productSelectCount"
-                :min="1"
-                :max="99"
-              />
+              ">
+              <el-input-number class="text-lg order-1 md:order-none" @change="handleChange" v-model="productSelectCount"
+                :min="1" :max="99" />
               <div class="flex flex-col items-start">
-                <s
-                  v-if="product.discountPrice"
-                  class="font-inter text-sm leading-4"
-                >
+                <s v-if="product.discountPrice" class="font-inter text-sm leading-4">
                   {{ product.actualPrice }} ₽
                 </s>
                 <div class="flex flex-row">
                   <span class="font-inter text-lg">{{ price }} ₽</span>
-                  <span
-                    class="font-inter text-sm text-gray-500 pl-1.5 leading-7"
-                  >
+                  <span class="font-inter text-sm text-gray-500 pl-1.5 leading-7">
                     без НДС / за {{ productSelectCount }} шт.
                   </span>
                 </div>
               </div>
             </div>
-            <div
-              class="flex flex-col justify-center pt-4 md:pt-0 w-full md:w-auto"
-            >
+            <div class="flex flex-col justify-center pt-4 md:pt-0 w-full md:w-auto">
               <el-button v-if="product.forSale" type="primary">
                 Купить
               </el-button>
-              <el-popover
-                v-else
-                placement="top"
-                width="258"
-                trigger="hover"
-                content="Пожалуйста, уточните наличие и стоимость у менеджера."
-              >
+              <el-popover v-else placement="top" width="258" trigger="hover"
+                content="Пожалуйста, уточните наличие и стоимость у менеджера.">
                 <el-button slot="reference" type="primary" class="w-full">
                   +7 (914)-043-89-22
                 </el-button>
@@ -141,14 +96,12 @@
           <li v-for="prop in product.properties" :key="prop.id">
             <div class="flex flex-row justify-between">
               <span class="font-inter">{{ prop.property.name }}</span>
-              <div
-                class="
+              <div class="
                   flex-grow
                   border-b-2 border-dotted border-gray-400
                   mb-1.5
                   mx-1.5
-                "
-              ></div>
+                "></div>
               <div class="flex gap-x-1">
                 <span class="font-inter font-semibold">
                   {{ prop.value }}
@@ -172,6 +125,7 @@ export default {
   layout: 'index',
   data() {
     return {
+      title: '',
       image: '',
       productCarouserSwiperOptions: {
         slidesPerView: 3,
@@ -182,6 +136,18 @@ export default {
       price: 0,
     }
   },
+  head() {
+    return {
+      title: `${this.product.name} | Компания ТТК+`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: `Купить ${this.product.name} ${this.product.article} по самой низкой цене в интернет-магазине запчастей`
+        }
+      ]
+    }
+  },
   computed: {
     ...mapGetters({
       product: 'products/getProduct',
@@ -189,8 +155,9 @@ export default {
   },
   watch: {
     product: function (value) {
+      // this.title = `${product.name}`
       this.selectImage(value.images[0].url)
-      if(value.discountPrice)
+      if (value.discountPrice)
         this.price = value.discountPrice
       else
         this.price = value.actualPrice

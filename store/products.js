@@ -20,9 +20,6 @@ export const state = () => ({
       next: '',
     },
   },
-
-  showCreateDialog: false,
-  showPropertiesDialog: false,
 })
 
 export const mutations = {
@@ -82,18 +79,6 @@ export const mutations = {
   addProduct(state, product) {
     state.products.push(product)
   },
-
-  // Product props
-  // setProductName(state, name) {
-  //   state.product.name = name
-  // },
-
-  setShowCreateDialog(state, value) {
-    state.showCreateDialog = value
-  },
-  setShowPropertiesDialog(state, value) {
-    state.showPropertiesDialog = value
-  },
 }
 
 export const actions = {
@@ -150,7 +135,6 @@ export const actions = {
     const data = await this.$axios.get('/products', {
       params,
     })
-
     const result = await data
     await commit('setProductsNew', result.data.data)
   },
@@ -159,7 +143,6 @@ export const actions = {
     const data = await this.$axios.get('/products', {
       params,
     })
-
     const result = await data
     await commit('setProductsSale', result.data.data)
   },
@@ -205,14 +188,6 @@ export const actions = {
     const result = await data
     await commit('addProduct', result.data.data)
   },
-  async setShowCreateDialog({ commit, dispatch }, value) {
-    await commit('setShowCreateDialog', value)
-    await dispatch('ui/setOpenDialog', value, { root: true })
-  },
-  async setShowPropertiesDialog({ commit, dispatch }, value) {
-    await commit('setShowPropertiesDialog', value)
-    // await dispatch('ui/setOpenDialog', value, { root: true })
-  },
 }
 
 export const getters = {
@@ -221,17 +196,6 @@ export const getters = {
   },
   getProduct(state) {
     return state.product
-  },
-
-  getFormData(state) {
-    return state.formData
-  },
-
-  getShowCreateDialog(state) {
-    return state.showCreateDialog
-  },
-  getShowPropertiesDialog(state) {
-    return state.showPropertiesDialog
   },
 
   getPagination(state) {
