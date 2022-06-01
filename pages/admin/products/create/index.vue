@@ -283,7 +283,7 @@
     <el-dialog
       title="Добавить технику"
       :visible.sync="dialogMachineVisible"
-      width="30%"
+      width="95%"
     >
       <el-form ref="dialogCreateMachine" label-position="top">
         <el-form-item label="Наименование" prop="name">
@@ -339,7 +339,7 @@
     <el-dialog
       title="Добавить свойство"
       :visible.sync="dialogPropertiesShow"
-      width="30%"
+      width="100%"
     >
       <el-form ref="dialogProperties" label-position="top">
         <el-form-item label="Свойство" prop="property">
