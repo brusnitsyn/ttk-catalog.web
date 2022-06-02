@@ -2,7 +2,7 @@
   <button
     v-if="!isOpenMobileMenu"
     @click="setOpenMobileMenu(true)"
-    class="fixed right-6 bottom-6 rounded-full p-3 bg-yellow-300 z-50"
+    class="fixed right-6 bottom-6 rounded-full p-3 bg-[#F59E0B] z-50"
   >
     <svg
       width="33"

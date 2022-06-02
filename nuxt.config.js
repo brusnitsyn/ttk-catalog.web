@@ -8,7 +8,12 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Запчасти для сельхозтехники: огромный выбор запчастей по самым низким. Заказывайте запчасти в интернет-магазине ТТК+ с доставкой по России' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'Запчасти для сельхозтехники: огромный выбор запчастей по самым низким. Заказывайте запчасти в интернет-магазине ТТК+ с доставкой по России',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -70,12 +75,14 @@ export default {
     'nuxt-vue-multiselect',
     '@nuxtjs/yandex-metrika',
   ],
-  yandexMetrika: {
-    id: '88691917',
-    webvisor: true,
-    clickmap: true,
-    trackLinks: true,
-    accurateTrackBounce: true,
+  publicRuntimeConfig: {
+    yandexMetrika: {
+      id: 88691917,
+      webvisor: true,
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+    },
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
