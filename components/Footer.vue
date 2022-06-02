@@ -30,8 +30,15 @@
           </h1>
           <div class="space-y-4 lg:space-y-5">
             <div class="flex flex-col">
-              <span>Если возникли вопросы - звоните по будням с 10:00 до 17:00 по
-                телефону: <el-link type="primary" href="tel:+79140438922"> +7 (914)-043-89-22 </el-link></span>
+              <span>
+                Если возникли вопросы - звоните по будням с 10:00 до 17:00 по
+                телефону:
+              </span>
+              <div class="flex flex-col items-start md:flex-row md:gap-x-2">
+                <el-link type="primary" href="tel:+79140438922"> +7 (914)-043-89-22 </el-link>
+                <el-link type="primary" href="tel:+79145992961"> +7 (914)-599-29-61 </el-link>
+                <el-link type="primary" href="tel:+79146191230"> +7 (914)-619-12-30 </el-link>
+              </div>
             </div>
             <div class="flex flex-col">
               <span>Либо пишите запрос на <el-link type="primary" href="mailto:info@dv-ttk.ru">info@dv-ttk.ru</el-link>

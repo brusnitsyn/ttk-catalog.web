@@ -54,6 +54,7 @@ export const mutations = {
   pushProperty(state, property) {
     state.product.properties.push(property)
   },
+
   removeProperty(state, property) {
     const properties = [...state.product.properties]
     properties.forEach((prop, index, obj) => {

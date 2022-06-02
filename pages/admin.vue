@@ -1,45 +1,41 @@
 <template>
   <div class="flex relative">
-    <el-menu
-      :router="true"
-      default-active="1"
-      class="el-menu-vertical h-full"
-      :collapse="openMenu"
-    >
-      <el-menu-item @click="changeMenu">
-        <i :class="openMenu ? 'el-icon-arrow-right' : 'el-icon-arrow-left'"></i>
-        <span>Скрыть меню</span>
-      </el-menu-item>
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-house"></i>
-          <span>Главная</span>
-        </template>
-        <el-menu-item index="1-1" :route="{ name: 'admin-dashboard' }">
-          <i class="el-icon-house"></i>
-          <span>Дашбоард</span>
+    <aside>
+      <el-menu :router="true" default-active="1" class="el-menu-vertical h-full" :collapse="openMenu">
+        <el-menu-item @click="changeMenu">
+          <i :class="openMenu ? 'el-icon-arrow-right' : 'el-icon-arrow-left'"></i>
+          <span>Скрыть меню</span>
         </el-menu-item>
-        <el-menu-item index="1-2" :route="{ name: 'admin-banners' }">
-          <i class="el-icon-picture-outline"></i>
-          <span>Баннеры</span>
-        </el-menu-item>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title">
-          <i class="el-icon-goods"></i>
-          <span>Товары</span>
-        </template>
-        <el-menu-item-group title="Товары">
-          <el-menu-item index="2-1" :route="{ name: 'admin-products' }">
-            <i class="el-icon-menu"></i>
-            <span>Все товары</span>
+        <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-house"></i>
+            <span>Главная</span>
+          </template>
+          <el-menu-item index="1-1" :route="{ name: 'admin-dashboard' }">
+            <i class="el-icon-house"></i>
+            <span>Дашбоард</span>
           </el-menu-item>
-          <el-menu-item index="2-2" :route="{ name: 'admin-products-create' }">
-            <i class="el-icon-circle-plus-outline"></i>
-            <span>Добавить товар</span>
+          <el-menu-item index="1-2" :route="{ name: 'admin-banners' }">
+            <i class="el-icon-picture-outline"></i>
+            <span>Баннеры</span>
           </el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="Категории">
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title">
+            <i class="el-icon-goods"></i>
+            <span>Товары</span>
+          </template>
+          <el-menu-item-group title="Товары">
+            <el-menu-item index="2-1" :route="{ name: 'admin-products' }">
+              <i class="el-icon-menu"></i>
+              <span>Все товары</span>
+            </el-menu-item>
+            <el-menu-item index="2-2" :route="{ name: 'admin-products-create' }">
+              <i class="el-icon-circle-plus-outline"></i>
+              <span>Добавить товар</span>
+            </el-menu-item>
+          </el-menu-item-group>
+          <!-- <el-menu-item-group title="Категории">
           <el-menu-item index="3-1" :route="{ name: 'admin-products' }">
             <i class="el-icon-circle-plus-outline"></i>
             <span>Добавить категорию</span>
@@ -58,23 +54,24 @@
             <i class="el-icon-circle-plus-outline"></i>
             <span>Добавить технику</span>
           </el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="3">
-        <template slot="title">
-          <i class="el-icon-user"></i>
-          <span>Пользователи</span>
-        </template>
-        <el-menu-item index="3-1" :route="{ name: 'admin-users' }">
-          <i class="el-icon-menu"></i>
-          <span>Все пользователи</span>
-        </el-menu-item>
-        <el-menu-item index="3-2" :route="{ name: 'admin-users-create' }">
-          <i class="el-icon-circle-plus-outline"></i>
-          <span>Добавить пользователя</span>
-        </el-menu-item>
-      </el-submenu>
-    </el-menu>
+        </el-menu-item-group> -->
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-user"></i>
+            <span>Пользователи</span>
+          </template>
+          <el-menu-item index="3-1" :route="{ name: 'admin-users' }">
+            <i class="el-icon-menu"></i>
+            <span>Все пользователи</span>
+          </el-menu-item>
+          <el-menu-item index="3-2" :route="{ name: 'admin-users-create' }">
+            <i class="el-icon-circle-plus-outline"></i>
+            <span>Добавить пользователя</span>
+          </el-menu-item>
+        </el-submenu>
+      </el-menu>
+    </aside>
 
     <el-container class="ml-[64px]">
       <Nuxt class="w-full" />

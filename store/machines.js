@@ -15,7 +15,7 @@ export const mutations = {
     state.machine = machine
   },
   pushMachine(state, machine) {
-    state.machine.push(machine)
+    state.machines.push(machine)
   },
   filterMachinesForType(state) {
     const machines = [...state.machines]

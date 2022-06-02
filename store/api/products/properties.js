@@ -10,7 +10,7 @@ export const mutations = {
   setProperty(state, property) {
     state.property = property
   },
-  addProperty(state, property) {
+  pushProperty(state, property) {
     state.properties.push(property)
   }
 }
@@ -26,13 +26,13 @@ export const actions = {
     const result = await data
     await commit('setProperty', result.data.data)
   },
-  async deleteSingleProduct({ commit }, product) {
+  async deleteSingleProperty({ commit }, property) {
 
   },
-  async pushSingleProduct({ commit }, property) {
+  async postSingleProperty({ commit }, property) {
     const data = await this.$axios.post('/properties', property)
     const result = await data
-    await commit('addProperty', result.data.data)
+    await commit('pushProperty', result.data.data)
   },
 }
 
