@@ -267,6 +267,7 @@ export default {
       selectedMachineType: null,
       dialogPropertiesShow: false,
       productProperty: {
+        id: '',
         value: '',
         isDimension: false,
         dimension: '',
@@ -299,9 +300,12 @@ export default {
   },
   methods: {
     addProductProperty() {
-      this.$store.commit('products/pushProperty', this.productProperty)
+      this.productProperty.id = this.product.properties.length
+      this.productProperty.id++
+      const property = Object.assign({}, this.productProperty)
+      this.$store.commit('products/pushProperty', property)
       this.dialogPropertiesShow = false
-      //this.$refs.dialogProperties.resetFields();
+      this.$refs.dialogProperties.resetFields();
     },
 
     sendDataProductToUpload() {

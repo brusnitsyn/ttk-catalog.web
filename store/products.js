@@ -161,6 +161,9 @@ export const actions = {
     await this.$axios.delete(`/products/${product.id}`)
     await commit('popProduct', product)
   },
+  async pushProperty({ commit }, property) {
+    await commit('pushProperty', property)
+  },
   async pushSingleProduct({ commit, state }, product) {
     const sendData = new FormData()
 

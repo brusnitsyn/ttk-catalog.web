@@ -112,6 +112,22 @@
               </div>
             </div>
           </li>
+          <li v-if="product.machines.length" class="pb-3">
+            <div class="flex flex-row justify-between">
+              <span class="font-inter">Применяемость</span>
+              <div class="
+                  flex-grow
+                  border-b-2 border-dotted border-gray-400
+                  mb-1.5
+                  mx-1.5
+                "></div>
+              <div class="flex gap-x-1 max-w-[240px]">
+                <span v-for="machine in product.machines" :key="machine.id" class="font-inter font-semibold">
+                  {{ machine.name }}
+                </span>
+              </div>
+            </div>
+          </li>
         </ol>
       </div>
     </div>

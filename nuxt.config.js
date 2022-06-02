@@ -30,18 +30,13 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: ['@nuxt/postcss8', '@nuxtjs/moment', '@nuxt/image'],
 
-  serverMiddleware: {
-    '/laravelimg': '~/server/middleware/laravelimg.js',
-  },
+  // serverMiddleware: {
+  //   '/laravelimg': '~/server/middleware/laravelimg.js',
+  // },
 
-  image: {
-    // permitted domains where the files are stored
-    domains: ['http://127.0.0.1:8000/'],
-    baseURL: 'http://127.0.0.1:8000/',
-  },
-
-  // router: {
-  //   middleware: ['auth'],
+  // image: {
+  //   domains: ['http://127.0.0.1:8000/'],
+  //   baseURL: 'http://127.0.0.1:8000/',
   // },
 
   auth: {
@@ -73,7 +68,15 @@ export default {
     '@nuxtjs/auth-next',
     'dropzone-nuxt',
     'nuxt-vue-multiselect',
+    '@nuxtjs/yandex-metrika',
   ],
+  yandexMetrika: {
+    id: '88691917',
+    webvisor: true,
+    clickmap: true,
+    trackLinks: true,
+    accurateTrackBounce: true,
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

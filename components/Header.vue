@@ -12,7 +12,7 @@
         "
       >
         <nuxt-link :to="'/'">
-          <Logo />
+          <LogoShort />
         </nuxt-link>
 
         <div class="hidden md:flex flex-row gap-x-4 font-inter">
