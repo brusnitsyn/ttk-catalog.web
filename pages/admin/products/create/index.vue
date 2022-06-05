@@ -1,129 +1,113 @@
 <template>
   <!-- <Loading v-if="$fetchState.pending" /> -->
-  <div class="pt-6 px-4">
-    <div class="flex flex-col md:flex-row justify-between">
-      <h1 class="text-2xl font-semibold">Добавить товар</h1>
-      <div class="py-2 md:py-0">
-        <el-link @click="dialogBrandVisible = !dialogBrandVisible" type="primary" icon="el-icon-plus">
-          Производитель</el-link>
-        <el-link @click="dialogMachineTypeVisible = !dialogMachineTypeVisible" type="primary" icon="el-icon-plus">Тип
-        </el-link>
-        <el-link @click="dialogMachineVisible = !dialogMachineVisible" type="primary" icon="el-icon-plus">Техника
-        </el-link>
-        <el-link @click="dialogCreatePropVisible = !dialogCreatePropVisible" type="primary" icon="el-icon-plus">
-          Свойство
-        </el-link>
-      </div>
+  <el-container direction="vertical" class="pt-6 px-4">
+    <el-page-header @back="$router.go(-1)" class="text-2xl font-semibold" title="Назад" content="Добавить товар" />
+    <div class="py-2 md:py-0">
+      <el-link @click="dialogBrandVisible = !dialogBrandVisible" type="primary" icon="el-icon-plus">
+        Производитель</el-link>
+      <el-link @click="dialogMachineTypeVisible = !dialogMachineTypeVisible" type="primary" icon="el-icon-plus">Тип
+      </el-link>
+      <el-link @click="dialogMachineVisible = !dialogMachineVisible" type="primary" icon="el-icon-plus">Техника
+      </el-link>
+      <el-link @click="dialogCreatePropVisible = !dialogCreatePropVisible" type="primary" icon="el-icon-plus">
+        Свойство
+      </el-link>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 md:gap-x-2 pb-4">
-      <div class="flex flex-col gap-y-2">
-        <div class="grid grid-cols-1 lg:grid-cols-6 gap-y-2 md:gap-x-2">
-          <div class="col-span-6 lg:col-span-3">
-            <label class="text-sm">Наименование</label>
-            <el-input placeholder="Крыло отвала" v-model="tempProduct.name" />
+    <el-form ref="createForm" :model="form" :rules="rules" class="pt-6 max-w-md">
+      <el-form-item label="Наименование" prop="name">
+        <el-input type="text" v-model="form.name" />
+      </el-form-item>
+      <el-form-item label="Артикул" prop="article">
+        <el-input type="text" v-model="form.article" />
+      </el-form-item>
+      <el-form-item label="Производитель" prop="brandId">
+        <el-select v-model="form.brandId" filterable class="w-full" @change="selectBrand" no-data-text="Нет данных"
+          no-match-text="Производитель не найден" placeholder="Выберите производителя">
+          <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Тип техники" prop="typeId">
+        <el-select v-model="form.typeId" :disabled="!(form.brandId != null)" filterable @change="selectMachineType"
+          class="w-full" no-data-text="Нет данных" no-match-text="Тип техники не найден"
+          placeholder="Выберите тип техники">
+          <el-option v-for="item in machineTypesForBrand" :key="item.id" :label="item.name" :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Техника" prop="machines">
+        <el-select v-model="form.machines" :disabled="!(form.typeId != null)" filterable class="w-full" multiple
+          value-key="id" no-data-text="Нет данных" no-match-text="Техника не найдена" placeholder="Выберите технику">
+          <el-option v-for="item in machines" :key="item.id" :label="item.name" :value="item">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Категория" prop="categoryId">
+        <el-select v-model="form.categoryId" filterable class="w-full" no-data-text="Нет данных"
+          no-match-text="Категории не найдены" placeholder="Выберите категорию">
+          <el-option v-for="item in categories" :key="item.id" :label="item.name" :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Цена" prop="actualPrice">
+        <el-input v-model="form.actualPrice" type="number" class="w-full" placeholder="Введите цену" />
+      </el-form-item>
+      <el-form-item label="Цена распродажи" prop="discountPrice">
+        <el-input v-model="form.discountPrice" :disabled="!(form.categoryId == 3)" type="number" class="w-full"
+          placeholder="Введите цену распродажи" />
+      </el-form-item>
+      <el-form-item label="Описание" prop="description">
+        <el-input type="textarea" :rows="3" placeholder="Данное поле не обязательное" v-model="form.description" />
+      </el-form-item>
+      <el-form-item label="Дополнительно">
+        <div class="bg-white md:px-3 py-2 rounded-md">
+          <div class="flex justify-between items-center">
+            <h2>Свойства</h2>
+            <el-button type="text" @click="dialogPropertiesShow = !dialogPropertiesShow">
+              Добавить свойство
+            </el-button>
           </div>
-          <div class="col-span-6 lg:col-span-3">
-            <label class="text-sm">Артикул</label>
-            <el-input placeholder="РЗЗ.65.01.002" v-model="tempProduct.article" />
-          </div>
-          <div class="col-span-6 lg:col-span-2">
-            <label class="text-sm">Производитель</label>
-            <el-select v-model="tempProduct.brandId" filterable class="w-full" @change="selectBrand"
-              no-data-text="Нет данных" no-match-text="Производитель не найден" placeholder="Выберите производителя">
-              <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item.id">
-              </el-option>
-            </el-select>
-          </div>
-          <div class="col-span-6 lg:col-span-2">
-            <label class="text-sm">Тип техники</label>
-            <el-select v-model="tempProduct.typeId" :disabled="!(tempProduct.brandId != null)" filterable
-              @change="selectMachineType" class="w-full" no-data-text="Нет данных" no-match-text="Тип техники не найден"
-              placeholder="Выберите тип техники">
-              <el-option v-for="item in machineTypesForBrand" :key="item.id" :label="item.name" :value="item.id">
-              </el-option>
-            </el-select>
-          </div>
-          <div class="col-span-6 lg:col-span-2">
-            <label class="text-sm">Техника</label>
-            <el-select v-model="tempProduct.machines" :disabled="!(tempProduct.typeId != null)" filterable
-              class="w-full" multiple value-key="id" no-data-text="Нет данных" no-match-text="Техника не найдена"
-              placeholder="Выберите технику">
-              <el-option v-for="item in machines" :key="item.id" :label="item.name" :value="item">
-              </el-option>
-            </el-select>
-          </div>
-          <div class="col-span-6 lg:col-span-2">
-            <label class="text-sm">Категория</label>
-            <el-select v-model="tempProduct.categoryId" filterable class="w-full" no-data-text="Нет данных"
-              no-match-text="Категории не найдены" placeholder="Выберите категорию">
-              <el-option v-for="item in categories" :key="item.id" :label="item.name" :value="item.id">
-              </el-option>
-            </el-select>
-          </div>
-          <div class="col-span-6 lg:col-span-2">
-            <label class="text-sm">Цена</label>
-            <el-input v-model="tempProduct.actualPrice" type="number" class="w-full" placeholder="Введите цену">
-            </el-input>
-          </div>
-          <div class="col-span-6 lg:col-span-2">
-            <label class="text-sm">Цена распродажи</label>
-            <el-input v-model="tempProduct.discountPrice" :disabled="!(tempProduct.categoryId == 3)" type="number"
-              class="w-full" placeholder="Введите цену распродажи">
-            </el-input>
-          </div>
-          <div class="col-span-6">
-            <label class="text-sm">Описание</label>
-            <el-input type="textarea" :rows="3" placeholder="Данное поле не обязательное"
-              v-model="tempProduct.description">
-            </el-input>
-          </div>
-        </div>
-      </div>
-      <div class="bg-white md:px-3 py-2 rounded-md">
-        <div class="flex justify-between items-center">
-          <h2>Свойства</h2>
-          <el-button type="text" @click="dialogPropertiesShow = !dialogPropertiesShow">
-            Добавить свойство
-          </el-button>
-        </div>
-        <ol v-if="product.properties.length" class="pt-2 space-y-0.5">
-          <li v-for="prop in product.properties" :key="prop.id">
-            <div class="flex flex-row justify-between">
-              <span class="font-inter text-sm">{{ prop.property.name }}</span>
-              <div class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"></div>
-              <div class="flex gap-x-1">
-                <span class="font-inter text-sm font-semibold">
-                  {{ prop.value }}
-                </span>
-                <span v-if="prop.isDimension" class="font-inter text-sm font-semibold">
-                  {{ prop.dimension }}
-                </span>
-                <el-link type="danger" @click="handleRemoveProperty(prop)">
-                  Удалить
-                </el-link>
+          <ol v-if="product.properties.length" class="pt-2 space-y-0.5">
+            <li v-for="prop in product.properties" :key="prop.id">
+              <div class="flex flex-row justify-between">
+                <span class="font-inter text-sm">{{ prop.property.name }}</span>
+                <div class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"></div>
+                <div class="flex gap-x-1">
+                  <span class="font-inter text-sm font-semibold">
+                    {{ prop.value }}
+                  </span>
+                  <span v-if="prop.isDimension" class="font-inter text-sm font-semibold">
+                    {{ prop.dimension }}
+                  </span>
+                  <el-link type="danger" @click="handleRemoveProperty(prop)">
+                    Удалить
+                  </el-link>
+                </div>
               </div>
-            </div>
-          </li>
-        </ol>
-        <h2 class="pt-3 pb-1">Изображения</h2>
-        <el-upload action=" " name="images" ref="uploaderProductImages" class="mb-3" list-type="picture-card"
-          :on-change="onChangeUploaderProductImages" :multiple="true" :auto-upload="false"
-          :file-list="tempProduct.images">
-          <i slot="default" class="el-icon-plus"></i>
-          <div slot="file" slot-scope="{ file }">
-            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-            <span class="el-upload-list__item-actions">
-              <span class="el-upload-list__item-delete" @click="handleRemoveProductImage(file)">
-                <i class="el-icon-delete"></i>
+            </li>
+          </ol>
+          <h2 class="pt-3 pb-1">Изображения</h2>
+          <el-upload action=" " name="images" ref="uploaderProductImages" class="mb-3" list-type="picture-card"
+            :on-change="onChangeUploaderProductImages" :multiple="true" :auto-upload="false"
+            :file-list="tempProduct.images">
+            <i slot="default" class="el-icon-plus"></i>
+            <div slot="file" slot-scope="{ file }">
+              <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+              <span class="el-upload-list__item-actions">
+                <span class="el-upload-list__item-delete" @click="handleRemoveProductImage(file)">
+                  <i class="el-icon-delete"></i>
+                </span>
               </span>
-            </span>
-          </div>
-        </el-upload>
-      </div>
-    </div>
-    <el-button type="primary" @click="sendDataProductToUpload">
-      Добавить
-    </el-button>
+            </div>
+          </el-upload>
+        </div>
+      </el-form-item>
+
+      <el-form-item class="pt-3">
+        <el-button type="primary" @click="submitForm('createForm')">Добавить</el-button>
+        <el-button @click="resetForm('createForm')">Сбросить</el-button>
+      </el-form-item>
+    </el-form>
 
     <!-- Brand dialog -->
     <el-dialog title="Добавить производителя" :visible.sync="dialogBrandVisible" width="80%">
@@ -242,7 +226,8 @@
         </el-button>
       </span>
     </el-dialog>
-  </div>
+
+  </el-container>
 </template>
 
 <script>
@@ -273,7 +258,7 @@ export default {
         dimension: '',
         property: {},
       },
-      tempProduct: {
+      form: {
         images: [],
         machines: [],
         categoryId: 1
