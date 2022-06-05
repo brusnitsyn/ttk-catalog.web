@@ -11,7 +11,7 @@
               pointer-events-auto
               max-h-screen
               sticky
-              top-[82px]
+              top-[76px]
               w-60
             ">
             <div class="
@@ -40,7 +40,7 @@
             </nuxt-link>
           </div>
           <ProductNoProductsCard v-else class="grow" />
-          <div v-if="pagination.lastPage > 1" class="flex justify-center">
+          <div v-if="pagination.lastPage > 1" class="flex justify-center mb-2">
             <el-pagination :page-size.sync="pagination.perPage" background :pager-count="pagination.perPage"
               @prev-click="paginationPrevClick" @next-click="paginationNextClick"
               @current-change="paginationCurrentChange" layout="prev, pager, next" :total="pagination.total">

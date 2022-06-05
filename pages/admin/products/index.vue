@@ -31,7 +31,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="flex justify-center pt-2">
+    <div class="flex justify-center pt-2 mb-2">
       <el-pagination
         v-if="pagination.lastPage > 1"
         :page-size.sync="pagination.perPage"

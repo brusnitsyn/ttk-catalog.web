@@ -2,7 +2,7 @@
   <Loading v-if="$fetchState.pending" />
   <Container v-else class="pt-4 md:pt-0 ">
     <div class="py-4">
-      <button @click="$router.go(-1)" class="cursor-pointer text-black hover:text-orange-400 font-medium">
+      <!-- <button @click="$router.go(-1)" class="cursor-pointer text-black hover:text-orange-400 font-medium">
         <div class="flex items-center gap-x-1">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -12,25 +12,40 @@
 
           Назад
         </div>
-      </button>
+      </button> -->
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/' }">Главная</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/catalog' }">Каталог</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ product.name }}</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
     <div class="flex flex-col lg:flex-row gap-x-24 pb-3">
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
         <div class="bg-gray-200 rounded-xl">
-          <div class="flex items-center justify-center py-9 px-9">
-            <img :src="image" class="object-center object-cover h-full max-h-[300px]" :alt="product.name" />
+          <div class="flex items-center justify-center py-9 ">
+            <swiper v-if="product.images.length > 1" class="swiper gallery-top" :options="swiperOptionTop"
+              ref="swiperTop">
+              <swiper-slide class="swiper-slide" v-for="image in product.images" :key="image.id">
+                <img :src="image.url" :alt="product.name" class="py-3 h-[300px] max-h-[300px] mx-auto swiper-lazy" />
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </swiper-slide>
+            </swiper>
+            <img v-else-if="product.images.length === 1" :src="product.images[0].url"
+              class="object-center object-cover h-[300px] max-h-[300px]" :alt="product.name" />
+            <img v-else src="/img/no-finded-image.png" class="object-center object-cover h-[300px] max-h-[300px]"
+              :alt="product.name" />
           </div>
         </div>
-        <client-only>
-          <swiper class="w-full" :options="productCarouserSwiperOptions" v-if="product.images.length > 1">
-            <swiper-slide v-for="image in product.images" :key="image.id">
-              <div class="bg-gray-200 rounded-xl flex justify-center">
-                <img :src="image.url" :alt="product.name" loading="lazy" @click="selectImage(image.url)"
-                  class="py-3 w-20" />
-              </div>
-            </swiper-slide>
-          </swiper>
-        </client-only>
+
+        <swiper class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs" v-if="product.images.length > 1" ref="swiperThumbs">
+          <swiper-slide v-for="image in product.images" :key="image.id" class="swiper-slide">
+            <div class="bg-gray-200 rounded-xl flex justify-center">
+              <img :src="image.url" :alt="product.name" class="py-3 h-24 max-h-[96px] swiper-lazy" />
+              <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </div>
+          </swiper-slide>
+        </swiper>
+
       </div>
       <div class="flex flex-col flex-grow px-2 py-1">
         <div class="flex" v-if="product.category && product.category.id != 1">
@@ -114,11 +129,46 @@
               </span>
             </div>
           </el-collapse-item>
+          <el-collapse-item v-if="product.description" title="Описание">
+            <span class="font-inter">
+              {{ product.description }}
+            </span>
+          </el-collapse-item>
         </el-collapse>
       </div>
     </div>
   </Container>
 </template>
+
+<style lang="scss" scoped>
+::v-deep .swiper {
+  .swiper-slide {
+    background-size: cover;
+    background-position: center;
+  }
+
+  &.gallery-top {
+    height: 80%;
+    width: 100%;
+  }
+
+  &.gallery-thumbs {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 0;
+  }
+
+  &.gallery-thumbs .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+  }
+
+  &.gallery-thumbs .swiper-slide-active {
+    opacity: 1;
+  }
+}
+</style>
 
 <script>
 import { mapGetters } from 'vuex'
@@ -129,10 +179,26 @@ export default {
     return {
       title: '',
       image: '',
-      productCarouserSwiperOptions: {
-        slidesPerView: 3,
+      swiperOptionTop: {
+        lazy: true,
+        loop: true,
+        loopedSlides: 5, // looped slides should be the same
         centeredSlides: true,
-        spaceBetween: 16,
+        spaceBetween: 10,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      },
+      swiperOptionThumbs: {
+        lazy: true,
+        loop: true,
+        loopedSlides: 5, // looped slides should be the same
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 3,
+        touchRatio: 0.2,
+        slideToClickedSlide: true
       },
       productSelectCount: 1,
       startPrice: 0,
@@ -157,9 +223,6 @@ export default {
     }),
   },
   methods: {
-    selectImage(image) {
-      this.image = image
-    },
     handleChange(value) {
       if (value === null || typeof value === 'undefined') {
         this.productSelectCount = 1
@@ -174,16 +237,30 @@ export default {
     )
     this.productSelectCount = 1
 
-    if (this.product.images.length > 0)
-      this.selectImage(this.product.images[0].url)
-    else this.selectImage('/img/no-finded-image.png')
     if (this.product.discountPrice) this.startPrice = this.product.discountPrice
     else this.startPrice = this.product.actualPrice
 
     this.calculatePrice = this.startPrice
+
+    // this.$nextTick(() => {
+    //   const swiperTop = this.$refs.swiperTop
+    //   const swiperThumbs = this.$refs.$swiperThumbs
+
+    //   swiperTop.swiper.controller.control = swiperThumbs.swiper
+    //   swiperThumbs.swiper.controller.control = swiperTop.swiper
+    // })
   },
-  activated() {
-    this.$fetch()
+  async activated() {
+    await this.$fetch()
+    this.$nextTick(() => {
+      const swiperTop = this.$refs.swiperTop.$swiper
+      const swiperThumbs = this.$refs.swiperThumbs.$swiper
+      swiperTop.controller.control = swiperThumbs
+      swiperThumbs.controller.control = swiperTop
+    })
   },
+  updated() {
+
+  }
 }
 </script>
