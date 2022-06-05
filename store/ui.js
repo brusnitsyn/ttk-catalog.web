@@ -3,14 +3,14 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setOpenMobileMenu(state, value) {
-    state.openMobileMenu = value
+  setOpenMobileMenu(state) {
+    state.openMobileMenu = !state.openMobileMenu
   },
 }
 
 export const actions = {
-  async setOpenMobileMenu({ commit }, value) {
-    await commit('setOpenMobileMenu', value)
+  async setOpenMobileMenu({ commit }) {
+    await commit('setOpenMobileMenu')
   },
 }
 

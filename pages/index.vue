@@ -3,21 +3,14 @@
   <div v-else>
     <section class="w-full lg:mx-auto lg:max-w-7xl lg:px-4">
       <client-only>
-        <swiper
-          :options="bannersOptions"
-          class="rounded-none lg:rounded-lg h-72 lg:h-[420px]"
-        >
+        <swiper :options="bannersOptions" class="rounded-none lg:rounded-lg h-72 lg:h-[420px]">
           <swiper-slide v-for="banner in banners" :key="banner.id">
-            <div
-              class="h-full"
-              :style="{
-                backgroundImage: `url(${banner.image.url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'top',
-              }"
-            >
-              <div
-                class="
+            <div class="h-full" :style="{
+              backgroundImage: `url(${banner.image.url})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'top',
+            }">
+              <div class="
                   flex flex-col
                   h-full
                   justify-end
@@ -25,29 +18,29 @@
                   px-3.5
                   py-2.5
                   lg:gap-y-4 lg:px-5 lg:py-4
-                "
-              >
-                <span
-                  class="
+                ">
+                <span class="
                     font-inter
                     text-xl
-                    lg:text-3xl
+                    lg:text-2xl
                     font-bold
                     uppercase
                     text-white
                     md:w-[380px]
                     lg:w-[420px]
-                  "
-                >
+                    pb-2
+                    lg:pb-0
+                  ">
                   {{ banner.header }}
                 </span>
-                <el-link
-                  :href="banner.url"
-                  type="primary"
-                  class="font-inter text-xl font-bold"
-                >
-                  ПОДРОБНЕЕ
-                </el-link>
+                <a :href="banner.url">
+                  <el-button type="primary" size="small">
+                    ПОДРОБНЕЕ
+                  </el-button>
+                </a>
+                <!-- <el-link :href="banner.url" type="info" class="font-inter text-xl font-bold">
+
+                </el-link> -->
               </div>
             </div>
           </swiper-slide>
@@ -60,7 +53,7 @@
         <client-only>
           <swiper :options="swiperOptions">
             <swiper-slide v-for="product in newProducts" :key="product.id">
-              <nuxt-link :to="'/products/' + product.id">
+              <nuxt-link :to="'catalog/product?id=' + product.id">
                 <LazyProductCard :product="product" />
               </nuxt-link>
             </swiper-slide>
@@ -74,7 +67,7 @@
         <client-only>
           <swiper :options="swiperOptions">
             <swiper-slide v-for="product in saleProducts" :key="product.id">
-              <nuxt-link :to="'/products/' + product.id">
+              <nuxt-link :to="'catalog/product?id=' + product.id">
                 <LazyProductCard :product="product" />
               </nuxt-link>
             </swiper-slide>

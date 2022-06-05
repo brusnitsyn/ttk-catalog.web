@@ -1,6 +1,6 @@
 <template>
   <Loading v-if="$fetchState.pending" />
-  <Container v-else class="flex flex-col">
+  <Container v-else class="flex flex-col pt-4 md:pt-0">
     <div class="md:flex md:gap-x-4">
       <aside class="fixed z-10 md:z-0 md:static">
         <div class="h-full overflow-auto pointer-events-none md:overflow-visible">
@@ -35,7 +35,7 @@
       <div class="w-full min-w-0 md:static md:max-h-full md:overflow-visible">
         <div class="flex flex-col">
           <div v-if="products.length" class="grow grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
-            <nuxt-link v-for="product in products" :key="product.id" :to="'/products/' + product.id">
+            <nuxt-link v-for="product in products" :key="product.id" :to="'/catalog/product?id=' + product.id">
               <LazyProductCard :product="product" />
             </nuxt-link>
           </div>

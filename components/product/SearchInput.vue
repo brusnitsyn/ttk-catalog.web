@@ -1,5 +1,5 @@
 <template>
-  <el-input @input="handleSearch" @keyup.enter="goPageResult" placeholder="Поиск товара" v-model="search"
+  <el-input @input="handleSearch" @keyup.enter.native="goPageResult" placeholder="Поиск товара" v-model="search"
     class="input-with-select">
     <el-button slot="append" icon="el-icon-search"></el-button>
   </el-input>
@@ -66,7 +66,7 @@ export default {
       this.$store.dispatch('products/fetchProductsByFilter', filter)
     }, 500),
     goPageResult() {
-      this.$router.push('/')
+      this.$router.push('/catalog')
     }
   },
 }

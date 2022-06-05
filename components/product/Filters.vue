@@ -92,8 +92,9 @@ export default {
 }
 </script>
 
-<style>
-.el-collapse {
-  border-top: 0px !important;
+<style lang="scss" scoped>
+::v-deep .el-collapse {
+  border-top: 0px;
+  border-bottom: 0px;
 }
 </style>
