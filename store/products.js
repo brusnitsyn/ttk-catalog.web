@@ -173,9 +173,9 @@ export const actions = {
     product.discountPrice
       ? sendData.append('discountPrice', product.discountPrice)
       : sendData.append('discountPrice', '')
-    sendData.append('brandId', product.brandId)
-    sendData.append('typeId', product.typeId)
-    sendData.append('categoryId', product.categoryId)
+    sendData.append('brand', JSON.stringify(product.brand))
+    sendData.append('type', JSON.stringify(product.type))
+    sendData.append('category', JSON.stringify(product.category))
 
     product.images.forEach((img) => {
       sendData.append('images[]', img.raw)
@@ -191,6 +191,36 @@ export const actions = {
     })
     const result = await data
     await commit('addProduct', result.data.data)
+  },
+  async updateSingleProduct({ commit, state }, product) {
+    const sendData = new FormData()
+
+    sendData.append('id', product.id)
+    sendData.append('name', product.name)
+    sendData.append('article', product.article)
+    sendData.append('actualPrice', product.actualPrice)
+    product.discountPrice
+      ? sendData.append('discountPrice', product.discountPrice)
+      : sendData.append('discountPrice', '')
+    sendData.append('brand', JSON.stringify(product.brand))
+    sendData.append('type', JSON.stringify(product.type))
+    sendData.append('category', JSON.stringify(product.category))
+
+    product.images.forEach((img) => {
+      sendData.append('images[]', img.raw)
+    })
+
+    sendData.append('machines', JSON.stringify(product.machines))
+    sendData.append('properties', JSON.stringify(product.properties))
+    sendData.append('_method', 'PUT')
+
+    const data = await this.$axios.post(`/products/${product.id}`, sendData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    // const result = await data
+    // await commit('addProduct', result.data.data)
   },
 }
 

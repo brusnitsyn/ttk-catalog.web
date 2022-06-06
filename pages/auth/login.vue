@@ -7,7 +7,7 @@
       justify-center
       items-center
     ">
-    <el-form @submit="submitForm" ref="loginForm" :rules="rules" :model="form"
+    <el-form @submit.prevent="submitForm" ref="loginForm" :rules="rules" :model="form"
       class="p-5 shadow-md rounded-md border bg-white">
       <h2 class="py-4 text-center font-inter">Добро пожаловать</h2>
       <el-form-item prop="email">

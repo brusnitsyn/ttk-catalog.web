@@ -3,7 +3,7 @@
   <el-container v-else direction="vertical" class="pt-6 px-4">
     <div class="flex items-center flex-row justify-between">
       <el-page-header @back="$router.go(-1)" class="text-2xl font-semibold" title="Назад" content="Все товары" />
-      <el-button type="primary" @click="drawer = true">
+      <el-button type="primary" @click="showDrawer">
         Добавить товар
       </el-button>
     </div>
@@ -25,7 +25,8 @@
         @current-change="paginationCurrentChange" layout="prev, pager, next" :total="pagination.total">
       </el-pagination>
     </div>
-    <el-drawer title="Добавить товар" :visible.sync="drawer" :direction="rtl" custom-class="w-full lg:w-1/3" size="">
+    <el-drawer :title="drawer.title" :visible.sync="drawer.isShow" direction="rtl" custom-class="w-full lg:w-1/3"
+      size="">
       <el-form ref="createForm" :model="form" :rules="rules" class="px-5" label-position="top">
         <el-form-item label="Наименование" prop="name">
           <el-input type="text" v-model="form.name" />
@@ -33,110 +34,84 @@
         <el-form-item label="Артикул" prop="article">
           <el-input type="text" v-model="form.article" />
         </el-form-item>
-        <el-form-item label="Производитель" prop="brandId">
-          <el-select v-model="form.brandId" filterable class="w-full" @change="selectBrand" no-data-text="Нет данных"
-            no-match-text="Производитель не найден" placeholder="Выберите производителя">
-            <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item.id">
+        <el-form-item label="Производитель" prop="brand">
+          <el-select v-model="form.brand" filterable class="w-full" @change="selectBrand(form.brand.id)"
+            no-data-text="Нет данных" no-match-text="Производитель не найден" placeholder="Выберите производителя"
+            value-key="id">
+            <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Тип техники" prop="typeId">
-          <el-select v-model="form.typeId" :disabled="!(form.brandId != null)" filterable @change="selectMachineType"
-            class="w-full" no-data-text="Нет данных" no-match-text="Тип техники не найден"
-            placeholder="Выберите тип техники">
-            <el-option v-for="item in machineTypesForBrand" :key="item.id" :label="item.name" :value="item.id">
+        <el-form-item label="Тип техники" prop="type">
+          <el-select v-model="form.type" :disabled="!(form.brand != null)" filterable
+            @change="selectMachineType(form.type.id)" class="w-full" no-data-text="Нет данных"
+            no-match-text="Тип техники не найден" value-key="id" placeholder="Выберите тип техники">
+            <el-option v-for="item in machineTypesForBrand" :key="item.id" :label="item.name" :value="item">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Техника" prop="machines">
-          <el-select v-model="form.machines" :disabled="!(form.typeId != null)" filterable class="w-full" multiple
-            value-key="id" no-data-text="Нет данных" no-match-text="Техника не найдена" placeholder="Выберите технику">
-            <el-option v-for="item in machines" :key="item.id" :label="item.name" :value="item">
-            </el-option>
+          <el-select v-model="form.machines" :disabled="!(form.type)" filterable class="w-full" multiple value-key="id"
+            no-data-text="Нет данных" no-match-text="Техника не найдена" placeholder="Выберите технику">
+            <el-option v-for="item in machines" :key="item.id" :label="item.name" :value="item" />
           </el-select>
         </el-form-item>
-        <el-form-item label="Категория" prop="categoryId">
-          <el-select v-model="form.categoryId" filterable class="w-full" no-data-text="Нет данных"
-            no-match-text="Категории не найдены" placeholder="Выберите категорию">
-            <el-option v-for="item in categories" :key="item.id" :label="item.name" :value="item.id">
+        <el-form-item label="Категория" prop="category">
+          <el-select v-model="form.category" filterable class="w-full" no-data-text="Нет данных"
+            no-match-text="Категории не найдены" placeholder="Выберите категорию" value-key="id">
+            <el-option v-for="item in categories" :key="item.id" :label="item.name" :value="item">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Цена" prop="actualPrice">
           <el-input v-model="form.actualPrice" type="number" class="w-full" placeholder="Введите цену" />
         </el-form-item>
-        <el-form-item label="Цена распродажи" prop="discountPrice">
-          <el-input v-model="form.discountPrice" :disabled="!(form.categoryId == 3)" type="number" class="w-full"
+        <el-form-item v-if="form.category" label="Цена распродажи" prop="discountPrice">
+          <el-input v-model="form.discountPrice" :disabled="!(form.category.id == 3)" type="number" class="w-full"
             placeholder="Введите цену распродажи" />
         </el-form-item>
         <el-form-item label="Описание" prop="description">
           <el-input type="textarea" :rows="3" placeholder="Данное поле не обязательное" v-model="form.description" />
         </el-form-item>
         <el-form-item label="Свойства">
-          <!-- <div class="flex justify-between items-center">
-              <h2>Свойства</h2>
-              <el-button type="text" @click="dialogPropertiesShow = !dialogPropertiesShow">
-                Добавить свойство
-              </el-button>
-            </div> -->
           <ol v-if="form.properties">
             <li v-for="prop in form.properties" :key="prop.id">
-              <el-input :placeholder="Значение" v-model="prop.value">
+              <el-input placeholder="Значение" v-model="prop.value">
                 <el-select v-model="prop.property" slot="prepend" value-key="id" no-data-text="Нет данных"
                   no-match-text="Нет подходящих свойств" placeholder="Свойство" filterable class="lg:w-[140px]">
                   <el-option v-for="item in properties" :key="item.id" :label="item.name" :value="item" />
                 </el-select>
-                <!-- <el-input slot="append"></el-input> -->
               </el-input>
-              <div class="flex justify-end">
-                <el-checkbox v-model="productProperty.isDimension">
-                  Единица измерения?
-                </el-checkbox>
-                <el-input :disabled="!productProperty.isDimension" v-model="productProperty.dimension"
-                  placeholder="Единица измерения"></el-input>
+              <div class="flex justify-end py-1.5 gap-x-1.5 pb-2.5">
+                <el-input :disabled="!prop.isDimension" v-model="prop.dimension" placeholder="Единица измерения">
+                  <el-checkbox slot="prepend" v-model="prop.isDimension">
+                    Единица измерения?
+                  </el-checkbox>
+                </el-input>
               </div>
             </li>
           </ol>
-          <ol v-else>
+          <!-- <ol v-else>
             <li v-for="prop in form.properties" :key="prop.id">
-              <el-input :placeholder="Значение" v-model="prop.value">
+              <el-input placeholder="Значение" v-model="prop.value">
                 <el-select v-model="prop.property" slot="prepend" value-key="id" no-data-text="Нет данных"
                   no-match-text="Нет подходящих свойств" placeholder="Свойство" filterable class="lg:w-[140px]">
                   <el-option v-for="item in properties" :key="item.id" :label="item.name" :value="item" />
                 </el-select>
-                <!-- <el-input slot="append"></el-input> -->
               </el-input>
               <div class="flex justify-items-end">
-                <el-checkbox v-model="productProperty.isDimension">
-                  Единица измерения?
-                </el-checkbox>
-                <el-input :disabled="!productProperty.isDimension" v-model="productProperty.dimension"
-                  placeholder="Единица измерения"></el-input>
+                <el-input :disabled="!prop.isDimension" v-model="prop.dimension" placeholder="Единица измерения">
+                  <el-checkbox slot="prepend" v-model="prop.isDimension">
+                    Единица измерения?
+                  </el-checkbox>
+                </el-input>
               </div>
             </li>
-          </ol>
+          </ol> -->
 
-          <el-button type="primary" icon="el-icon-plus" class="w-1/2" @click="form.properties.push({})">Добавить
-            свойство</el-button>
-          <!-- <ol v-if="product.properties.length" class="pt-2 space-y-0.5">
-              <li v-for="prop in product.properties" :key="prop.id">
-                <div class="flex flex-row justify-between">
-                  <span class="font-inter text-sm">{{ prop.property.name }}</span>
-                  <div class="flex-grow border-b-2 border-dotted mb-1.5 mx-1.5"></div>
-                  <div class="flex gap-x-1">
-                    <span class="font-inter text-sm font-semibold">
-                      {{ prop.value }}
-                    </span>
-                    <span v-if="prop.isDimension" class="font-inter text-sm font-semibold">
-                      {{ prop.dimension }}
-                    </span>
-                    <el-link type="danger" @click="handleRemoveProperty(prop)">
-                      Удалить
-                    </el-link>
-                  </div>
-                </div>
-              </li>
-            </ol> -->
+          <el-button type="primary" icon="el-icon-plus" class="w-1/2" @click="addProperty">
+            Добавить свойство
+          </el-button>
         </el-form-item>
         <el-form-item label="Изображения">
           <el-upload action=" " name="images" ref="uploaderProductImages" class="mb-3" list-type="picture-card"
@@ -154,7 +129,8 @@
         </el-form-item>
 
         <el-form-item class="pt-3">
-          <el-button type="primary" @click="submitForm('createForm')">Добавить</el-button>
+          <el-button v-if="drawer.isNew" type="primary" @click="submitForm('createForm')">Добавить</el-button>
+          <el-button v-else type="primary" @click="updateForm('createForm')">Обновить</el-button>
           <el-button @click="resetForm('createForm')">Сбросить</el-button>
         </el-form-item>
       </el-form>
@@ -286,9 +262,9 @@ import { mapState, mapGetters } from 'vuex'
 export default {
   middleware: 'auth',
   computed: {
-    form() {
-      return Object.assign({}, this.product)
-    },
+    // form() {
+    //   return Object.assign({}, this.product)
+    // },
     ...mapGetters({
       products: 'products/getProducts',
       pagination: 'products/getPagination',
@@ -303,7 +279,11 @@ export default {
   },
   data() {
     return {
-      drawer: false,
+      drawer: {
+        title: 'Добавить товар',
+        isNew: true,
+        isShow: false
+      },
       selectedMachineType: null,
       dialogPropertiesShow: false,
       productProperty: {
@@ -318,6 +298,9 @@ export default {
         machines: [],
         properties: [],
         categoryId: 1
+      },
+      rules: {
+
       },
       machineTypesForBrand: [],
       brand: {
@@ -341,7 +324,6 @@ export default {
   },
   methods: {
     handleDelete(index, row) {
-      console.log(index, row);
       this.$confirm('Это действие удалит элемент без возможности восстановления. Продолжить?', 'Внимание', {
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',
@@ -361,6 +343,41 @@ export default {
     },
     handleEdit(product) {
       this.form = Object.assign({}, product)
+
+      if (this.form.brand.id !== null)
+        this.selectBrand(this.form.brand.id)
+      if (this.form.type)
+        this.selectMachineType(this.form.type.id)
+
+      this.drawer.title = `Редактирование - ${product.name}`
+      this.drawer.isNew = false
+      this.drawer.isShow = true
+    },
+    handleSelectionChange() { },
+    showDrawer() {
+      this.form = []
+      this.drawer.isShow = true
+    },
+    addProperty() {
+      const properties = Object.assign([], this.form.properties)
+
+      if (!properties)
+        properties = []
+
+      let index = 1
+      index += properties.length
+      let newProp = { id: index }
+
+      properties.push(newProp)
+
+      this.form.properties = properties
+    },
+
+    submitForm(form) {
+      this.$store.dispatch('products/pushSingleProduct', this.form)
+    },
+    updateForm(form) {
+      this.$store.dispatch('products/updateSingleProduct', this.form)
     },
 
     paginationPrevClick() {
@@ -403,20 +420,23 @@ export default {
     },
 
     selectMachineType(machineTypeId) {
-      this.form.machines = []
+      if (!this.form.machines)
+        this.form.machines = []
       this.$store.dispatch(
         'machines/fetchSingleMachineForMachineType',
         machineTypeId
       )
     },
 
-    handleRemoveProperty(property) {
-      this.$store.commit('products/removeProperty', property)
-    },
+    // handleRemoveProperty(property) {
+    //   this.$store.commit('products/removeProperty', property)
+    // },
     handleRemoveProductImage(file) {
-      let files = this.form.images
-      this.form.images.forEach((img, index, obj) => {
+      let files = Object.assign([], this.form.images)
+
+      files.forEach((img, index, obj) => {
         if (!img.raw) {
+          console.log(img)
           if (img.uid === file.uid) {
             files.splice(index, 1)
           }
@@ -428,13 +448,15 @@ export default {
         }
       })
 
-      this.$refs.uploaderProductImages.fileList = files
+      this.form.images = files
+      // this.$refs.uploaderProductImages.fileList = files
     },
     onChangeUploaderProductImages(file, fileList) {
-      this.form.images = []
-      fileList.forEach((file) => {
-        this.form.images.push(file)
-      })
+      let files = Object.assign([], this.form.images)
+      if (!files)
+        this.form.images = []
+      files.push(file)
+      this.form.images = files
     },
 
     createBrand() {
