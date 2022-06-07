@@ -9,7 +9,15 @@
         bg-gray-100
         rounded-lg
         select-none
+        relative
       ">
+      <div class="flex absolute left-1.5 top-1.5" v-if="product.category && product.category.id != 1">
+        <div :style="{
+          backgroundColor: product.category.color,
+        }" class="px-2.5 py-1 rounded-md text-sm">
+          {{ product.category.name }}
+        </div>
+      </div>
       <img v-if="product.images.length > 0" :src="product.images[0].url" alt=""
         class="w-full h-full lg:max-w-[128px] max-h-56 object-cover" />
       <img v-else src="/img/no-finded-image.png" alt="" class="w-full h-full lg:max-w-[128px] max-h-56 object-cover" />

@@ -87,17 +87,19 @@ export default {
     }),
   },
   methods: {
-    paginationPrevClick() {
-      this.$store.dispatch(
+    async paginationPrevClick() {
+      await this.$store.dispatch(
         'products/fetchAllProducts',
         this.pagination.links.prev
       )
+      window.scrollTo(0, 0)
     },
-    paginationNextClick() {
-      this.$store.dispatch(
+    async paginationNextClick() {
+      await this.$store.dispatch(
         'products/fetchAllProducts',
         this.pagination.links.next
       )
+      window.scrollTo(0, 0)
     },
     paginationCurrentChange(page) {
       const params = { page: page }

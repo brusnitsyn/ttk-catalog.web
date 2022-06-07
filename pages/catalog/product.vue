@@ -252,15 +252,14 @@ export default {
   },
   async activated() {
     await this.$fetch()
-    this.$nextTick(() => {
-      const swiperTop = this.$refs.swiperTop.$swiper
-      const swiperThumbs = this.$refs.swiperThumbs.$swiper
-      swiperTop.controller.control = swiperThumbs
-      swiperThumbs.controller.control = swiperTop
-    })
+    if(this.product.images > 1) {
+      this.$nextTick(() => {
+        const swiperTop = this.$refs.swiperTop.$swiper
+        const swiperThumbs = this.$refs.swiperThumbs.$swiper
+        swiperTop.controller.control = swiperThumbs
+        swiperThumbs.controller.control = swiperTop
+      })
+    }
   },
-  updated() {
-
-  }
 }
 </script>

@@ -8,10 +8,10 @@
       </el-button>
     </div>
     <el-table ref="multipleTable" :data="products" class="w-full" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" />
-      <el-table-column property="name" label="Наименование" width="200" />
-      <el-table-column property="article" label="Артикул" width="120" />
-      <el-table-column property="actualPrice" label="Стоимость" width="120" />
+      <el-table-column type="selection" />
+      <el-table-column property="name" label="Наименование" />
+      <el-table-column property="article" label="Артикул" />
+      <el-table-column property="actualPrice" label="Стоимость" />
       <el-table-column label="Действия" min-width="200">
         <template slot-scope="scope">
           <el-button type="text" @click="handleEdit(scope.row)">Редактировать</el-button>
@@ -258,6 +258,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import { deepClone } from '~/helpers';
 
 export default {
   middleware: 'auth',
@@ -342,7 +343,7 @@ export default {
       });
     },
     handleEdit(product) {
-      this.form = Object.assign({}, product)
+      this.form = deepClone(product)
 
       if (this.form.brand.id !== null)
         this.selectBrand(this.form.brand.id)
@@ -356,20 +357,17 @@ export default {
     handleSelectionChange() { },
     showDrawer() {
       this.form = []
+      this.drawer.title = "Новый товар"
+      this.drawer.isNew = true
       this.drawer.isShow = true
     },
     addProperty() {
-      const properties = Object.assign([], this.form.properties)
-
-      if (!properties)
-        properties = []
+      const properties = deepClone(this.form.properties)
 
       let index = 1
       index += properties.length
       let newProp = { id: index }
-
       properties.push(newProp)
-
       this.form.properties = properties
     },
 
@@ -380,17 +378,19 @@ export default {
       this.$store.dispatch('products/updateSingleProduct', this.form)
     },
 
-    paginationPrevClick() {
-      this.$store.dispatch(
+    async paginationPrevClick() {
+      await this.$store.dispatch(
         'products/fetchAllProducts',
         this.pagination.links.prev
       )
+      window.scrollTo(0, 0)
     },
-    paginationNextClick() {
-      this.$store.dispatch(
+    async paginationNextClick() {
+      await this.$store.dispatch(
         'products/fetchAllProducts',
         this.pagination.links.next
       )
+      window.scrollTo(0, 0)
     },
     paginationCurrentChange(page) {
       const params = { page: page }
