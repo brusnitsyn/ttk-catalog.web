@@ -1,21 +1,21 @@
 export const state = () => ({
-  openMobileMenu: false,
+  bodyScroll: false,
 })
 
 export const mutations = {
-  setOpenMobileMenu(state) {
-    state.openMobileMenu = !state.openMobileMenu
+  bodyScroll(state) {
+    state.bodyScroll = !state.bodyScroll
   },
 }
 
 export const actions = {
-  async setOpenMobileMenu({ commit }) {
-    await commit('setOpenMobileMenu')
+  async switchBodyScroll({ commit }) {
+    await commit('bodyScroll')
   },
 }
 
 export const getters = {
-  getOpenMobileMenu(state) {
-    return state.openMobileMenu
+  getSwitchBodyScroll(state) {
+    return state.bodyScroll
   },
 }

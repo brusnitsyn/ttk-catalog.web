@@ -198,6 +198,7 @@ export const actions = {
     sendData.append('id', product.id)
     sendData.append('name', product.name)
     sendData.append('article', product.article)
+    sendData.append('description', product.description)
     sendData.append('actualPrice', product.actualPrice)
     product.discountPrice
       ? sendData.append('discountPrice', product.discountPrice)

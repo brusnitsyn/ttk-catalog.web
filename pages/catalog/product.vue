@@ -2,17 +2,6 @@
   <Loading v-if="$fetchState.pending" />
   <Container v-else class="pt-4 md:pt-0 ">
     <div class="py-4">
-      <!-- <button @click="$router.go(-1)" class="cursor-pointer text-black hover:text-orange-400 font-medium">
-        <div class="flex items-center gap-x-1">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M16.0303 4.46967C16.2966 4.73594 16.3208 5.1526 16.1029 5.44621L16.0303 5.53033L9.561 12L16.0303 18.4697C16.2966 18.7359 16.3208 19.1526 16.1029 19.4462L16.0303 19.5303C15.7641 19.7966 15.3474 19.8208 15.0538 19.6029L14.9697 19.5303L7.96967 12.5303C7.7034 12.2641 7.6792 11.8474 7.89705 11.5538L7.96967 11.4697L14.9697 4.46967C15.2626 4.17678 15.7374 4.17678 16.0303 4.46967Z"
-              fill="currentColor" />
-          </svg>
-
-          Назад
-        </div>
-      </button> -->
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">Главная</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/catalog' }">Каталог</el-breadcrumb-item>
@@ -21,7 +10,7 @@
     </div>
     <div class="flex flex-col lg:flex-row gap-x-24 pb-3">
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
-        <div class="bg-gray-200 rounded-xl">
+        <div class="bg-gray-200 rounded-[4px]">
           <div class="flex items-center justify-center py-9 ">
             <swiper v-if="product.images.length > 1" class="swiper gallery-top" :options="swiperOptionTop"
               ref="swiperTop">
@@ -39,7 +28,7 @@
 
         <swiper class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs" v-if="product.images.length > 1" ref="swiperThumbs">
           <swiper-slide v-for="image in product.images" :key="image.id" class="swiper-slide">
-            <div class="bg-gray-200 rounded-xl flex justify-center">
+            <div class="bg-gray-200 rounded-[4px] flex justify-center">
               <img :src="image.url" :alt="product.name" class="py-3 h-24 max-h-[96px] swiper-lazy" />
               <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             </div>
@@ -51,7 +40,7 @@
         <div class="flex" v-if="product.category && product.category.id != 1">
           <div :style="{
             backgroundColor: product.category.color,
-          }" class="px-4 py-2 rounded-md mb-3">
+          }" class="px-4 py-2 rounded-[4px] mb-3">
             {{ product.category.name }}
           </div>
         </div>
@@ -101,7 +90,7 @@
             </div>
           </div>
         </div>
-        <el-collapse accordion class="border px-2.5">
+        <el-collapse accordion class="border px-2.5 rounded-[4px]">
           <el-collapse-item v-if="product.properties.length > 0" title="Характеристики">
             <ol class="space-y-2 md:space-y-0.5">
               <li v-for="prop in product.properties" :key="prop.id">

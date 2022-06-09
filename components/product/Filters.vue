@@ -1,7 +1,7 @@
 <template>
+  <!-- <el-drawer direction="rtl"> -->
   <div class="flex flex-col items-stretch border rounded-md">
-    <!-- <h4 class="font-inter font-semibold pt-2 px-2">Фильтры</h4> -->
-    <el-collapse :class="{'mb-2' : Object.entries(filters).length}">
+    <el-collapse :class="{ 'mb-2': Object.entries(filters).length }">
       <el-collapse-item title="Производитель" name="1" class="text-left px-2">
         <div class="flex flex-col justify-start items-start">
           <el-radio-group v-model="filters.brand">
@@ -15,19 +15,13 @@
         <div class="flex flex-col justify-start items-start">
           <el-radio-group v-model="filters.type">
             <div class="flex flex-col gap-y-2.5 px-1">
-              <el-radio v-for="machineType in machineTypes" :key="machineType.id" :label="machineType.id">{{ machineType.name }}</el-radio>
+              <el-radio v-for="machineType in machineTypes" :key="machineType.id" :label="machineType.id">
+                {{ machineType.name }}
+              </el-radio>
             </div>
           </el-radio-group>
         </div>
       </el-collapse-item>
-      <!-- <el-collapse-item title="Техника" name="3" class="text-left px-2">
-        <div class="flex flex-col justify-start items-start">
-          <el-link :underline="false" v-for="machine in machinesForType" :key="machine.id"
-            @click="filters.machine = machine.id">
-            {{ machine.name }}
-          </el-link>
-        </div>
-      </el-collapse-item> -->
     </el-collapse>
 
     <div v-if="Object.entries(filters).length" class="flex flex-col gap-y-2 px-2 pb-2">
@@ -43,6 +37,7 @@
       </div>
     </div>
   </div>
+  <!-- </el-drawer> -->
 </template>
 
 <script>

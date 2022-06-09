@@ -35,10 +35,6 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: ['@nuxt/postcss8', '@nuxtjs/moment', '@nuxt/image'],
 
-  // serverMiddleware: {
-  //   '/laravelimg': '~/server/middleware/laravelimg.js',
-  // },
-
   // image: {
   //   domains: ['http://127.0.0.1:8000/'],
   //   baseURL: 'http://127.0.0.1:8000/',
