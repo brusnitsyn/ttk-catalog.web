@@ -27,6 +27,7 @@ export default {
   plugins: [
     { src: '@/plugins/VueAwesomeSwiper', mode: 'client' },
     { src: '@/plugins/element-ui' },
+    { src: '@/plugins/vClickOutside' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
