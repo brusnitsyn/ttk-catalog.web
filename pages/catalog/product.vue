@@ -12,28 +12,30 @@
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
         <div class="bg-gray-200 rounded-[4px]">
           <div class="flex items-center justify-center py-9 ">
-            <swiper v-if="product.images.length > 1" class="swiper gallery-top" :options="swiperOptionTop"
-              ref="swiperTop">
-              <swiper-slide class="swiper-slide" v-for="image in product.images" :key="image.id">
-                <img :src="image.url" :alt="product.name" class="py-3 h-[300px] max-h-[300px] mx-auto swiper-lazy" />
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </swiper-slide>
-            </swiper>
+            <client-only v-if="product.images.length > 1">
+              <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
+                <swiper-slide class="swiper-slide" v-for="image in product.images" :key="image.id">
+                  <img :src="image.url" :alt="product.name" class="py-3 h-[300px] mx-auto" />
+                </swiper-slide>
+              </swiper>
+            </client-only>
             <img v-else-if="product.images.length === 1" :src="product.images[0].url"
-              class="object-center object-cover h-[300px] max-h-[300px]" :alt="product.name" />
-            <img v-else src="/img/no-finded-image.png" class="object-center object-cover h-[300px] max-h-[300px]"
+              class="object-center object-cover h-[300px]" :alt="product.name" />
+            <img v-else src="/img/no-finded-image.png" class="object-center object-cover h-[300px]"
               :alt="product.name" />
           </div>
         </div>
 
-        <swiper class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs" v-if="product.images.length > 1" ref="swiperThumbs">
-          <swiper-slide v-for="image in product.images" :key="image.id" class="swiper-slide">
-            <div class="bg-gray-200 rounded-[4px] flex justify-center">
-              <img :src="image.url" :alt="product.name" class="py-3 h-24 max-h-[96px] swiper-lazy" />
-              <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-            </div>
-          </swiper-slide>
-        </swiper>
+        <client-only>
+          <swiper class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs" v-if="product.images.length > 1"
+            ref="swiperThumbs">
+            <swiper-slide v-for="image in product.images" :key="image.id" class="swiper-slide">
+              <div class="bg-gray-200 rounded-[4px] flex justify-center">
+                <img :src="image.url" :alt="product.name" class="py-3 h-24 max-h-[96px]" />
+              </div>
+            </swiper-slide>
+          </swiper>
+        </client-only>
 
       </div>
       <div class="flex flex-col flex-grow px-2 py-1">
@@ -81,17 +83,14 @@
               <el-button v-if="product.forSale" type="primary">
                 Купить
               </el-button>
-              <el-popover v-else placement="top" width="258" trigger="hover"
-                content="Пожалуйста, уточните наличие и стоимость у менеджера.">
-                <el-button slot="reference" type="primary" class="w-full">
-                  +7 (914)-043-89-22
-                </el-button>
-              </el-popover>
+              <el-button type="primary" @click="dialogVisible = !dialogVisible">
+                Купить
+              </el-button>
             </div>
           </div>
         </div>
-        <el-collapse accordion class="border px-2.5 rounded-[4px]">
-          <el-collapse-item v-if="product.properties.length > 0" title="Характеристики">
+        <el-collapse accordion class="border px-2.5 rounded-[4px]" v-model="activeCollapseName">
+          <el-collapse-item v-if="product.properties.length > 0" title="Характеристики" name="1">
             <ol class="space-y-2 md:space-y-0.5">
               <li v-for="prop in product.properties" :key="prop.id">
                 <div class="flex flex-col md:flex-row justify-between items-baseline">
@@ -111,19 +110,27 @@
               </li>
             </ol>
           </el-collapse-item>
-          <el-collapse-item v-if="product.machines.length > 0" title="Применяемость">
+          <el-collapse-item v-if="product.machines.length > 0" title="Применяемость" name="2">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-1">
               <span v-for="machine in product.machines" :key="machine.id" class="font-inter">
                 {{ machine.name }}
               </span>
             </div>
           </el-collapse-item>
-          <el-collapse-item v-if="product.description" title="Описание">
+          <el-collapse-item v-if="product.description" title="Описание" name="3">
             <span class="font-inter">
               {{ product.description }}
             </span>
           </el-collapse-item>
         </el-collapse>
+        <el-dialog :title="`Заказать ${product.name}`" :visible.sync="dialogVisible" width=""
+          custom-class="w-[80%] lg:w-1/2">
+          <span>Свяжитесь с нашими менеджерами для уточнения цен и наличия.</span>
+          <div class="flex gap-x-3">
+            <a href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Валерий)</a>
+            <a href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Андрей)</a>
+          </div>
+        </el-dialog>
       </div>
     </div>
   </Container>
@@ -168,6 +175,7 @@ export default {
     return {
       title: '',
       image: '',
+      dialogVisible: false,
       swiperOptionTop: {
         lazy: true,
         loop: true,
@@ -192,6 +200,7 @@ export default {
       productSelectCount: 1,
       startPrice: 0,
       calculatePrice: 0,
+      activeCollapseName: ['1']
     }
   },
   head() {
@@ -230,24 +239,17 @@ export default {
     else this.startPrice = this.product.actualPrice
 
     this.calculatePrice = this.startPrice
-
-    // this.$nextTick(() => {
-    //   const swiperTop = this.$refs.swiperTop
-    //   const swiperThumbs = this.$refs.$swiperThumbs
-
-    //   swiperTop.swiper.controller.control = swiperThumbs.swiper
-    //   swiperThumbs.swiper.controller.control = swiperTop.swiper
-    // })
   },
   async activated() {
     await this.$fetch()
-    if(this.product.images > 1) {
+    if (this.product.images && this.product.images.length > 1) {
       this.$nextTick(() => {
-        const swiperTop = this.$refs.swiperTop.$swiper
-        const swiperThumbs = this.$refs.swiperThumbs.$swiper
+        const swiperTop = this.$refs.swiperTop.$el.swiper
+        const swiperThumbs = this.$refs.swiperThumbs.$el.swiper
         swiperTop.controller.control = swiperThumbs
         swiperThumbs.controller.control = swiperTop
       })
+      console.log('swipers attached')
     }
   },
 }

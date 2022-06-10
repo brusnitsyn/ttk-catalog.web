@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full">
+  <div>
     <button v-if="!isOpenMobileMenu" @click="setOpenMobileMenu"
       class="fixed right-4 bottom-4 rounded-full p-4 bg-[#F59E0B] z-50 shadow-2xl">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -8,70 +8,58 @@
           fill="#212121" />
       </svg>
     </button>
+    <div v-if="isOpenMobileMenu"
+      class="bg-[#F59E0B] bg-opacity-5 backdrop-blur fixed bottom-0 left-0 right-0 top-0 z-30" />
 
-    <div :class="this.isOpenMobileMenu ? 'w-full fixed bottom-0 left-0 right-0 top-0 z-30 bg-[#F59E0B] bg-opacity-5 backdrop-blur' : ''">
-      <transition name="menu">
-        <div v-if="isOpenMobileMenu" v-click-outside="setOpenMobileMenu"
-          class="bg-gray-100 border-gray-200 border m-4 p-6 rounded-[4px] bottom-0 right-0 left-0 fixed z-40 font-inter">
-          <ProductSearchInput class="mb-4" />
-          <ul class="flex flex-col w-full">
-            <!-- Items Section -->
-            <li class="hover:bg-primary rounded-lg">
-              <NuxtLink class="py-2 flex flex-row justify-between items-center" :to="'/'">
-                <span class="text-[#212121]">Главная</span>
-                <!-- <span class="ml-auto text-[#212121]">11</span> -->
-              </NuxtLink>
-            </li>
-            <li class="hover:bg-primary rounded-lg">
-              <NuxtLink class="py-2 flex flex-row justify-between items-center" :to="'/catalog'">
-                <span class="text-[#212121]">Каталог</span>
-                <!-- <span class="ml-auto text-gray-400">6</span> -->
-              </NuxtLink>
-            </li>
-            <!-- <li class="hover:bg-primary rounded-lg">
-          <NuxtLink class="py-2 flex flex-row justify-between items-center" to="'/articles'">
-            <span class="text-gray-300">Статьи</span>
-            <span class="ml-auto text-gray-400">12</span>
-          </NuxtLink>
-        </li> -->
-            <!-- <li class="hover:bg-primary rounded-lg">
-              <router-link
-                class="py-2 flex flex-row justify-between items-center"
-                :to="'/products'"
-              >
-                <span class="text-gray-300">Товары</span>
-                <span class="ml-auto text-gray-400">1</span>
-              </router-link>
-            </li> -->
-          </ul>
-          <hr class="mt-2 mb-3 border-gray-200 w-full" />
-          <NuxtLink to="'/auth'" class="w-full text-[#F59E0B]">Войти</NuxtLink>
-          <hr class="mt-3 mb-2 border-gray-200 w-full" />
-          <div class="flex flex-row justify-between">
-            <button class="px-2 py-2" @click="setOpenMobileMenu">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M3.60005 3.61424C3.84413 3.37016 4.23985 3.37016 4.48393 3.61424L11.9998 11.1301L19.5156 3.61424C19.7597 3.37016 20.1554 3.37016 20.3995 3.61424C20.6436 3.85832 20.6436 4.25404 20.3995 4.49812L12.8836 12.014L20.3715 19.5019C20.6156 19.746 20.6156 20.1417 20.3715 20.3858C20.1275 20.6299 19.7317 20.6299 19.4877 20.3858L11.9998 12.8979L4.51188 20.3858C4.2678 20.6299 3.87207 20.6299 3.62799 20.3858C3.38392 20.1417 3.38392 19.746 3.62799 19.5019L11.1159 12.014L3.60005 4.49812C3.35597 4.25404 3.35597 3.85832 3.60005 3.61424Z"
-                  fill="#212121" />
-              </svg>
-            </button>
-          </div>
+    <transition name="menu">
+      <div v-if="isOpenMobileMenu" v-click-outside="outClick"
+        class="modal bg-gray-100 border-gray-200 border m-4 p-6 rounded-[4px] bottom-0 right-0 left-0 fixed z-40 font-inter">
+        <ProductSearchInput class="mb-4" />
+        <ul class="flex flex-col w-full">
+          <li class="hover:bg-[#F59E0B] rounded-[4px] px-2">
+            <NuxtLink class="py-2 flex flex-row justify-between items-center" :to="'/'">
+              <span class="text-[#212121]">Главная</span>
+              <!-- <span class="ml-auto text-[#212121]">11</span> -->
+            </NuxtLink>
+          </li>
+          <li class="hover:bg-[#F59E0B] rounded-[4px] px-2">
+            <NuxtLink class="py-2 flex flex-row justify-between items-center" :to="'/catalog'">
+              <span class="text-[#212121]">Каталог</span>
+              <!-- <span class="ml-auto text-gray-400">6</span> -->
+            </NuxtLink>
+          </li>
+        </ul>
+        <hr class="mt-2 mb-3 border-gray-200 w-full" />
+        <NuxtLink to="'/auth'" class="w-full text-[#F59E0B] px-2">
+          <span>
+            Войти
+          </span>
+        </NuxtLink>
+        <hr class="mt-3 mb-2 border-gray-200 w-full" />
+        <div class="flex flex-row justify-between">
+          <button class="px-2 py-2" @click="setOpenMobileMenu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M3.60005 3.61424C3.84413 3.37016 4.23985 3.37016 4.48393 3.61424L11.9998 11.1301L19.5156 3.61424C19.7597 3.37016 20.1554 3.37016 20.3995 3.61424C20.6436 3.85832 20.6436 4.25404 20.3995 4.49812L12.8836 12.014L20.3715 19.5019C20.6156 19.746 20.6156 20.1417 20.3715 20.3858C20.1275 20.6299 19.7317 20.6299 19.4877 20.3858L11.9998 12.8979L4.51188 20.3858C4.2678 20.6299 3.87207 20.6299 3.62799 20.3858C3.38392 20.1417 3.38392 19.746 3.62799 19.5019L11.1159 12.014L3.60005 4.49812C3.35597 4.25404 3.35597 3.85832 3.60005 3.61424Z"
+                fill="#212121" />
+            </svg>
+          </button>
         </div>
-      </transition>
-
-    </div>
+      </div>
+    </transition>
   </div>
-
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  head() {
+  data() {
     return {
-      bodyAttrs: {
-        style: this.isOpenMobileMenu ? `position: fixed; width: 100%; top: -${window.scrollY}px;` : ''
+      outClick: {
+        handler: this.setOpenMobileMenu,
+        events: ['click'],
+        middleware: this.middleware,
       }
     }
   },
@@ -84,21 +72,27 @@ export default {
     ...mapActions({
       setOpenMobileMenu: 'ui/switchMobileMenuShow'
     }),
-    async closeMobileMenu() {
-      await this.setOpenMobileMenu
-      window.scrollTo(0, parseInt(window.scrollY || '0') * -1);
+    middleware(event) {
+      return event.target.className !== 'modal'
     }
   },
   watch: {
-    // isOpenMobileMenu(value) {
-    //   if (value == false)
-    //     window.scrollTo(0, parseInt(window.scrollY || '0') * -1);
-    // }
+    isOpenMobileMenu() {
+      if (this.isOpenMobileMenu) {
+        document.documentElement.style.overflow = 'hidden'
+        return
+      }
+      document.documentElement.removeAttribute('style')
+    },
   }
 }
 </script>
 
 <style>
+.modal-hidden {
+  transition: all 0.35s ease;
+}
+
 .menu-enter-active {
   transition: all 0.3s ease;
 }

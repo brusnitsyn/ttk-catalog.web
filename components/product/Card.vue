@@ -10,7 +10,7 @@
         </div>
       </div>
     </template> -->
-    <div class="flex flex-col rounded-lg h-full">
+    <div class="flex flex-col rounded-[4px] h-full">
       <div class="
         py-4
         px-6
@@ -18,14 +18,14 @@
         flex
         justify-center
         bg-gray-100
-        rounded-lg
+        rounded-[4px]
         select-none
         relative
       ">
         <div class="flex absolute left-1.5 top-1.5" v-if="product.category && product.category.id != 1">
           <div :style="{
             backgroundColor: product.category.color,
-          }" class="px-2.5 py-1 rounded-md text-sm">
+          }" class="px-2.5 py-1 rounded-[4px] text-sm">
             {{ product.category.name }}
           </div>
         </div>

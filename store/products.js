@@ -2,6 +2,7 @@ export const state = () => ({
   products: [],
   productsNew: [],
   productsSale: [],
+  productsSearchResult: [],
   categories: [],
   product: {
     properties: [],
@@ -45,24 +46,22 @@ export const mutations = {
       }
     })
   },
-
-  pushProductCarouselImage(state, image) {
-    state.formData.carouselImages.push(image)
-    //state.product.carouselImages.push(image)
+  setProductsSearchResult(state, products) {
+    state.productsSearchResult = products
   },
 
-  pushProperty(state, property) {
-    state.product.properties.push(property)
-  },
+  // pushProperty(state, property) {
+  //   state.product.properties.push(property)
+  // },
 
-  removeProperty(state, property) {
-    const properties = [...state.product.properties]
-    properties.forEach((prop, index, obj) => {
-      if (prop.id === property.id) {
-        state.product.properties.splice(index, 1)
-      }
-    })
-  },
+  // removeProperty(state, property) {
+  //   const properties = [...state.product.properties]
+  //   properties.forEach((prop, index, obj) => {
+  //     if (prop.id === property.id) {
+  //       state.product.properties.splice(index, 1)
+  //     }
+  //   })
+  // },
 
   setPagination(state, pagination) {
     state.pagination.currentPage = pagination.currentPage
@@ -83,27 +82,27 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchAllProducts({ commit, state }, url) {
-    const data = await this.$axios.get(url)
-    const result = await data
-    await commit('setProducts', result.data.data)
-    await commit('setFilteredProducts', result.data.data)
-    let pagination = {
-      links: {},
-    }
-    pagination.currentPage = result.data.meta.current_page
-    pagination.from = result.data.meta.from
-    pagination.lastPage = result.data.meta.last_page
-    pagination.perPage = result.data.meta.per_page
-    pagination.to = result.data.meta.to
-    pagination.total = result.data.meta.total
-    pagination.links.first = result.data.links.first
-    pagination.links.last = result.data.links.last
-    pagination.links.prev = result.data.links.prev
-    pagination.links.next = result.data.links.next
+  // async fetchAllProducts({ commit, state }, url) {
+  //   const data = await this.$axios.get(url)
+  //   const result = await data
+  //   await commit('setProducts', result.data.data)
+  //   await commit('setFilteredProducts', result.data.data)
+  //   let pagination = {
+  //     links: {},
+  //   }
+  //   pagination.currentPage = result.data.meta.current_page
+  //   pagination.from = result.data.meta.from
+  //   pagination.lastPage = result.data.meta.last_page
+  //   pagination.perPage = result.data.meta.per_page
+  //   pagination.to = result.data.meta.to
+  //   pagination.total = result.data.meta.total
+  //   pagination.links.first = result.data.links.first
+  //   pagination.links.last = result.data.links.last
+  //   pagination.links.prev = result.data.links.prev
+  //   pagination.links.next = result.data.links.next
 
-    await commit('setPagination', pagination)
-  },
+  //   await commit('setPagination', pagination)
+  // },
   async fetchProductsByFilter({ commit }, params) {
     const data = await this.$axios.get('/products', {
       params,
@@ -246,4 +245,7 @@ export const getters = {
   getProductsSale(state) {
     return state.productsSale
   },
+  getProductsSearchResult(state) {
+    return state.productsSearchResult
+  }
 }

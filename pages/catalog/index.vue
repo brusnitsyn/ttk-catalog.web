@@ -11,7 +11,7 @@
               pointer-events-auto
               max-h-screen
               sticky
-              top-[76px]
+              top-[79px]
               w-60
             ">
             <div class="
@@ -25,7 +25,6 @@
               ">
               <!-- <h1 class="font-bold text-xl">Фильтры</h1> -->
               <div class="space-y-2">
-                <ProductSearchInput />
                 <ProductFilters />
               </div>
             </div>
@@ -81,7 +80,6 @@ export default {
     ...mapGetters({
       products: 'products/getProducts',
       filteredProducts: 'products/getFilteredProducts',
-      product: 'products/getProduct',
       openDialog: 'ui/getOpenDialog',
       pagination: 'products/getPagination',
     }),
@@ -101,12 +99,17 @@ export default {
       )
       window.scrollTo(0, 0)
     },
-    paginationCurrentChange(page) {
+    async paginationCurrentChange(page) {
       const params = { page: page }
-      this.$store.dispatch('products/fetchProductsByFilter', params)
+      await this.$store.dispatch('products/fetchProductsByFilter', params)
+      window.scrollTo(0, 0)
     },
   },
   async fetch() {
+    if (this.$router.query != null) {
+      await this.$store.dispatch('products/fetchProductsByFilter')
+      return
+    }
     await this.$store.dispatch('products/fetchProductsByFilter')
   },
   mounted() {

@@ -3,7 +3,7 @@
   <div v-else>
     <section class="w-full lg:mx-auto lg:max-w-7xl lg:px-4">
       <client-only>
-        <swiper :options="bannersOptions" class="rounded-none lg:rounded-lg h-72 lg:h-[420px]">
+        <swiper :options="bannersOptions" class="rounded-none lg:rounded-[4px] h-72 lg:h-[420px]">
           <swiper-slide v-for="banner in banners" :key="banner.id">
             <div class="h-full" :style="{
               backgroundImage: `url(${banner.image.url})`,

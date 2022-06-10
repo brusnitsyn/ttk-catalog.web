@@ -1,18 +1,18 @@
 <template>
   <!-- <el-drawer direction="rtl"> -->
-  <div class="flex flex-col items-stretch border rounded-md">
+  <div class="flex flex-col items-stretch border rounded-[4px]">
     <el-collapse :class="{ 'mb-2': Object.entries(filters).length }">
       <el-collapse-item title="Производитель" name="1" class="text-left px-2">
-        <div class="flex flex-col justify-start items-start">
+        <div class="flex flex-col justify-start items-start h-48 overflow-y-auto">
           <el-radio-group v-model="filters.brand">
-            <div class="flex flex-col gap-y-2.5 px-1">
+            <div class="flex flex-col gap-y-2.5 px-1 ">
               <el-radio v-for="brand in brands" :key="brand.id" :label="brand.id">{{ brand.name }}</el-radio>
             </div>
           </el-radio-group>
         </div>
       </el-collapse-item>
       <el-collapse-item title="Тип техники" name="2" class="text-left px-2">
-        <div class="flex flex-col justify-start items-start">
+        <div class="flex flex-col justify-start items-start h-48 overflow-y-auto">
           <el-radio-group v-model="filters.type">
             <div class="flex flex-col gap-y-2.5 px-1">
               <el-radio v-for="machineType in machineTypes" :key="machineType.id" :label="machineType.id">

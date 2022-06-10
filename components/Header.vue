@@ -9,14 +9,14 @@
           py-4
           lg:py-6 lg:gap-x-6
         ">
-
-        <nuxt-link :to="'/'">
-          <LogoShort />
-        </nuxt-link>
-
-        <div class="hidden md:flex flex-row gap-x-4 font-inter">
-          <nuxt-link :to="`/`">Главная</nuxt-link>
-          <nuxt-link :to="`/catalog`">Каталог</nuxt-link>
+        <div class="hidden md:flex flex-row gap-x-6 font-inter">
+          <nuxt-link :to="'/'">
+            <LogoShort />
+          </nuxt-link>
+          <div class="flex gap-x-4">
+            <nuxt-link :to="`/`">Главная</nuxt-link>
+            <nuxt-link :to="`/catalog`">Каталог</nuxt-link>
+          </div>
         </div>
 
         <div class="hidden md:flex flex-row gap-x-4 font-inter">
@@ -29,7 +29,6 @@
             </svg>
           </button>
         </div>
-
       </div>
     </Container>
   </div>

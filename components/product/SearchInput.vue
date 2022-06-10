@@ -1,5 +1,5 @@
 <template>
-  <el-input @input="handleSearch" @keyup.enter.native="goPageResult" placeholder="Поиск товара" v-model="search"
+  <el-input @input="handleSearch" @keyup.enter.native="goPageResult" placeholder="Наименование" v-model="search"
     class="input-with-select">
     <el-button slot="append" icon="el-icon-search"></el-button>
   </el-input>
