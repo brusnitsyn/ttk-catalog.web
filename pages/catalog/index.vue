@@ -41,8 +41,7 @@
           </div>
           <ProductNoProductsCard v-else class="grow" />
           <div v-if="pagination.lastPage > 1" class="flex justify-center mb-2">
-            <el-pagination :page-size.sync="pagination.perPage" background :pager-count="pagination.perPage"
-              @prev-click="paginationPrevClick" @next-click="paginationNextClick"
+            <el-pagination :page-size.sync="pagination.perPage" background :page-count="pagination.perPage"
               @current-change="paginationCurrentChange" layout="prev, pager, next" :total="pagination.total">
             </el-pagination>
           </div>
@@ -86,20 +85,6 @@ export default {
     }),
   },
   methods: {
-    async paginationPrevClick() {
-      await this.$store.dispatch(
-        'products/fetchAllProducts',
-        this.pagination.links.prev
-      )
-      window.scrollTo(0, 0)
-    },
-    async paginationNextClick() {
-      await this.$store.dispatch(
-        'products/fetchAllProducts',
-        this.pagination.links.next
-      )
-      window.scrollTo(0, 0)
-    },
     async paginationCurrentChange(page) {
       const params = { page: page }
       await this.$store.dispatch('products/fetchProductsByFilter', params)
