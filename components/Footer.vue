@@ -2,11 +2,11 @@
   <div class="py-8 px-4 bg-gray-50 space-y-3">
     <Container class="flex flex-col text-[#313131]">
       <div class="flex flex-row justify-between items-center pb-7 border-b border-b-gray-400">
-        <a href="/" class="flex flex-row items-center">
+        <NuxtLink :to="'/'" replace class="flex flex-row items-center select-none">
           <LogoShort class="h-[30px]" />
           <span class="mx-7 w-px h-[30px] bg-gray-400"></span>
           <p>интернет-магазин</p>
-        </a>
+        </NuxtLink>
         <div class="flex flex-row gap-x-2.5">
           <a href="https://t.me/ttk_plus">
             <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,10 +22,14 @@
           <p class="text-[#212121] pb-4 leading-[16px]">Навигация</p>
           <ol class="text-sm">
             <li class="leading-[14px] pb-2">
-              Главная
+              <NuxtLink :to="'/'" replace>
+                Главная
+              </NuxtLink>
             </li>
             <li class="leading-[14px] pb-2">
-              Каталог
+              <NuxtLink :to="{ name: 'catalog' }" replace>
+                Каталог
+              </NuxtLink>
             </li>
           </ol>
         </div>
@@ -34,7 +38,7 @@
           <ol class="text-sm">
             <li class="leading-[14px] pb-2 flex flex-col">
               <a href="tel:+7(924)676-79-67">+7 (924) 676-79-67</a>
-              <p>Никита | </p>
+              <p>Никита | Коммерческий отдел</p>
             </li>
             <li class="leading-[14px] pb-2 flex flex-col">
               <a href="tel:+7(914)569-21-81">+7 (914) 569-21-81</a>

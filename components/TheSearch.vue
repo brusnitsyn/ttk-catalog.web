@@ -1,9 +1,9 @@
 <template>
   <div v-if="isSearchDialogShow"
-    class="bg-[#F59E0B] bg-opacity-60 backdrop-blur-md absolute top-0 left-0 right-0 bottom-0 flex flex-col z-50">
-    <div class="mx-auto md:max-w-md lg:max-w-lg w-full lg:max-h-[612px]">
+    class="bg-[#F59E0B] bg-opacity-60 backdrop-blur-md fixed top-0 left-0 right-0 bottom-0 flex flex-col z-50">
+    <div class="mx-auto md:max-w-md lg:max-w-lg w-full lg:max-h-[612px] top-14 relative">
       <div
-        class="flex flex-col justify-between py-4 lg:py-6 px-3.5 lg:px-5 shadow-gray-300 drop-shadow-md bg-white rounded-[4px] top-14 relative text-sm">
+        class="flex flex-col justify-between py-4 lg:py-6 px-3.5 lg:px-5 shadow-gray-300 drop-shadow-md bg-white rounded-[4px] ">
         <div class="flex flex-row justify-between">
           <span class="font-inter leading-[30px]">Поиск по каталогу</span>
           <button class="p-1.5" @click="switchSearchDialogShow">
@@ -18,24 +18,20 @@
           <ProductSearchInput />
           <ol v-if="productSearchResult.length > 0"
             class="mt-2.5 rounded-[4px] border p-1.5 space-y-2.5 overflow-y-auto max-h-[512px]">
-            <li
-              class="flex flex-row justify-between items-center rounded-[4px] hover:bg-gray-100 p-1.5 px-2 cursor-pointer"
+            <li class="rounded-[4px] hover:bg-gray-100 p-1.5 px-2 pr-4 cursor-pointer"
               v-for="product in productSearchResult" :key="product.id">
-
-              <div class="flex flex-row items-center gap-x-2">
-                <img v-if="product.images.length" :src="product.images[0].url" class="h-14" />
-                <div class="flex flex-col">
-                  <span>
+              <NuxtLink :to="{ path: '/catalog/product', query: { id: product.id } }" replace
+                class="flex flex-row items-center gap-x-2">
+                <img v-if="product.images.length" :src="product.images[0].url" class="h-14 rounded-[4px]" />
+                <div class="flex flex-col font-inter">
+                  <span class="truncate max-w-[240px]">
                     {{ product.name }}
                   </span>
-                  <span>
-                    {{ product.article }}
+                  <span class="text-gray-400 text-sm">
+                    Артикул: {{ product.article }}
                   </span>
                 </div>
-              </div>
-              <span>
-                Перейти
-              </span>
+              </NuxtLink>
             </li>
           </ol>
         </div>
@@ -50,25 +46,31 @@ export default {
   computed: {
     ...mapGetters({
       isSearchDialogShow: 'ui/getSearchDialogShow',
-      productSearchResult: 'products/getProductsSearchResult',
+      productSearchResult: 'api/products/search/getProducts',
     })
   },
   methods: {
     ...mapActions({
       switchSearchDialogShow: 'ui/switchSearchDialogShow',
-      fetchProductsByFilter: 'products/fetchProductsByFilter'
+      fetchProductsBySearchQuery: 'api/products/search/fetchProductBySearchQuery'
     })
   },
   watch: {
     isSearchDialogShow() {
       if (this.isSearchDialogShow) {
+        console.log(window.scrollY)
+        document.body.style.top = `-${window.scrollY}px`
         document.body.style.position = 'fixed'
         document.body.style.width = '100%'
-        document.body.style.top = `-${window.scrollY}px`
         return
       }
+      const top = document.body.style.top
       document.body.removeAttribute('style')
+      window.scrollTo(0, parseInt(top || '0') * -1);
     }
+  },
+  deactivated() {
+    this.$store.commit('api/products/search/clearProducts')
   }
 }
 </script>

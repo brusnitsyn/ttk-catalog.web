@@ -34,7 +34,8 @@
       <div class="w-full min-w-0 md:static md:max-h-full md:overflow-visible">
         <div class="flex flex-col">
           <div v-if="products.length" class="grow grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
-            <nuxt-link v-for="product in products" :key="product.id" :to="'/catalog/product?id=' + product.id">
+            <nuxt-link v-for="product in products" :key="product.id"
+              :to="{ path: '/catalog/product', query: { id: product.id } }" replace>
               <LazyProductCard :product="product" />
             </nuxt-link>
           </div>

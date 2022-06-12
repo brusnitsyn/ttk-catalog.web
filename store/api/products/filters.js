@@ -3,8 +3,19 @@ export const state = () => ({
 })
 
 export const mutations = {
+  // Set filters
+  setFilters(state, filters) {
+    state.filters = filters
+  },
+
+  // Add filter
   addFilter(state, filter) {
     state.filters.push(filter)
+  },
+
+  // Clear filters
+  clearFilters(state) {
+    state.filters = []
   },
 }
 
@@ -27,5 +38,7 @@ export const actions = {
 }
 
 export const getters = {
-  getFilters(state) { return state.properties },
+  getFilters(state) {
+    return state.filters
+  },
 }
