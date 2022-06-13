@@ -17,7 +17,7 @@
           </a>
         </div>
       </div>
-      <div class="flex flex-row justify-between border-b border-b-gray-400 py-5">
+      <div class="flex flex-col gap-y-4 md:gap-x-4 md:flex-row justify-between border-b border-b-gray-400 py-5">
         <div class="flex flex-col">
           <p class="text-[#212121] pb-4 leading-[16px]">Навигация</p>
           <ol class="text-sm">
@@ -35,25 +35,37 @@
         </div>
         <div class="flex flex-col">
           <p class="text-[#212121] pb-4 leading-[16px]">Контакты</p>
-          <ol class="text-sm">
-            <li class="leading-[14px] pb-2 flex flex-col">
-              <a href="tel:+7(924)676-79-67">+7 (924) 676-79-67</a>
-              <p>Никита | Коммерческий отдел</p>
-            </li>
-            <li class="leading-[14px] pb-2 flex flex-col">
-              <a href="tel:+7(914)569-21-81">+7 (914) 569-21-81</a>
-              <p>Алексей | </p>
-            </li>
-            <!-- <li class="leading-[14px] pb-2 flex flex-col">
-              <a href="tel:+7(914)619-12-30">+7 (914) 619-12-30</a>
-              <p>Андрей | Менеджер</p>
-            </li>
-            <li class="leading-[14px] pb-2 flex flex-col">
-              <a href="tel:+7(914)043-89-22">+7 (914) 043-89-22</a>
-              <p>Валерий | Менеджер</p>
+          <ol class="flex flex-col font-inter">
+            <!-- <li class="pb-2 flex flex-col items-start">
+              <span>Юридический адрес</span>
+              <el-link href="https://yandex.ru/maps?whatshere%5Bpoint%5D=127.576283%2C50.262666&whatshere%5Bzoom%5D=18.760107&ll=127.57628335120421%2C50.26266584980646&z=18.760107">
+                675002, Амурская обл, г Благовещенск, ул. Горького, д. 1, с. 3
+              </el-link>
             </li> -->
+            <li class="pb-2 flex flex-col items-start">
+              <el-link href="tel:+7(924)676-79-67" class="text-base">+7 (924) 676-79-67</el-link>
+              <span class="text-gray-400 leading-[16px]">Никита | Коммерческий отдел</span>
+            </li>
+            <li class="pb-2 flex flex-col items-start">
+              <el-link href="tel:+7(914)569-21-81" class="text-base">+7 (914) 569-21-81</el-link>
+              <span class="text-gray-400 leading-[16px]">Алексей | Коммерческий отдел</span>
+            </li>
+            <li class="pb-2 flex flex-col items-start">
+              <el-link href="tel:+7(914)619-12-30" class="text-base">+7 (914) 619-12-30</el-link>
+              <span class="text-gray-400 leading-[16px]">Андрей | Менеджер</span>
+            </li>
+            <li class="pb-2 flex flex-col items-start">
+              <el-link href="tel:+7(914)043-89-22" class="text-base">+7 (914) 043-89-22</el-link>
+              <span class="text-gray-400 leading-[16px]">Валерий | Менеджер</span>
+            </li>
           </ol>
         </div>
+        <div>
+
+        </div>
+        <yandex-map :coords="coords" :zoom="16" :controls="[]">
+          <ymap-marker :coords="coords" marker-id="1" hint-content="Мы тут" />
+        </yandex-map>
       </div>
       <!-- <div class="grid grid-cols-1 gap-y-4 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-8">
         <div class="flex flex-col">
@@ -127,8 +139,8 @@
           </nuxt-link>
         </div>
       </div> -->
-      <div class="flex flex-row justify-between items-center pt-5">
-        <p class="font-inter text-sm">© Интернет-магазин ТТК+ Запчасти | {{ year }}</p>
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center pt-5">
+        <p class="font-inter text-sm">© Делаем и продвигаем сами | {{ year }}</p>
         <a href="mailto:info@dv-ttk.ru" class="font-inter">info@dv-ttk.ru</a>
       </div>
     </Container>
@@ -141,7 +153,11 @@
 export default {
   data() {
     return {
-      year: 0
+      year: 0,
+      coords: [
+        50.262666,
+        127.576283,
+      ]
     }
   },
   mounted() {
@@ -151,5 +167,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+::v-deep .ymap-container {
+  height: 280px;
+}
 </style>

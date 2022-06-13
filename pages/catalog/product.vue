@@ -123,12 +123,11 @@
             </span>
           </el-collapse-item>
         </el-collapse>
-        <el-dialog :title="`Заказать ${product.name}`" :visible.sync="dialogVisible" width=""
-          custom-class="w-[80%] lg:w-1/2">
+        <el-dialog :title="`Заказать ${product.name}`" :visible.sync="dialogVisible" class="mx-4">
           <span>Свяжитесь с нашими менеджерами для уточнения цен и наличия.</span>
-          <div class="flex gap-x-3">
-            <a href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Валерий)</a>
-            <a href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Андрей)</a>
+          <div class="flex flex-col md:flex-row gap-x-3">
+            <el-link href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Валерий)</el-link>
+            <el-link href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Андрей)</el-link>
           </div>
         </el-dialog>
       </div>
@@ -163,6 +162,16 @@
   &.gallery-thumbs .swiper-slide-active {
     opacity: 1;
   }
+}
+
+::v-deep .el-dialog {
+  position: relative;
+  margin: 0 auto 50px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+  box-sizing: border-box;
+  width: 100%;
 }
 </style>
 

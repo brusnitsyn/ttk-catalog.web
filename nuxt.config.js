@@ -32,6 +32,7 @@ export default {
     { src: '@/plugins/VueAwesomeSwiper', mode: 'client' },
     { src: '@/plugins/element-ui' },
     { src: '@/plugins/vClickOutside', ssr: false },
+    { src: '@/plugins/ymapPlugin', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
