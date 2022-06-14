@@ -17,16 +17,17 @@
           </a>
         </div>
       </div>
-      <div class="flex flex-col gap-y-4 md:gap-x-4 md:flex-row justify-between border-b border-b-gray-400 py-5">
-        <div class="flex flex-col">
+      <div
+        class="grid  auto-rows-min gap-y-4 md:gap-x-4 md:grid-cols-3 justify-between border-b border-b-gray-400 py-5">
+        <div class="flex flex-col grow-0">
           <p class="text-[#212121] pb-4 leading-[16px]">Навигация</p>
-          <ol class="text-sm">
-            <li class="leading-[14px] pb-2">
+          <ol>
+            <li class="pb-2">
               <NuxtLink :to="'/'" replace>
                 Главная
               </NuxtLink>
             </li>
-            <li class="leading-[14px] pb-2">
+            <li class="pb-2">
               <NuxtLink :to="{ name: 'catalog' }" replace>
                 Каталог
               </NuxtLink>
@@ -43,29 +44,28 @@
               </el-link>
             </li> -->
             <li class="pb-2 flex flex-col items-start">
-              <el-link href="tel:+7(924)676-79-67" class="text-base">+7 (924) 676-79-67</el-link>
-              <span class="text-gray-400 leading-[16px]">Никита | Коммерческий отдел</span>
+              <el-link href="tel:+7(924)676-79-67" class="text-base pb-1">+7 (924) 676-79-67</el-link>
+              <span class="text-gray-400 leading-[14px] text-sm">Никита | Коммерческий отдел</span>
             </li>
             <li class="pb-2 flex flex-col items-start">
-              <el-link href="tel:+7(914)569-21-81" class="text-base">+7 (914) 569-21-81</el-link>
-              <span class="text-gray-400 leading-[16px]">Алексей | Коммерческий отдел</span>
+              <el-link href="tel:+7(914)569-21-81" class="text-base pb-1">+7 (914) 569-21-81</el-link>
+              <span class="text-gray-400 leading-[14px] text-sm">Алексей | Коммерческий отдел</span>
             </li>
             <li class="pb-2 flex flex-col items-start">
-              <el-link href="tel:+7(914)619-12-30" class="text-base">+7 (914) 619-12-30</el-link>
-              <span class="text-gray-400 leading-[16px]">Андрей | Менеджер</span>
+              <el-link href="tel:+7(914)619-12-30" class="text-base pb-1">+7 (914) 619-12-30</el-link>
+              <span class="text-gray-400 leading-[14px] text-sm">Андрей | Менеджер</span>
             </li>
             <li class="pb-2 flex flex-col items-start">
-              <el-link href="tel:+7(914)043-89-22" class="text-base">+7 (914) 043-89-22</el-link>
-              <span class="text-gray-400 leading-[16px]">Валерий | Менеджер</span>
+              <el-link href="tel:+7(914)043-89-22" class="text-base pb-1">+7 (914) 043-89-22</el-link>
+              <span class="text-gray-400 leading-[14px] text-sm">Валерий | Менеджер</span>
             </li>
           </ol>
         </div>
-        <div>
-
+        <div class="">
+          <yandex-map :coords="coords" :zoom="16" :controls="[]">
+            <ymap-marker :coords="coords" marker-id="1" hint-content="Мы тут" />
+          </yandex-map>
         </div>
-        <yandex-map :coords="coords" :zoom="16" :controls="[]">
-          <ymap-marker :coords="coords" marker-id="1" hint-content="Мы тут" />
-        </yandex-map>
       </div>
       <!-- <div class="grid grid-cols-1 gap-y-4 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-8">
         <div class="flex flex-col">
@@ -168,7 +168,7 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .ymap-container {
-  height: 280px;
-}
+/* ::v-deep .ymap-container {
+  height: auto;
+} */
 </style>

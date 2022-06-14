@@ -123,11 +123,14 @@
             </span>
           </el-collapse-item>
         </el-collapse>
-        <el-dialog :title="`Заказать ${product.name}`" :visible.sync="dialogVisible" class="mx-4">
-          <span>Свяжитесь с нашими менеджерами для уточнения цен и наличия.</span>
-          <div class="flex flex-col md:flex-row gap-x-3">
-            <el-link href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Валерий)</el-link>
-            <el-link href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Андрей)</el-link>
+        <el-dialog :title="`Заказать ${product.name}`" :visible.sync="dialogVisible"
+          custom-class="max-w-none md:max-w-md">
+          <div>
+            <p class="break-words">Свяжитесь с менеджерами для уточнения наличия</p>
+            <div class="flex flex-col md:flex-row gap-x-3 gap-y-1 items-start pt-2">
+              <el-link href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Валерий)</el-link>
+              <el-link href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Андрей)</el-link>
+            </div>
           </div>
         </el-dialog>
       </div>
@@ -237,6 +240,28 @@ export default {
       this.calculatePrice = (this.startPrice * this.productSelectCount)
     },
   },
+  async watchQuery(query) {
+    await this.$store.dispatch(
+      'products/fetchSingleProduct',
+      query.id
+    )
+    this.productSelectCount = 1
+
+    if (this.product.discountPrice) this.startPrice = this.product.discountPrice
+    else this.startPrice = this.product.actualPrice
+
+    this.calculatePrice = this.startPrice
+
+    if (this.product.images && this.product.images.length > 1) {
+      this.$nextTick(() => {
+        const swiperTop = this.$refs.swiperTop.$el.swiper
+        const swiperThumbs = this.$refs.swiperThumbs.$el.swiper
+        swiperTop.controller.control = swiperThumbs
+        swiperThumbs.controller.control = swiperTop
+      })
+      console.log('swipers attached')
+    }
+  },
   async fetch() {
     await this.$store.dispatch(
       'products/fetchSingleProduct',
@@ -251,15 +276,6 @@ export default {
   },
   async activated() {
     await this.$fetch()
-    if (this.product.images && this.product.images.length > 1) {
-      this.$nextTick(() => {
-        const swiperTop = this.$refs.swiperTop.$el.swiper
-        const swiperThumbs = this.$refs.swiperThumbs.$el.swiper
-        swiperTop.controller.control = swiperThumbs
-        swiperThumbs.controller.control = swiperTop
-      })
-      console.log('swipers attached')
-    }
   },
 }
 </script>
