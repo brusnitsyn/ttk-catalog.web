@@ -7,5 +7,19 @@
     <TheSearch />
   </div>
 </template>
+<style>
+body::-webkit-scrollbar {
+  width: 12px;
+}
 
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #F59E0B;
+  border-radius: 20px;
+  border: 3px solid transparent;
+}
+</style>
 

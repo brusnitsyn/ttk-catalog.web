@@ -1,12 +1,15 @@
 <template>
-  <Loading v-if="$fetchState.pending" />
-  <Container v-else class="flex flex-col pt-4 md:pt-0">
-    <div class="md:flex md:gap-x-4">
-      <aside class="fixed z-10 md:z-0 md:static">
-        <div class="h-full overflow-auto pointer-events-none md:overflow-visible">
+  <!-- <Loading v-if="$fetchState.pending" /> -->
+  <Container class="flex flex-col pt-4 md:pt-0">
+    <div class="flex flex-col md:flex-row md:gap-x-4">
+      <div class="flex items-start pb-2 md:hidden">
+        <el-button type="primary" plain icon="el-icon-menu" @click="handleShowDrawerFilters">
+          Фильтры
+        </el-button>
+      </div>
+      <aside class="hidden md:block">
+        <div class="h-full pointer-events-none overflow-visible">
           <div class="
-              hidden
-              md:block
               overflow-auto
               pointer-events-auto
               max-h-screen
@@ -15,8 +18,7 @@
               w-60
             ">
             <div class="
-                hidden
-                md:flex
+                flex
                 flex-col
                 overflow-y-auto
                 sticky
@@ -48,6 +50,11 @@
         </div>
       </div>
     </div>
+    <el-drawer title="Фильтры" :visible.sync="drawerFiltersVisibly" direction="ltr" size="100%">
+      <div class="px-4">
+        <ProductFilters />
+      </div>
+    </el-drawer>
   </Container>
 </template>
 
@@ -58,10 +65,7 @@ export default {
   layout: 'index',
   data() {
     return {
-      // products: [],
-      // filteredProducts: [],
-      // product: {},
-      // openDialog: false
+      drawerFiltersVisibly: false
     }
   },
   head() {
@@ -90,20 +94,12 @@ export default {
       await this.$store.dispatch('products/fetchProductsByFilter', params)
       window.scrollTo(0, 0)
     },
-  },
-  async fetch() {
-    if (this.$router.query != null) {
-      await this.$store.dispatch('products/fetchProductsByFilter')
-      return
+    handleShowDrawerFilters() {
+      this.drawerFiltersVisibly = !this.drawerFiltersVisibly
     }
-    await this.$store.dispatch('products/fetchProductsByFilter')
   },
-  mounted() {
-    if (!this.products.length) {
-      this.$store.dispatch('products/fetchProductsByFilter')
-    }
-
-    // this.$store.dispatch('products/setShowCreateDialog', true)
+  async fetch({ store, query }) {
+    await store.dispatch('products/fetchProductsByFilter', query)
   },
 }
 </script>
