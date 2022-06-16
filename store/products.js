@@ -176,9 +176,10 @@ export const actions = {
     sendData.append('type', JSON.stringify(product.type))
     sendData.append('category', JSON.stringify(product.category))
 
-    product.images.forEach((img) => {
-      sendData.append('images[]', img.raw)
-    })
+    if (product.images && product.images.lenght > 0)
+      product.images.forEach((img) => {
+        sendData.append('images[]', img.raw)
+      })
 
     sendData.append('machines', JSON.stringify(product.machines))
     sendData.append('properties', JSON.stringify(state.product.properties))
@@ -206,9 +207,10 @@ export const actions = {
     sendData.append('type', JSON.stringify(product.type))
     sendData.append('category', JSON.stringify(product.category))
 
-    product.images.forEach((img) => {
-      sendData.append('images[]', img.raw)
-    })
+    if (product.images && product.images.lenght > 0)
+      product.images.forEach((img) => {
+        sendData.append('images[]', img.raw)
+      })
 
     sendData.append('machines', JSON.stringify(product.machines))
     sendData.append('properties', JSON.stringify(product.properties))

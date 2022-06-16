@@ -1,11 +1,17 @@
 <template>
   <Loading v-if="$fetchState.pending" />
   <el-container v-else direction="vertical" class="pt-6 px-4">
-    <div class="flex items-center flex-row justify-between">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
       <el-page-header @back="$router.go(-1)" class="text-2xl font-semibold" title="Назад" content="Все товары" />
-      <el-button type="primary" @click="showDrawer">
+      <el-dropdown @command="handleCommand" split-button type="primary" @click="showDrawer" class="mt-2">
         Добавить товар
-      </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="dialogBrandVisible">Добавить производителя</el-dropdown-item>
+          <el-dropdown-item command="dialogMachineTypeVisible" divided>Создать тип техники</el-dropdown-item>
+          <el-dropdown-item command="dialogMachineVisible">Создать технику</el-dropdown-item>
+          <el-dropdown-item command="dialogCreatePropVisible">Создать свойство</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <el-table ref="multipleTable" :data="products" class="w-full" @selection-change="handleSelectionChange">
       <el-table-column type="selection" />
@@ -25,8 +31,8 @@
         @current-change="paginationCurrentChange" layout="prev, pager, next" :total="pagination.total">
       </el-pagination>
     </div>
-    <el-drawer :title="drawer.title" :visible.sync="drawer.isShow" direction="rtl" custom-class="w-full lg:w-1/3"
-      size="">
+    <el-drawer :title="drawer.title" :before-close="handleClose" :visible.sync="drawer.isShow" direction="rtl"
+      custom-class="w-full lg:w-1/3" size="">
       <el-form ref="createForm" :model="form" :rules="rules" class="px-5" label-position="top">
         <el-form-item label="Наименование" prop="name">
           <el-input type="text" v-model="form.name" />
@@ -134,125 +140,125 @@
           <el-button @click="resetForm('createForm')">Сбросить</el-button>
         </el-form-item>
       </el-form>
-
-      <!-- Brand dialog -->
-      <el-dialog title="Добавить производителя" :visible.sync="dialogBrandVisible" width="80%">
-        <el-form :model="brand" ref="dialogCreateBrand" label-position="top">
-          <el-form-item label="Наименование" prop="name">
-            <el-input v-model="brand.name" />
-          </el-form-item>
-        </el-form>
-
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogBrandVisible = false">Отмена</el-button>
-          <el-button type="primary" @click="createBrand"> Добавить </el-button>
-        </span>
-      </el-dialog>
-
-      <!-- Create prop dialog -->
-      <el-dialog title="Создать свойство" :visible.sync="dialogCreatePropVisible" width="80%">
-        <el-form :model="property" ref="dialogCreateProp" label-position="top">
-          <el-form-item label="Наименование" prop="name">
-            <el-input v-model="property.name" />
-          </el-form-item>
-        </el-form>
-
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogCreatePropVisible = false">Отмена</el-button>
-          <el-button type="primary" @click="createProperty"> Добавить </el-button>
-        </span>
-      </el-dialog>
-
-      <!-- Machine type dialog -->
-      <el-dialog title="Создать тип техники" :visible.sync="dialogMachineTypeVisible" width="80%">
-        <el-form :model="machineType" ref="dialogCreateMachineType" label-position="top">
-          <el-form-item label="Наименование" prop="name">
-            <el-input v-model="machineType.name" />
-          </el-form-item>
-          <el-form-item label="Производитель" prop="brand">
-            <el-select v-model="machineType.brandId" filterable class="w-full" no-data-text="Нет данных"
-              no-match-text="Тип техники не найден" placeholder="Выберите тип техники">
-              <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item.id">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogMachineTypeVisible = false">Отмена</el-button>
-          <el-button type="primary" @click="createMachineType">
-            Добавить
-          </el-button>
-        </span>
-      </el-dialog>
-
-      <!-- Machine dialog -->
-      <el-dialog title="Создать технику" :visible.sync="dialogMachineVisible" width="80%">
-        <el-form :model="machine" ref="dialogCreateMachine" label-position="top">
-          <el-form-item label="Наименование" prop="name">
-            <el-input v-model="machine.name" />
-          </el-form-item>
-          <el-form-item label="Производитель" prop="brand">
-            <el-select v-model="machine.brandId" filterable class="w-full" @change="selectBrandChange"
-              no-data-text="Нет данных" no-match-text="Производитель не найден" placeholder="Выберите производителя">
-              <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item.id">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Тип" prop="type">
-            <el-select v-model="machine.typeId" filterable class="w-full" no-data-text="Нет данных"
-              no-match-text="Тип техники не найден" placeholder="Выберите тип техники"
-              :disabled="!(dialogMachineTypesForBrand.length > 0)">
-              <el-option v-for="item in dialogMachineTypesForBrand" :key="item.id" :label="item.name" :value="item.id">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogMachineVisible = false">Отмена</el-button>
-          <el-button type="primary" @click="createMachine"> Добавить </el-button>
-        </span>
-      </el-dialog>
-
-      <!-- Props dialog -->
-      <el-dialog title="Добавить свойство" :visible.sync="dialogPropertiesShow" append-to-body width="80%">
-        <el-form :model="productProperty" ref="dialogProperties" label-position="top">
-          <el-form-item label="Свойство" prop="property">
-            <el-select v-model="productProperty.property" filterable class="w-full" value-key="id"
-              no-data-text="Нет данных" no-match-text="Нет подходящих свойств" placeholder="Выберите свойство">
-              <el-option v-for="item in properties" :key="item.id" :label="item.name" :value="item">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Значение" prop="value">
-            <el-input placeholder="Значение" v-model="productProperty.value"></el-input>
-          </el-form-item>
-          <el-form-item label="Дополнительно">
-            <el-form :inline="true">
-              <el-form-item>
-                <el-checkbox v-model="productProperty.isDimension">
-                  Единица измерения?
-                </el-checkbox>
-              </el-form-item>
-              <el-form-item>
-                <el-input :disabled="!productProperty.isDimension" v-model="productProperty.dimension"
-                  placeholder="Единица измерения"></el-input>
-              </el-form-item>
-            </el-form>
-          </el-form-item>
-        </el-form>
-
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogPropertiesShow = !dialogPropertiesShow">
-            Отмена
-          </el-button>
-          <el-button type="primary" @click="addProductProperty">
-            Добавить
-          </el-button>
-        </span>
-      </el-dialog>
     </el-drawer>
+
+    <!-- Brand dialog -->
+    <el-dialog title="Добавить производителя" :visible.sync="dialogBrandVisible" width="80%">
+      <el-form :model="brand" ref="dialogCreateBrand" label-position="top">
+        <el-form-item label="Наименование" prop="name">
+          <el-input v-model="brand.name" />
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogBrandVisible = false">Отмена</el-button>
+        <el-button type="primary" @click="createBrand"> Добавить </el-button>
+      </span>
+    </el-dialog>
+
+    <!-- Create prop dialog -->
+    <el-dialog title="Создать свойство" :visible.sync="dialogCreatePropVisible" width="80%">
+      <el-form :model="property" ref="dialogCreateProp" label-position="top">
+        <el-form-item label="Наименование" prop="name">
+          <el-input v-model="property.name" />
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogCreatePropVisible = false">Отмена</el-button>
+        <el-button type="primary" @click="createProperty"> Добавить </el-button>
+      </span>
+    </el-dialog>
+
+    <!-- Machine type dialog -->
+    <el-dialog title="Создать тип техники" :visible.sync="dialogMachineTypeVisible" width="80%">
+      <el-form :model="machineType" ref="dialogCreateMachineType" label-position="top">
+        <el-form-item label="Наименование" prop="name">
+          <el-input v-model="machineType.name" />
+        </el-form-item>
+        <el-form-item label="Производитель" prop="brand">
+          <el-select v-model="machineType.brandId" filterable class="w-full" no-data-text="Нет данных"
+            no-match-text="Тип техники не найден" placeholder="Выберите тип техники">
+            <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogMachineTypeVisible = false">Отмена</el-button>
+        <el-button type="primary" @click="createMachineType">
+          Добавить
+        </el-button>
+      </span>
+    </el-dialog>
+
+    <!-- Machine dialog -->
+    <el-dialog title="Создать технику" :visible.sync="dialogMachineVisible" width="80%">
+      <el-form :model="machine" ref="dialogCreateMachine" label-position="top">
+        <el-form-item label="Наименование" prop="name">
+          <el-input v-model="machine.name" />
+        </el-form-item>
+        <el-form-item label="Производитель" prop="brand">
+          <el-select v-model="machine.brandId" filterable class="w-full" @change="selectBrandChange"
+            no-data-text="Нет данных" no-match-text="Производитель не найден" placeholder="Выберите производителя">
+            <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Тип" prop="type">
+          <el-select v-model="machine.typeId" filterable class="w-full" no-data-text="Нет данных"
+            no-match-text="Тип техники не найден" placeholder="Выберите тип техники"
+            :disabled="!(dialogMachineTypesForBrand.length > 0)">
+            <el-option v-for="item in dialogMachineTypesForBrand" :key="item.id" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogMachineVisible = false">Отмена</el-button>
+        <el-button type="primary" @click="createMachine"> Добавить </el-button>
+      </span>
+    </el-dialog>
+
+    <!-- Props dialog -->
+    <el-dialog title="Добавить свойство" :visible.sync="dialogPropertiesShow" append-to-body width="80%">
+      <el-form :model="productProperty" ref="dialogProperties" label-position="top">
+        <el-form-item label="Свойство" prop="property">
+          <el-select v-model="productProperty.property" filterable class="w-full" value-key="id"
+            no-data-text="Нет данных" no-match-text="Нет подходящих свойств" placeholder="Выберите свойство">
+            <el-option v-for="item in properties" :key="item.id" :label="item.name" :value="item">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Значение" prop="value">
+          <el-input placeholder="Значение" v-model="productProperty.value"></el-input>
+        </el-form-item>
+        <el-form-item label="Дополнительно">
+          <el-form :inline="true">
+            <el-form-item>
+              <el-checkbox v-model="productProperty.isDimension">
+                Единица измерения?
+              </el-checkbox>
+            </el-form-item>
+            <el-form-item>
+              <el-input :disabled="!productProperty.isDimension" v-model="productProperty.dimension"
+                placeholder="Единица измерения"></el-input>
+            </el-form-item>
+          </el-form>
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogPropertiesShow = !dialogPropertiesShow">
+          Отмена
+        </el-button>
+        <el-button type="primary" @click="addProductProperty">
+          Добавить
+        </el-button>
+      </span>
+    </el-dialog>
   </el-container>
 </template>
 
@@ -329,16 +335,26 @@ export default {
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',
         type: 'warning'
-      }).then(() => {
-        this.$store.dispatch('products/deleteSingleProduct', row)
-        this.$message({
-          type: 'success',
-          message: `Элемент "${row.name}" был удален`
-        });
+      }).then(async () => {
+        try {
+          await this.$store.dispatch('products/deleteSingleProduct', row)
+          this.$notify({
+            title: 'Выполнено',
+            message: `Товар ${result.data.data.name} был удален`,
+            type: 'success'
+          });
+        } catch (error) {
+          this.$notify({
+            title: 'Ошибка',
+            message: error.message,
+            type: 'error'
+          });
+        }
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: 'Удаление отменено'
+        this.$notify({
+          title: 'Отмена',
+          message: 'Операция Удалить отмена пользователем',
+          type: 'info'
         });
       });
     },
@@ -350,7 +366,7 @@ export default {
       if (this.form.type)
         this.selectMachineType(this.form.type.id)
 
-      this.drawer.title = `Редактирование - ${product.name}`
+      this.drawer.title = product.name
       this.drawer.isNew = false
       this.drawer.isShow = true
     },
@@ -360,6 +376,13 @@ export default {
       this.drawer.title = "Новый товар"
       this.drawer.isNew = true
       this.drawer.isShow = true
+    },
+    handleClose(done) {
+      this.$confirm('Вы действительно хотите отменить операцию?')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => { });
     },
     addProperty() {
       const properties = deepClone(this.form.properties)
@@ -371,11 +394,43 @@ export default {
       this.form.properties = properties
     },
 
-    submitForm(form) {
-      this.$store.dispatch('products/pushSingleProduct', this.form)
+    handleCommand(command) {
+      this[command] = true
     },
-    updateForm(form) {
-      this.$store.dispatch('products/updateSingleProduct', this.form)
+
+    async submitForm() {
+      try {
+        const data = await this.$store.dispatch('products/pushSingleProduct', this.form)
+        const result = await data
+        this.$notify({
+          title: 'Выполнено',
+          message: `Товар ${result.data.data.name} был добавлен`,
+          type: 'success'
+        });
+      } catch (error) {
+        this.$notify({
+          title: 'Ошибка',
+          message: error.message,
+          type: 'error'
+        });
+      }
+    },
+    async updateForm() {
+      try {
+        const data = await this.$store.dispatch('products/updateSingleProduct', this.form)
+        const result = await data
+        this.$notify({
+          title: 'Выполнено',
+          message: `Товар ${result.data.data.name} был обновлен`,
+          type: 'success'
+        });
+      } catch (error) {
+        this.$notify({
+          title: 'Ошибка',
+          message: error.message,
+          type: 'error'
+        });
+      }
     },
 
     async paginationPrevClick() {
@@ -396,7 +451,6 @@ export default {
       const params = { page: page }
       this.$store.dispatch('products/fetchProductsByFilter', params)
     },
-
 
     addProductProperty() {
       this.productProperty.id = this.product.properties.length
