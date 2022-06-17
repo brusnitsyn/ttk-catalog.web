@@ -62,7 +62,7 @@
       </section>
       <section v-if="saleProducts.length">
         <h1 class="font-inter font-semibold text-lg pb-2 pt-4">
-          Товары со скидкой
+          Распродажа
         </h1>
         <client-only>
           <swiper :options="swiperOptions">

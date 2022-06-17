@@ -3,7 +3,7 @@
   <el-container v-else direction="vertical" class="pt-6 px-4">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between">
       <el-page-header @back="$router.go(-1)" class="text-2xl font-semibold" title="Назад" content="Все товары" />
-      <el-dropdown @command="handleCommand" split-button type="primary" @click="showDrawer" class="mt-2">
+      <el-dropdown @command="handleCommand" split-button type="primary" @click="showDrawer('createForm')" class="mt-2">
         Добавить товар
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="dialogBrandVisible">Добавить производителя</el-dropdown-item>
@@ -97,23 +97,6 @@
               </div>
             </li>
           </ol>
-          <!-- <ol v-else>
-            <li v-for="prop in form.properties" :key="prop.id">
-              <el-input placeholder="Значение" v-model="prop.value">
-                <el-select v-model="prop.property" slot="prepend" value-key="id" no-data-text="Нет данных"
-                  no-match-text="Нет подходящих свойств" placeholder="Свойство" filterable class="lg:w-[140px]">
-                  <el-option v-for="item in properties" :key="item.id" :label="item.name" :value="item" />
-                </el-select>
-              </el-input>
-              <div class="flex justify-items-end">
-                <el-input :disabled="!prop.isDimension" v-model="prop.dimension" placeholder="Единица измерения">
-                  <el-checkbox slot="prepend" v-model="prop.isDimension">
-                    Единица измерения?
-                  </el-checkbox>
-                </el-input>
-              </div>
-            </li>
-          </ol> -->
 
           <el-button type="primary" icon="el-icon-plus" class="w-1/2" @click="addProperty">
             Добавить свойство
@@ -289,7 +272,8 @@ export default {
       drawer: {
         title: 'Добавить товар',
         isNew: true,
-        isShow: false
+        isShow: false,
+        isLoading: false
       },
       selectedMachineType: null,
       dialogPropertiesShow: false,
@@ -371,26 +355,35 @@ export default {
       this.drawer.isShow = true
     },
     handleSelectionChange() { },
-    showDrawer() {
-      this.form = []
+    showDrawer(form) {
       this.drawer.title = "Новый товар"
       this.drawer.isNew = true
       this.drawer.isShow = true
+
+      this.resetForm(form)
     },
     handleClose(done) {
-      this.$confirm('Вы действительно хотите отменить операцию?')
+      this.$confirm('Вы действительно хотите отменить операцию?', 'Отменить операцию', {
+        confirmButtonText: 'Да',
+        cancelButtonText: 'Нет',
+      })
         .then(_ => {
           done();
         })
         .catch(_ => { });
     },
+    resetForm(form) {
+      this.form = {
+        images: [],
+        machines: [],
+        properties: [],
+        categoryId: 1
+      }
+      this.$refs[form].resetFields()
+    },
     addProperty() {
       const properties = deepClone(this.form.properties)
-
-      let index = 1
-      index += properties.length
-      let newProp = { id: index }
-      properties.push(newProp)
+      properties.push({})
       this.form.properties = properties
     },
 
@@ -400,14 +393,19 @@ export default {
 
     async submitForm() {
       try {
+        this.drawer.isLoading = true
         const data = await this.$store.dispatch('products/pushSingleProduct', this.form)
         const result = await data
+        this.drawer.isLoading = false
+        this.drawer.isShow = false
+        this.resetForm('createForm')
         this.$notify({
           title: 'Выполнено',
           message: `Товар ${result.data.data.name} был добавлен`,
           type: 'success'
         });
       } catch (error) {
+        this.drawer.isLoading = false
         this.$notify({
           title: 'Ошибка',
           message: error.message,
@@ -417,14 +415,17 @@ export default {
     },
     async updateForm() {
       try {
-        const data = await this.$store.dispatch('products/updateSingleProduct', this.form)
-        const result = await data
+        this.drawer.isLoading = true
+        await this.$store.dispatch('products/updateSingleProduct', this.form)
+        this.drawer.isLoading = false
+        this.drawer.isShow = false
         this.$notify({
           title: 'Выполнено',
-          message: `Товар ${result.data.data.name} был обновлен`,
+          message: `Товар ${this.form.name} был обновлен`,
           type: 'success'
         });
       } catch (error) {
+        this.drawer.isLoading = true
         this.$notify({
           title: 'Ошибка',
           message: error.message,

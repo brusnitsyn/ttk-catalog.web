@@ -93,6 +93,7 @@ export default {
 
     applyFilters() {
       this.storeApplyFilters(this.storeFilters)
+      $nuxt.$emit('drawer-filters-visibly');
     },
 
     resetFilters() {

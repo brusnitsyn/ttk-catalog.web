@@ -101,5 +101,13 @@ export default {
   async fetch({ store, query }) {
     await store.dispatch('products/fetchProductsByFilter', query)
   },
+  created() {
+    this.$nuxt.$on('drawer-filters-visibly', () => {
+      this.drawerFiltersVisibly = false
+    })
+  },
+  beforeDestroy() {
+    this.$nuxt.$off('drawer-filters-visibly')
+  }
 }
 </script>
