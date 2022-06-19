@@ -82,27 +82,6 @@ export const mutations = {
 }
 
 export const actions = {
-  // async fetchAllProducts({ commit, state }, url) {
-  //   const data = await this.$axios.get(url)
-  //   const result = await data
-  //   await commit('setProducts', result.data.data)
-  //   await commit('setFilteredProducts', result.data.data)
-  //   let pagination = {
-  //     links: {},
-  //   }
-  //   pagination.currentPage = result.data.meta.current_page
-  //   pagination.from = result.data.meta.from
-  //   pagination.lastPage = result.data.meta.last_page
-  //   pagination.perPage = result.data.meta.per_page
-  //   pagination.to = result.data.meta.to
-  //   pagination.total = result.data.meta.total
-  //   pagination.links.first = result.data.links.first
-  //   pagination.links.last = result.data.links.last
-  //   pagination.links.prev = result.data.links.prev
-  //   pagination.links.next = result.data.links.next
-
-  //   await commit('setPagination', pagination)
-  // },
   async fetchProductsByFilter({ commit }, params) {
     const data = await this.$axios.get('/products', {
       params,
@@ -166,23 +145,35 @@ export const actions = {
   async pushSingleProduct({ commit, state }, product) {
     const sendData = new FormData()
 
+    sendData.append('id', product.id)
     sendData.append('name', product.name)
     sendData.append('article', product.article)
+    sendData.append('description', product.description)
     sendData.append('actualPrice', product.actualPrice)
     product.discountPrice
       ? sendData.append('discountPrice', product.discountPrice)
       : sendData.append('discountPrice', '')
-    sendData.append('brand', JSON.stringify(product.brand))
-    sendData.append('type', JSON.stringify(product.type))
-    sendData.append('category', JSON.stringify(product.category))
+    sendData.append('brandId', product.brand.id)
+    sendData.append('typeId', product.type.id)
+    sendData.append('categoryId', product.category.id)
 
-    if (product.images)
+    if (product.machines) {
+      product.machines.forEach((machine) => {
+        sendData.append('machinesIds[]', machine.id)
+      })
+    }
+
+    if (product.properties) {
+      product.properties.forEach((prop) => {
+        sendData.append('properties[]', prop)
+      })
+    }
+
+    if (product.images) {
       product.images.forEach((img) => {
         sendData.append('images[]', img.raw)
       })
-
-    sendData.append('machines', JSON.stringify(product.machines))
-    sendData.append('properties', JSON.stringify(state.product.properties))
+    }
 
     const data = await this.$axios.post('/products', sendData, {
       headers: {
@@ -192,7 +183,7 @@ export const actions = {
     const result = await data
     await commit('addProduct', result.data.data)
   },
-  async updateSingleProduct({ commit, state }, product) {
+  async updateSingleProduct(product) {
     const sendData = new FormData()
 
     sendData.append('id', product.id)
@@ -203,26 +194,35 @@ export const actions = {
     product.discountPrice
       ? sendData.append('discountPrice', product.discountPrice)
       : sendData.append('discountPrice', '')
-    sendData.append('brand', JSON.stringify(product.brand))
-    sendData.append('type', JSON.stringify(product.type))
-    sendData.append('category', JSON.stringify(product.category))
+    sendData.append('brandId', product.brand.id)
+    sendData.append('typeId', product.type.id)
+    sendData.append('categoryId', product.category.id)
 
-    if (product.images)
+    if (product.machines) {
+      product.machines.forEach((machine) => {
+        sendData.append('machinesIds[]', machine.id)
+      })
+    }
+
+    if (product.properties) {
+      product.properties.forEach((prop) => {
+        sendData.append('properties[]', prop)
+      })
+    }
+
+    if (product.images) {
       product.images.forEach((img) => {
         sendData.append('images[]', img.raw)
       })
+    }
 
-    sendData.append('machines', JSON.stringify(product.machines))
-    sendData.append('properties', JSON.stringify(product.properties))
     sendData.append('_method', 'PUT')
 
-    const data = await this.$axios.post(`/products/${product.id}`, sendData, {
+    await this.$axios.post(`/products/${product.id}`, sendData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     })
-    // const result = await data
-    // await commit('addProduct', result.data.data)
   },
 }
 
@@ -249,5 +249,5 @@ export const getters = {
   },
   getProductsSearchResult(state) {
     return state.productsSearchResult
-  }
+  },
 }

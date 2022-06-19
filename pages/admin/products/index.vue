@@ -3,7 +3,7 @@
   <el-container v-else direction="vertical" class="pt-6 px-4">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between">
       <el-page-header @back="$router.go(-1)" class="text-2xl font-semibold" title="Назад" content="Все товары" />
-      <el-dropdown @command="handleCommand" split-button type="primary" @click="showDrawer('createForm')" class="mt-2">
+      <el-dropdown @command="handleCommand" split-button type="primary" @click="showDrawer" class="mt-2">
         Добавить товар
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="dialogBrandVisible">Добавить производителя</el-dropdown-item>
@@ -118,9 +118,9 @@
         </el-form-item>
 
         <el-form-item class="pt-3">
-          <el-button v-if="drawer.isNew" type="primary" @click="submitForm('createForm')">Добавить</el-button>
-          <el-button v-else type="primary" @click="updateForm('createForm')">Обновить</el-button>
-          <el-button @click="resetForm('createForm')">Сбросить</el-button>
+          <el-button v-if="drawer.isNew" type="primary" @click="submitForm">Добавить</el-button>
+          <el-button v-else type="primary" @click="updateForm">Обновить</el-button>
+          <el-button @click="resetForm">Сбросить</el-button>
         </el-form-item>
       </el-form>
     </el-drawer>
@@ -355,12 +355,10 @@ export default {
       this.drawer.isShow = true
     },
     handleSelectionChange() { },
-    showDrawer(form) {
+    showDrawer() {
       this.drawer.title = "Новый товар"
       this.drawer.isNew = true
       this.drawer.isShow = true
-
-      this.resetForm(form)
     },
     handleClose(done) {
       this.$confirm('Вы действительно хотите отменить операцию?', 'Отменить операцию', {
@@ -372,14 +370,14 @@ export default {
         })
         .catch(_ => { });
     },
-    resetForm(form) {
+    resetForm() {
       this.form = {
         images: [],
         machines: [],
         properties: [],
         categoryId: 1
       }
-      this.$refs[form].resetFields()
+      this.$refs.createForm.resetFields()
     },
     addProperty() {
       const properties = deepClone(this.form.properties)
@@ -398,7 +396,7 @@ export default {
         const result = await data
         this.drawer.isLoading = false
         this.drawer.isShow = false
-        this.resetForm('createForm')
+        this.resetForm()
         this.$notify({
           title: 'Выполнено',
           message: `Товар ${result.data.data.name} был добавлен`,
@@ -419,6 +417,7 @@ export default {
         await this.$store.dispatch('products/updateSingleProduct', this.form)
         this.drawer.isLoading = false
         this.drawer.isShow = false
+        this.resetForm()
         this.$notify({
           title: 'Выполнено',
           message: `Товар ${this.form.name} был обновлен`,
@@ -434,23 +433,10 @@ export default {
       }
     },
 
-    async paginationPrevClick() {
-      await this.$store.dispatch(
-        'products/fetchAllProducts',
-        this.pagination.links.prev
-      )
-      window.scrollTo(0, 0)
-    },
-    async paginationNextClick() {
-      await this.$store.dispatch(
-        'products/fetchAllProducts',
-        this.pagination.links.next
-      )
-      window.scrollTo(0, 0)
-    },
-    paginationCurrentChange(page) {
+    async paginationCurrentChange(page) {
       const params = { page: page }
-      this.$store.dispatch('products/fetchProductsByFilter', params)
+      await this.$store.dispatch('products/fetchProductsByFilter', params)
+      window.scrollTo(0, 0)
     },
 
     addProductProperty() {
@@ -483,19 +469,14 @@ export default {
       )
     },
 
-    // handleRemoveProperty(property) {
-    //   this.$store.commit('products/removeProperty', property)
-    // },
     handleRemoveProductImage(file) {
       let files = Object.assign([], this.form.images)
 
-      files.forEach((img, index, obj) => {
+      files.forEach((img, index) => {
         if (!img.raw) {
-          console.log(img)
           if (img.uid === file.uid) {
             files.splice(index, 1)
           }
-
           return
         }
         if (img.raw.uid === file.raw.uid) {
@@ -504,13 +485,13 @@ export default {
       })
 
       this.form.images = files
-      // this.$refs.uploaderProductImages.fileList = files
     },
     onChangeUploaderProductImages(file, fileList) {
       let files = Object.assign([], this.form.images)
       if (!files)
         this.form.images = []
-      files.push(file)
+      if (file)
+        files.push(file)
       this.form.images = files
     },
 

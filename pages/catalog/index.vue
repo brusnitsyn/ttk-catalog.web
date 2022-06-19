@@ -25,7 +25,6 @@
                 max-h-full
                 pb-4
               ">
-              <!-- <h1 class="font-bold text-xl">Фильтры</h1> -->
               <div class="space-y-2">
                 <ProductFilters />
               </div>
