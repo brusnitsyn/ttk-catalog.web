@@ -314,7 +314,7 @@ export default {
     }
   },
   methods: {
-    handleDelete(index, row) {
+    handleDelete(row) {
       this.$confirm('Это действие удалит элемент без возможности восстановления. Продолжить?', 'Внимание', {
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',
@@ -324,7 +324,7 @@ export default {
           await this.$store.dispatch('products/deleteSingleProduct', row)
           this.$notify({
             title: 'Выполнено',
-            message: `Товар ${result.data.data.name} был удален`,
+            message: `Товар ${result.data.name} был удален`,
             type: 'success'
           });
         } catch (error) {
