@@ -131,7 +131,7 @@ export const actions = {
     await commit('pushProperty', property)
   },
 
-  async pushSingleProduct({ commit }, product) {
+  async pushSingleProduct({ commit }, productData) {
     const sendData = new FormData()
 
     sendData.append('name', product.name)
@@ -141,9 +141,9 @@ export const actions = {
     product.discountPrice
       ? sendData.append('discountPrice', product.discountPrice)
       : sendData.append('discountPrice', '')
-    sendData.append('brandId', product.brand.id)
-    sendData.append('typeId', product.type.id)
-    sendData.append('categoryId', product.category.id)
+    sendData.append('brandId', product.brand)
+    sendData.append('typeId', product.type)
+    sendData.append('categoryId', product.category)
 
     if (product.machines) {
       product.machines.forEach((machine) => {
@@ -171,7 +171,7 @@ export const actions = {
     const result = await data
     await commit('addProduct', result.data.data)
   },
-  async updateSingleProduct(product) {
+  async updateSingleProduct({ commit }, product) {
     const sendData = new FormData()
 
     sendData.append('id', product.id)
@@ -182,9 +182,9 @@ export const actions = {
     product.discountPrice
       ? sendData.append('discountPrice', product.discountPrice)
       : sendData.append('discountPrice', '')
-    sendData.append('brandId', product.brand.id)
-    sendData.append('typeId', product.type.id)
-    sendData.append('categoryId', product.category.id)
+    sendData.append('brandId', product.brand)
+    sendData.append('typeId', product.type)
+    sendData.append('categoryId', product.category)
 
     if (product.machines) {
       product.machines.forEach((machine) => {
@@ -200,7 +200,9 @@ export const actions = {
 
     if (product.images) {
       product.images.forEach((img) => {
-        sendData.append('images[]', img.raw)
+        if (img.status == 'ready') {
+          sendData.append('images[]', img.raw)
+        }
       })
     }
 

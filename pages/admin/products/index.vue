@@ -41,18 +41,18 @@
           <el-input type="text" v-model="form.article" />
         </el-form-item>
         <el-form-item label="Производитель" prop="brand">
-          <el-select v-model="form.brand" filterable class="w-full" @change="selectBrand(form.brand.id)"
+          <el-select v-model="form.brand" filterable class="w-full" @change="selectBrand(form.brand)"
             no-data-text="Нет данных" no-match-text="Производитель не найден" placeholder="Выберите производителя"
             value-key="id">
-            <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item">
+            <el-option v-for="item in brands" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Тип техники" prop="type">
           <el-select v-model="form.type" :disabled="!(form.brand != null)" filterable
-            @change="selectMachineType(form.type.id)" class="w-full" no-data-text="Нет данных"
+            @change="selectMachineType(form.type)" class="w-full" no-data-text="Нет данных"
             no-match-text="Тип техники не найден" value-key="id" placeholder="Выберите тип техники">
-            <el-option v-for="item in machineTypesForBrand" :key="item.id" :label="item.name" :value="item">
+            <el-option v-for="item in machineTypesForBrand" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -64,17 +64,17 @@
         </el-form-item>
         <el-form-item label="Категория" prop="category">
           <el-select v-model="form.category" filterable class="w-full" no-data-text="Нет данных"
-            no-match-text="Категории не найдены" placeholder="Выберите категорию" value-key="id">
-            <el-option v-for="item in categories" :key="item.id" :label="item.name" :value="item">
+            @change="changeCategory(form.category)" no-match-text="Категории не найдены"
+            placeholder="Выберите категорию" value-key="id">
+            <el-option v-for="item in categories" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Цена" prop="actualPrice">
           <el-input v-model="form.actualPrice" type="number" class="w-full" placeholder="Введите цену" />
         </el-form-item>
-        <el-form-item v-if="form.category" label="Цена распродажи" prop="discountPrice">
-          <el-input v-model="form.discountPrice" :disabled="!(form.category.id == 3)" type="number" class="w-full"
-            placeholder="Введите цену распродажи" />
+        <el-form-item v-if="form.category == 3" label="Цена распродажи" prop="discountPrice">
+          <el-input v-model="form.discountPrice" type="number" class="w-full" placeholder="Введите цену распродажи" />
         </el-form-item>
         <el-form-item label="Описание" prop="description">
           <el-input type="textarea" :rows="3" placeholder="Данное поле не обязательное" v-model="form.description" />
@@ -246,7 +246,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import { deepClone } from '~/helpers';
 
 export default {
@@ -258,7 +258,6 @@ export default {
     ...mapGetters({
       products: 'products/getProducts',
       pagination: 'products/getPagination',
-
       product: 'products/getProduct',
       brands: 'brands/getBrands',
       machineTypes: 'machineTypes/getMachineTypes',
@@ -288,7 +287,7 @@ export default {
         images: [],
         machines: [],
         properties: [],
-        categoryId: 1
+        category: 1
       },
       rules: {
 
@@ -337,7 +336,7 @@ export default {
       }).catch(() => {
         this.$notify({
           title: 'Отмена',
-          message: 'Операция Удалить отмена пользователем',
+          message: 'Операция Удалить отменена пользователем',
           type: 'info'
         });
       });
@@ -345,10 +344,12 @@ export default {
     handleEdit(product) {
       this.form = deepClone(product)
 
-      if (this.form.brand.id !== null)
+      if (this.form.brand !== null)
         this.selectBrand(this.form.brand.id)
       if (this.form.type)
         this.selectMachineType(this.form.type.id)
+      if (this.form.category)
+        this.changeCategory(this.form.category.id)
 
       this.drawer.title = product.name
       this.drawer.isNew = false
@@ -366,6 +367,7 @@ export default {
         cancelButtonText: 'Нет',
       })
         .then(_ => {
+          this.resetForm()
           done();
         })
         .catch(_ => { });
@@ -375,7 +377,7 @@ export default {
         images: [],
         machines: [],
         properties: [],
-        categoryId: 1
+        category: 1
       }
       this.$refs.createForm.resetFields()
     },
@@ -399,7 +401,7 @@ export default {
         this.resetForm()
         this.$notify({
           title: 'Выполнено',
-          message: `Товар ${result.data.data.name} был добавлен`,
+          message: `Товар ${result.data.name} был добавлен`,
           type: 'success'
         });
       } catch (error) {
@@ -412,17 +414,19 @@ export default {
       }
     },
     async updateForm() {
+      //await this.$store.dispatch('products/updateSingleProduct', this.form)
+      let data = deepClone(this.form)
       try {
         this.drawer.isLoading = true
-        await this.$store.dispatch('products/updateSingleProduct', this.form)
+        await this.$store.dispatch('products/updateSingleProduct', data)
         this.drawer.isLoading = false
         this.drawer.isShow = false
-        this.resetForm()
         this.$notify({
           title: 'Выполнено',
           message: `Товар ${this.form.name} был обновлен`,
           type: 'success'
         });
+        this.resetForm()
       } catch (error) {
         this.drawer.isLoading = true
         this.$notify({
@@ -458,6 +462,8 @@ export default {
       let data = await this.$axios.get('/machines-types', { params })
       let result = await data
       this.machineTypesForBrand = result.data.data
+
+      this.form.brand = brandId
     },
 
     selectMachineType(machineTypeId) {
@@ -467,6 +473,10 @@ export default {
         'machines/fetchSingleMachineForMachineType',
         machineTypeId
       )
+      this.form.type = machineTypeId
+    },
+    changeCategory(value) {
+      this.form.category = value
     },
 
     handleRemoveProductImage(file) {

@@ -20,42 +20,10 @@
             <span>Баннеры</span>
           </el-menu-item>
         </el-submenu>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-goods"></i>
-            <span>Товары</span>
-          </template>
-          <el-menu-item-group title="Товары">
-            <el-menu-item index="2-1" :route="{ name: 'admin-products' }">
-              <i class="el-icon-menu"></i>
-              <span>Все товары</span>
-            </el-menu-item>
-            <el-menu-item index="2-2" :route="{ name: 'admin-products-create' }">
-              <i class="el-icon-circle-plus-outline"></i>
-              <span>Добавить товар</span>
-            </el-menu-item>
-          </el-menu-item-group>
-          <!-- <el-menu-item-group title="Категории">
-          <el-menu-item index="3-1" :route="{ name: 'admin-products' }">
-            <i class="el-icon-circle-plus-outline"></i>
-            <span>Добавить категорию</span>
-          </el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="Техника">
-          <el-menu-item index="4-1" :route="{ name: 'admin-products' }">
-            <i class="el-icon-circle-plus-outline"></i>
-            <span>Добавить производителя</span>
-          </el-menu-item>
-          <el-menu-item index="4-2" :route="{ name: 'admin-products-create' }">
-            <i class="el-icon-circle-plus-outline"></i>
-            <span>Добавить тип техники</span>
-          </el-menu-item>
-          <el-menu-item index="4-3" :route="{ name: 'admin-products-create' }">
-            <i class="el-icon-circle-plus-outline"></i>
-            <span>Добавить технику</span>
-          </el-menu-item>
-        </el-menu-item-group> -->
-        </el-submenu>
+        <el-menu-item index="2" :route="{ name: 'admin-products' }">
+          <i class="el-icon-menu"></i>
+          <span>Товары</span>
+        </el-menu-item>
         <el-submenu index="3">
           <template slot="title">
             <i class="el-icon-user"></i>
