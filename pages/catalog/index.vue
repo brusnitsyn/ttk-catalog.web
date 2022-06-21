@@ -87,10 +87,12 @@ export default {
       pagination: 'products/getPagination',
     }),
   },
+
   methods: {
     async paginationCurrentChange(page) {
       const params = { page: page }
-      await this.$store.dispatch('products/fetchProductsByFilter', params)
+      await this.$store.commit('api/products/filters/addFilter', params)
+      await this.$store.dispatch('products/fetchProductsByFilter')
       window.scrollTo(0, 0)
     },
     handleShowDrawerFilters() {
@@ -98,7 +100,8 @@ export default {
     }
   },
   async fetch({ store, query }) {
-    await store.dispatch('products/fetchProductsByFilter', query)
+    await store.commit('api/products/filters/setFilters', query)
+    await store.dispatch('products/fetchProductsByFilter')
   },
   created() {
     this.$nuxt.$on('drawer-filters-visibly', () => {

@@ -50,19 +50,6 @@ export const mutations = {
     state.productsSearchResult = products
   },
 
-  // pushProperty(state, property) {
-  //   state.product.properties.push(property)
-  // },
-
-  // removeProperty(state, property) {
-  //   const properties = [...state.product.properties]
-  //   properties.forEach((prop, index, obj) => {
-  //     if (prop.id === property.id) {
-  //       state.product.properties.splice(index, 1)
-  //     }
-  //   })
-  // },
-
   setPagination(state, pagination) {
     state.pagination.currentPage = pagination.currentPage
     state.pagination.from = pagination.from
@@ -82,7 +69,8 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchProductsByFilter({ commit }, params) {
+  async fetchProductsByFilter({ commit, rootGetters }) {
+    const params = rootGetters['api/products/filters/getFilters']
     const data = await this.$axios.get('/products', {
       params,
       paramsSerializer: function paramsSerializer(params) {
@@ -142,10 +130,10 @@ export const actions = {
   async pushProperty({ commit }, property) {
     await commit('pushProperty', property)
   },
-  async pushSingleProduct({ commit, state }, product) {
+
+  async pushSingleProduct({ commit }, product) {
     const sendData = new FormData()
 
-    sendData.append('id', product.id)
     sendData.append('name', product.name)
     sendData.append('article', product.article)
     sendData.append('description', product.description)

@@ -1,5 +1,5 @@
 export const state = () => ({
-  filters: [],
+  filters: {},
 })
 
 export const mutations = {
@@ -10,7 +10,8 @@ export const mutations = {
 
   // Add filter
   addFilter(state, filter) {
-    state.filters.push(filter)
+    const filters = Object.assign({}, state.filters, filter)
+    state.filters = Object.assign({}, filters)
   },
 
   // Clear filters

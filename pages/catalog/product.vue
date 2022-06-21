@@ -251,16 +251,6 @@ export default {
     else this.startPrice = this.product.actualPrice
 
     this.calculatePrice = this.startPrice
-
-    if (this.product.images && this.product.images.length > 1) {
-      this.$nextTick(() => {
-        const swiperTop = this.$refs.swiperTop.$el.swiper
-        const swiperThumbs = this.$refs.swiperThumbs.$el.swiper
-        swiperTop.controller.control = swiperThumbs
-        swiperThumbs.controller.control = swiperTop
-      })
-      console.log('swipers attached')
-    }
   },
   async fetch() {
     await this.$store.dispatch(
@@ -276,6 +266,15 @@ export default {
   },
   async activated() {
     await this.$fetch()
+    if (this.product.images && this.product.images.length > 1) {
+      this.$nextTick(() => {
+        const swiperTop = this.$refs.swiperTop.$el.swiper
+        const swiperThumbs = this.$refs.swiperThumbs.$el.swiper
+        swiperTop.controller.control = swiperThumbs
+        swiperThumbs.controller.control = swiperTop
+      })
+      console.log('swipers attached')
+    }
   },
 }
 </script>

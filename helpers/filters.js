@@ -93,3 +93,38 @@ export function filterMachineForType(machineTypeId, machines) {
 
   return filtered
 }
+
+function arrayToQueryString(array, keyName) {
+  var out = new Array();
+
+  for (var key in array) {
+    if (!array[keyName])
+      out.push(keyName + '=' + encodeURIComponent(array[key]));
+  }
+
+  console.log(out)
+
+  return out.join('&');
+}
+
+export function complexToQueryString(object, parentNode = null) {
+  const query = Object.entries(object).map((item) => {
+    const key = parentNode ? `${parentNode}[${item[0]}]` : item[0]
+    const value = item[1]
+
+    if (value instanceof Object) {
+      return complexToQueryString(value, key)
+    } else if (item[1] !== undefined) {
+      return [
+        Array.isArray(item[0]) ? `${key}[]` : key,
+        encodeURIComponent(item[1]),
+      ].join('=')
+    }
+
+    return ''
+  })
+    .filter(empty => empty)
+    .join('&')
+
+  return query
+}
