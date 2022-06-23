@@ -27,7 +27,7 @@
                 pb-4
               ">
               <div class="space-y-2">
-                <ProductFilters />
+                <LazyProductFilters />
               </div>
             </div>
           </div>
@@ -35,12 +35,20 @@
       </aside>
       <div class="w-full min-w-0 md:static md:max-h-full md:overflow-visible">
         <div class="flex flex-col">
-
-          <div v-if="$fetchState.pending" class="flex justify-center items-center h-full max-h-screen">
-            <span v-loading="$fetchState.pending"></span>
+          <div v-if="$fetchState.pending" class="grow grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
+            <el-skeleton v-for="i in 16" :key="i" style="width: 100%" :loading="$fetchState.pending" animated>
+              <template slot="template">
+                <el-skeleton-item variant="image" style="width: 100%; height: 176px;" />
+                <div style="padding: 0.5rem;">
+                  <el-skeleton-item variant="h3" style="width: 50%;" />
+                  <el-skeleton-item variant="text" style="margin-right: 16px;" />
+                  <el-skeleton-item variant="h1" style="width: 30%;" />
+                </div>
+              </template>
+            </el-skeleton>
           </div>
 
-          <ProductNoProductsCard v-else-if="!products.length" class="grow" />
+          <ProductNoProductsCard v-if="!products.length" class="grow" />
           <div v-else class="grow grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
             <nuxt-link v-for="product in products" :key="product.id"
               :to="{ path: '/catalog/product', query: { id: product.id } }" replace>
@@ -49,7 +57,7 @@
           </div>
           <div v-if="pagination.lastPage > 1" class="flex justify-center mb-2">
             <el-pagination :page-size.sync="pagination.perPage" background :page-count="pagination.perPage"
-              @current-change="paginationCurrentChange" layout="prev, pager, next" :total="pagination.total">
+              @current-change="paginationCurrentChange" layout="pager" :total="pagination.total">
             </el-pagination>
           </div>
         </div>
@@ -57,7 +65,7 @@
     </div>
     <el-drawer title="Фильтры" :visible.sync="drawerFiltersVisibly" direction="ltr" size="100%">
       <div class="px-4">
-        <ProductFilters />
+        <LazyProductFilters />
       </div>
     </el-drawer>
   </Container>

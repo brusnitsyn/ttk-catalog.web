@@ -14,7 +14,7 @@
             </svg>
           </button>
         </div>
-        <div class="pt-3 flex flex-col">
+        <div class="py-3 flex flex-col">
           <ProductSearchInput />
           <ol v-if="productSearchResult.length > 0"
             class="mt-2.5 rounded-[4px] border p-1.5 space-y-2.5 overflow-y-auto max-h-[512px]">
@@ -34,6 +34,11 @@
               </NuxtLink>
             </li>
           </ol>
+        </div>
+        <div class="flex justify-end">
+          <Nuxt-Link :to="'/catalog/search'" replace class="text-sm">
+            Все результаты
+          </Nuxt-Link>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import webpack from 'webpack'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -15,13 +16,32 @@ export default {
           'Запчасти для сельхозтехники: огромный выбор запчастей по самым низким. Заказывайте запчасти в интернет-магазине ТТК+ с доставкой по России',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
+      },
+    ],
+    script: [
+      {
+        type: 'text/javascript',
+        src: 'https://unpkg.com/element-ui/lib/index.js',
+      },
+    ],
+    script: [
+      ...[
+        'https://unpkg.zhimg.com/element-ui@2.15.8/lib/index.js',
+      ].map((item) => {
+        return { src: item };
+      })
+    ]
   },
 
   ssr: false,
 
   router: {
-    middleware: 'dialogs'
+    middleware: 'dialogs',
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -30,7 +50,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '@/plugins/VueAwesomeSwiper', mode: 'client' },
-    { src: '@/plugins/element-ui' },
+
     { src: '@/plugins/vClickOutside', ssr: false },
     { src: '@/plugins/ymapPlugin', mode: 'client' },
   ],
@@ -70,13 +90,7 @@ export default {
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
-    'dropzone-nuxt',
-    'nuxt-vue-multiselect',
-    '@nuxtjs/yandex-metrika',
-  ],
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth-next', '@nuxtjs/yandex-metrika'],
   publicRuntimeConfig: {
     yandexMetrika: {
       id: 88691917,
@@ -90,12 +104,23 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://localhost:8000',
+    baseURL: 'https://dv-ttk.ru/api',
     credentials: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    analyze: true,
+    assetFilter: function (assetFilename) {
+      return assetFilename.endsWith('.js')
+    },
+    extend(config, { isDev, isClient }) {
+      if (isClient) {
+        config.externals = {
+          'element-ui': 'ELEMENT',
+        }
+      }
+    },
     postcss: {
       plugins: {
         tailwindcss: {},

@@ -15,7 +15,7 @@ export default {
   methods: {
     handleSearch: debounce(function (e) {
       if (!this.search || !!this.search.trim() == '')
-        return
+        this.$store.commit('api/products/search/clearProducts')
 
       let searchQuery = { 'search': this.search }
       this.$store.dispatch('api/products/search/fetchProductsBySearchQuery', searchQuery)
