@@ -131,7 +131,7 @@ export const actions = {
     await commit('pushProperty', property)
   },
 
-  async pushSingleProduct({ commit }, productData) {
+  async pushSingleProduct({ commit }, product) {
     const sendData = new FormData()
 
     sendData.append('name', product.name)

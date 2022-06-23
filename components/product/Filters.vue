@@ -2,37 +2,25 @@
   <div class="flex flex-col items-stretch border rounded-[4px]">
     <el-collapse :class="{ 'mb-2': Object.entries(storeFilters).length }" v-model="activeFilter">
       <el-collapse-item title="Производитель" name="1" class="text-left px-2">
-        <div class="flex flex-col justify-start items-start h-48 overflow-y-auto">
-          <el-checkbox-group @change="changeFilters" v-model="filters.brand">
-            <div class="flex flex-col gap-y-2.5 px-1 ">
-              <el-checkbox class="break-words" v-for="brand in brands" :key="brand.id" :label="brand.id">
-                {{ brand.name }}
-              </el-checkbox>
-            </div>
-          </el-checkbox-group>
-        </div>
+        <el-checkbox-group @change="changeFilters" v-model="filters.brand" class="flex flex-col">
+          <el-checkbox v-for="brand in brands" :key="brand.id" :label="brand.id">
+            {{ brand.name }}
+          </el-checkbox>
+        </el-checkbox-group>
       </el-collapse-item>
       <el-collapse-item title="Тип техники" name="2" class="text-left px-2">
-        <div class="flex flex-col justify-start items-start h-full max-h-52 overflow-y-auto">
-          <el-checkbox-group @change="changeFilters" v-model="filters.type">
-            <div class="flex flex-col gap-y-2.5 px-1 break-words max-w-[200px]">
-              <el-checkbox v-for="machineType in machineTypes" :key="machineType.id" :label="machineType.id">
-                {{ machineType.name }}
-              </el-checkbox>
-            </div>
-          </el-checkbox-group>
-        </div>
+        <el-checkbox-group @change="changeFilters" v-model="filters.type" class="flex flex-col">
+          <el-checkbox v-for="machineType in machineTypes" :key="machineType.id" :label="machineType.id">
+            {{ machineType.name }}
+          </el-checkbox>
+        </el-checkbox-group>
       </el-collapse-item>
       <el-collapse-item title="Техника" name="3" class="text-left px-2">
-        <div class="flex flex-col justify-start items-start h-full max-h-52 overflow-y-auto">
-          <el-checkbox-group @change="changeFilters" v-model="filters.machine">
-            <div class="flex flex-col gap-y-2.5 px-1 break-words max-w-[200px]">
-              <el-checkbox v-for="machine in machines" :key="machine.id" :label="machine.id">
-                {{ machine.name }}
-              </el-checkbox>
-            </div>
-          </el-checkbox-group>
-        </div>
+        <el-checkbox-group @change="changeFilters" v-model="filters.machine" class="flex flex-col">
+          <el-checkbox v-for="machine in machines" :key="machine.id" :label="machine.id">
+            {{ machine.name }}
+          </el-checkbox>
+        </el-checkbox-group>
       </el-collapse-item>
     </el-collapse>
 
@@ -53,7 +41,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { deepClone, } from '~/helpers'
+import { deepClone } from '~/helpers'
 export default {
   data() {
     return {
@@ -142,5 +130,11 @@ export default {
 ::v-deep .el-collapse {
   border-top: 0px;
   border-bottom: 0px;
+}
+
+::v-deep .el-checkbox__label {
+  max-width: 180px;
+  width: 100%;
+  word-break: break-all;
 }
 </style>

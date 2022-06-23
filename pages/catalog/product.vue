@@ -4,7 +4,7 @@
     <div class="py-4">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">Главная</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/catalog' }">Каталог</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'catalog' }">Каталог</el-breadcrumb-item>
         <el-breadcrumb-item>{{ product.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -240,8 +240,21 @@ export default {
       this.calculatePrice = (this.startPrice * this.productSelectCount)
     },
   },
-  async watchQuery(query) {
-    await this.$store.dispatch(
+  // async watchQuery(query) {
+  //   await this.$store.dispatch(
+  //     'products/fetchSingleProduct',
+  //     query.id
+  //   )
+  //   this.productSelectCount = 1
+
+  //   if (this.product.discountPrice) this.startPrice = this.product.discountPrice
+  //   else this.startPrice = this.product.actualPrice
+
+  //   this.calculatePrice = this.startPrice
+  // },
+  async fetch() {
+    const { store, query } = this.$nuxt.context
+    await store.dispatch(
       'products/fetchSingleProduct',
       query.id
     )
@@ -252,28 +265,20 @@ export default {
 
     this.calculatePrice = this.startPrice
   },
-  async fetch() {
-    await this.$store.dispatch(
-      'products/fetchSingleProduct',
-      this.$route.query.id
-    )
-    this.productSelectCount = 1
-
-    if (this.product.discountPrice) this.startPrice = this.product.discountPrice
-    else this.startPrice = this.product.actualPrice
-
-    this.calculatePrice = this.startPrice
-  },
   async activated() {
-    await this.$fetch()
+    this.$fetch()
     if (this.product.images && this.product.images.length > 1) {
-      this.$nextTick(() => {
-        const swiperTop = this.$refs.swiperTop.$el.swiper
-        const swiperThumbs = this.$refs.swiperThumbs.$el.swiper
-        swiperTop.controller.control = swiperThumbs
-        swiperThumbs.controller.control = swiperTop
-      })
-      console.log('swipers attached')
+      try {
+        this.$nextTick(() => {
+          const swiperTop = this.$refs.swiperTop.$el.swiper
+          const swiperThumbs = this.$refs.swiperThumbs.$el.swiper
+          swiperTop.controller.control = swiperThumbs
+          swiperThumbs.controller.control = swiperTop
+        })
+        console.log('swipers attached')
+      } catch (error) {
+        console.error(error)
+      }
     }
   },
 }

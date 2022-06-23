@@ -31,7 +31,7 @@
         @current-change="paginationCurrentChange" layout="prev, pager, next" :total="pagination.total">
       </el-pagination>
     </div>
-    <el-drawer :title="drawer.title" :before-close="handleClose" :visible.sync="drawer.isShow" direction="rtl"
+    <el-drawer :title="drawer.title" :before-close="handleClose" :visible.sync="drawer.isShow"  direction="rtl"
       custom-class="w-full lg:w-1/3" size="">
       <el-form ref="createForm" :model="form" :rules="rules" class="px-5" label-position="top">
         <el-form-item label="Наименование" prop="name">

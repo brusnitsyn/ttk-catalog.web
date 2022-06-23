@@ -22,6 +22,7 @@
                 flex-col
                 overflow-y-auto
                 sticky
+                w-full
                 max-h-full
                 pb-4
               ">
@@ -34,13 +35,18 @@
       </aside>
       <div class="w-full min-w-0 md:static md:max-h-full md:overflow-visible">
         <div class="flex flex-col">
-          <div v-if="products.length" class="grow grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
+
+          <div v-if="$fetchState.pending" class="flex justify-center items-center h-full max-h-screen">
+            <span v-loading="$fetchState.pending"></span>
+          </div>
+
+          <ProductNoProductsCard v-else-if="!products.length" class="grow" />
+          <div v-else class="grow grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
             <nuxt-link v-for="product in products" :key="product.id"
               :to="{ path: '/catalog/product', query: { id: product.id } }" replace>
               <LazyProductCard :product="product" />
             </nuxt-link>
           </div>
-          <ProductNoProductsCard v-else class="grow" />
           <div v-if="pagination.lastPage > 1" class="flex justify-center mb-2">
             <el-pagination :page-size.sync="pagination.perPage" background :page-count="pagination.perPage"
               @current-change="paginationCurrentChange" layout="prev, pager, next" :total="pagination.total">
@@ -99,7 +105,8 @@ export default {
       this.drawerFiltersVisibly = !this.drawerFiltersVisibly
     }
   },
-  async fetch({ store, query }) {
+  async fetch() {
+    const { store, query } = this.$nuxt.context
     await store.commit('api/products/filters/setFilters', query)
     await store.dispatch('products/fetchProductsByFilter')
   },
