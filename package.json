@@ -19,6 +19,8 @@
     "@nuxtjs/yandex-metrika": "^1.4.0",
     "autoprefixer": "^10.4.4",
     "core-js": "^3.19.3",
+    "element-ui": "^2.15.9",
+    "html-minifier": "^4.0.0",
     "nuxt": "^2.15.8",
     "postcss": "^8.4.12",
     "swiper": "^5.4.5",
@@ -32,6 +34,7 @@
   },
   "devDependencies": {
     "@nuxt/image": "^0.6.2",
+    "babel-plugin-component": "^1.1.1",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.5.1",
     "sass": "~1.50.0",

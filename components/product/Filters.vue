@@ -40,9 +40,20 @@
 </template>
 
 <script>
+import('~/assets/css/element-index.scss')
+
+const ElCollapse = () => import('~/node_modules/element-ui/lib/collapse')
+const ElCollapseItem = () => import('~/node_modules/element-ui/lib/collapse-item')
+const ElCheckboxGroup = () => import('~/node_modules/element-ui/lib/checkbox-group')
+const ElCheckbox = () => import('~/node_modules/element-ui/lib/checkbox')
+const ElButton = () => import('~/node_modules/element-ui/lib/button')
+
 import { mapGetters, mapActions } from 'vuex'
 import { deepClone } from '~/helpers'
 export default {
+  components: {
+    ElCollapse, ElCollapseItem, ElCheckboxGroup, ElCheckbox, ElButton
+  },
   data() {
     return {
       filters: {

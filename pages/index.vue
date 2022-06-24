@@ -38,9 +38,6 @@
                     ПОДРОБНЕЕ
                   </el-button>
                 </a>
-                <!-- <el-link :href="banner.url" type="info" class="font-inter text-xl font-bold">
-
-                </el-link> -->
               </div>
             </div>
           </swiper-slide>
@@ -79,10 +76,17 @@
 </template>
 
 <script>
+import('~/assets/css/element-index.scss')
+
+const ElButton = () => import('~/node_modules/element-ui/lib/button')
+
 import { mapGetters } from 'vuex'
 export default {
   name: 'IndexPage',
   layout: 'index',
+  components: {
+    ElButton
+  },
   data() {
     return {
       swiperOptions: {

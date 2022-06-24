@@ -123,7 +123,7 @@
             </span>
           </el-collapse-item>
         </el-collapse>
-        <el-dialog :title="`Заказать ${product.name}`" :visible.sync="dialogVisible"
+        <el-dialog :title="`Купить ${product.name}`" :visible.sync="dialogVisible"
           custom-class="max-w-none md:max-w-md">
           <div>
             <p class="break-words">Свяжитесь с менеджерами для уточнения наличия</p>
@@ -179,13 +179,27 @@
 </style>
 
 <script>
+import('~/assets/css/element-index.scss')
+
+const ElButton = () => import('~/node_modules/element-ui/lib/button')
+const ElInputNumber = () => import('~/node_modules/element-ui/lib/input-number')
+const ElBreadcrumb = () => import('~/node_modules/element-ui/lib/breadcrumb')
+const ElBreadcrumbItem = () => import('~/node_modules/element-ui/lib/breadcrumb-item')
+const ElCollapse = () => import('~/node_modules/element-ui/lib/collapse')
+const ElCollapseItem = () => import('~/node_modules/element-ui/lib/collapse-item')
+const ElDialog = () => import('~/node_modules/element-ui/lib/dialog')
+const ElLink = () => import('~/node_modules/element-ui/lib/link')
+
 import { mapGetters } from 'vuex'
 export default {
   auth: false,
   layout: 'index',
+  components: {
+    ElButton, ElInputNumber, ElBreadcrumb, ElBreadcrumbItem, ElCollapse, ElCollapseItem, ElDialog, ElLink
+  },
   data() {
     return {
-      title: '',
+      title: 'Загрузка...',
       image: '',
       dialogVisible: false,
       swiperOptionTop: {

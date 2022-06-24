@@ -16,7 +16,7 @@
         class="modal bg-gray-100 border-gray-200 border m-4 p-6 rounded-[4px] bottom-0 right-0 left-0 fixed z-40 font-inter">
         <ul class="flex flex-col w-full">
           <li class="hover:bg-[#F59E0B] rounded-[4px] px-2">
-            <NuxtLink class="py-2 flex flex-row justify-between items-center" :to="'/'" replace>
+            <NuxtLink class="py-2 flex flex-row justify-between items-center" to="/" replace>
               <span class="text-[#212121]">Главная</span>
               <!-- <span class="ml-auto text-[#212121]">11</span> -->
             </NuxtLink>

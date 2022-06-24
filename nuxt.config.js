@@ -1,4 +1,3 @@
-import webpack from 'webpack'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -18,24 +17,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        href: 'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
-      },
     ],
-    script: [
-      {
-        type: 'text/javascript',
-        src: 'https://unpkg.com/element-ui/lib/index.js',
-      },
-    ],
-    script: [
-      ...[
-        'https://unpkg.zhimg.com/element-ui@2.15.8/lib/index.js',
-      ].map((item) => {
-        return { src: item };
-      })
-    ]
   },
 
   ssr: false,
@@ -50,7 +32,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '@/plugins/VueAwesomeSwiper', mode: 'client' },
-
     { src: '@/plugins/vClickOutside', ssr: false },
     { src: '@/plugins/ymapPlugin', mode: 'client' },
   ],
@@ -59,12 +40,7 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxt/postcss8', '@nuxtjs/moment', '@nuxt/image'],
-
-  // image: {
-  //   domains: ['http://127.0.0.1:8000/'],
-  //   baseURL: 'http://127.0.0.1:8000/',
-  // },
+  buildModules: ['@nuxt/postcss8', '@nuxtjs/moment'],
 
   auth: {
     strategies: {
@@ -116,9 +92,7 @@ export default {
     },
     extend(config, { isDev, isClient }) {
       if (isClient) {
-        config.externals = {
-          'element-ui': 'ELEMENT',
-        }
+
       }
     },
     postcss: {

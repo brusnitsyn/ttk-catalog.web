@@ -10,7 +10,7 @@
           lg:py-6 lg:gap-x-6
         ">
         <div class="hidden md:flex flex-row gap-x-6 font-inter">
-          <nuxt-link :to="'/'">
+          <nuxt-link to="/">
             <LogoShort />
           </nuxt-link>
           <div class="flex gap-x-4">

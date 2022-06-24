@@ -23,7 +23,7 @@
           <p class="text-[#212121] pb-4 leading-[16px]">Навигация</p>
           <ol>
             <li class="pb-2">
-              <NuxtLink :to="{ name: '/' }" replace>
+              <NuxtLink to="/" replace>
                 Главная
               </NuxtLink>
             </li>
@@ -69,8 +69,14 @@
 </template>
 
 <script>
+import('~/assets/css/element-index.scss')
+
+const ElLink = () => import('~/node_modules/element-ui/lib/link')
 
 export default {
+  components: {
+    ElLink
+  },
   data() {
     return {
       year: 0,

@@ -8,7 +8,7 @@
       items-center
     ">
     <el-form method="post" action="" @submit.native.prevent="submitForm" native-type="submit" ref="loginForm"
-      :rules="rules" :model="form" class="p-5 shadow-lg rounded-[4px] border bg-white">
+      :rules="rules" :model="form" class="p-5 shadow-lg rounded-[4px] border bg-white max-w-sm w-full">
       <h2 class="py-4 text-center font-inter">Вход в личный кабинет</h2>
       <el-form-item prop="email">
         <el-input v-model="form.email" type="email" prefix-icon="el-icon-user" placeholder="example@domain.ru">
