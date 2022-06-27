@@ -12,13 +12,14 @@
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
         <div class="bg-gray-200 rounded-[4px]">
           <div class="flex items-center justify-center py-9 ">
-            <client-only v-if="product.images.length > 1">
-              <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
-                <swiper-slide class="swiper-slide" v-for="image in product.images" :key="image.id">
-                  <img :src="image.url" :alt="product.name" class="py-3 h-[300px] mx-auto" />
-                </swiper-slide>
-              </swiper>
-            </client-only>
+
+            <Swiper v-if="product.images.length > 1" class="swiper gallery-top" :options="swiperOptionTop"
+              ref="swiperTop">
+              <SwiperSlide class="swiper-slide" v-for="image in product.images" :key="image.id">
+                <img :src="image.url" :alt="product.name" class="py-3 h-[300px] mx-auto" />
+              </SwiperSlide>
+            </Swiper>
+
             <img v-else-if="product.images.length === 1" :src="product.images[0].url"
               class="object-center object-cover h-[300px]" :alt="product.name" />
             <img v-else src="/img/no-finded-image.png" class="object-center object-cover h-[300px]"
@@ -26,16 +27,16 @@
           </div>
         </div>
 
-        <client-only>
-          <swiper class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs" v-if="product.images.length > 1"
-            ref="swiperThumbs">
-            <swiper-slide v-for="image in product.images" :key="image.id" class="swiper-slide">
-              <div class="bg-gray-200 rounded-[4px] flex justify-center">
-                <img :src="image.url" :alt="product.name" class="py-3 h-24 max-h-[96px]" />
-              </div>
-            </swiper-slide>
-          </swiper>
-        </client-only>
+
+        <Swiper class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs" v-if="product.images.length > 1"
+          ref="swiperThumbs">
+          <SwiperSlide v-for="image in product.images" :key="image.id" class="swiper-slide">
+            <div class="bg-gray-200 rounded-[4px] flex justify-center">
+              <img :src="image.url" :alt="product.name" class="py-3 h-24 max-h-[96px]" />
+            </div>
+          </SwiperSlide>
+        </Swiper>
+
 
       </div>
       <div class="flex flex-col flex-grow px-2 py-1">
@@ -180,6 +181,7 @@
 
 <script>
 import('~/assets/css/element-index.scss')
+import 'swiper/css/swiper.css'
 
 const ElButton = () => import('~/node_modules/element-ui/lib/button')
 const ElInputNumber = () => import('~/node_modules/element-ui/lib/input-number')
@@ -189,18 +191,25 @@ const ElCollapse = () => import('~/node_modules/element-ui/lib/collapse')
 const ElCollapseItem = () => import('~/node_modules/element-ui/lib/collapse-item')
 const ElDialog = () => import('~/node_modules/element-ui/lib/dialog')
 const ElLink = () => import('~/node_modules/element-ui/lib/link')
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 
 import { mapGetters } from 'vuex'
 export default {
   auth: false,
   layout: 'index',
   components: {
-    ElButton, ElInputNumber, ElBreadcrumb, ElBreadcrumbItem, ElCollapse, ElCollapseItem, ElDialog, ElLink
+    ElButton, ElInputNumber, ElBreadcrumb, ElBreadcrumbItem, ElCollapse, ElCollapseItem, ElDialog, ElLink, Swiper, SwiperSlide
   },
+  // computed: {
+  //   swiperTop() {
+  //     return this.$refs.swiperTop
+  //   },
+  //   swiperThumbs() {
+  //     return this.$refs.swiperThumbs
+  //   }
+  // },
   data() {
     return {
-      title: 'Загрузка...',
-      image: '',
       dialogVisible: false,
       swiperOptionTop: {
         lazy: true,
@@ -248,24 +257,12 @@ export default {
   },
   methods: {
     handleChange(value) {
-      if (value === null || typeof value === 'undefined') {
+      if (value === null || typeof value === 'undefined')
         this.productSelectCount = 1
-      }
+
       this.calculatePrice = (this.startPrice * this.productSelectCount)
     },
   },
-  // async watchQuery(query) {
-  //   await this.$store.dispatch(
-  //     'products/fetchSingleProduct',
-  //     query.id
-  //   )
-  //   this.productSelectCount = 1
-
-  //   if (this.product.discountPrice) this.startPrice = this.product.discountPrice
-  //   else this.startPrice = this.product.actualPrice
-
-  //   this.calculatePrice = this.startPrice
-  // },
   async fetch() {
     const { store, query } = this.$nuxt.context
     await store.dispatch(
@@ -279,21 +276,22 @@ export default {
 
     this.calculatePrice = this.startPrice
   },
-  async activated() {
-    this.$fetch()
-    if (this.product.images && this.product.images.length > 1) {
+  mounted() {
+
+  },
+  beforeUpdate() {
+    if (this.product.images && this.product.images.length > 1)
       try {
-        this.$nextTick(() => {
-          const swiperTop = this.$refs.swiperTop.$el.swiper
-          const swiperThumbs = this.$refs.swiperThumbs.$el.swiper
-          swiperTop.controller.control = swiperThumbs
-          swiperThumbs.controller.control = swiperTop
+        this.$nextTick(function () {
+          const swiperTop = this.$refs.swiperTop.$swiper
+          const swiperThumbs = this.$refs.swiperThumbs.$swiper
+
+          this.$refs.swiperTop.$swiper.controller.control = swiperThumbs
+          this.$refs.swiperThumbs.$swiper.controller.control = swiperTop
         })
-        console.log('swipers attached')
       } catch (error) {
         console.error(error)
       }
-    }
   },
 }
 </script>

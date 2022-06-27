@@ -90,7 +90,7 @@ export default {
   data() {
     return {
       swiperOptions: {
-        slidesPerView: 1,
+        watchSlidesVisibility: true,
         spaceBetween: 10,
         breakpoints: {
           320: {
@@ -105,8 +105,9 @@ export default {
         },
       },
       bannersOptions: {
+        loop: true,
         autoplay: {
-          delay: 5000,
+          delay: 6500,
         },
       },
     }

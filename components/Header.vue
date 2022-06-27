@@ -9,23 +9,36 @@
           py-4
           lg:py-6 lg:gap-x-6
         ">
-        <div class="hidden md:flex flex-row gap-x-6 font-inter">
+        <div class="hidden md:flex flex-row gap-x-8 font-inter">
           <nuxt-link to="/">
             <LogoShort />
           </nuxt-link>
-          <div class="flex gap-x-4">
-            <nuxt-link :to="`/`">Главная</nuxt-link>
-            <nuxt-link :to="`/catalog`">Каталог</nuxt-link>
+          <div class="flex gap-x-4 items-center">
+            <nuxt-link class="font-inter leading-4" to="/" replace>Главная</nuxt-link>
+            <nuxt-link class="font-inter leading-4" to="/catalog" replace>Каталог</nuxt-link>
           </div>
         </div>
 
         <div class="hidden md:flex flex-row gap-x-4 font-inter">
           <button class="p-1.5 group" @click="handleOpenSearch">
-            <svg width="19" height="19" class="group-hover:text-[#F59E0B]" viewBox="0 0 19 19"
+            <svg width="20" height="20" class="group-hover:text-[#F59E0B]" viewBox="0 0 20 20" fill="none"
               xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M9.05608 1.72754C13.0836 1.72754 16.3596 5.00354 16.3596 9.03104C16.3596 10.9312 15.6304 12.6642 14.4371 13.9649L16.7851 16.3081C17.0049 16.5278 17.0056 16.8833 16.7859 17.1031C16.6764 17.2141 16.5316 17.2688 16.3876 17.2688C16.2444 17.2688 16.1004 17.2141 15.9901 17.1046L13.6137 14.7348C12.3636 15.7359 10.7786 16.3353 9.05608 16.3353C5.02858 16.3353 1.75183 13.0585 1.75183 9.03104C1.75183 5.00354 5.02858 1.72754 9.05608 1.72754ZM9.05608 2.85254C5.64883 2.85254 2.87683 5.62379 2.87683 9.03104C2.87683 12.4383 5.64883 15.2103 9.05608 15.2103C12.4626 15.2103 15.2346 12.4383 15.2346 9.03104C15.2346 5.62379 12.4626 2.85254 9.05608 2.85254Z"
-                fill="currentColor" />
+              <path
+                d="M9.00494 14.928C12.4481 14.928 15.2393 12.1368 15.2393 8.6936C15.2393 5.25045 12.4481 2.45923 9.00494 2.45923C5.56179 2.45923 2.77057 5.25045 2.77057 8.6936C2.77057 12.1368 5.56179 14.928 9.00494 14.928Z"
+                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M13.4136 13.1021L17.0206 16.7091" stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button class="p-1.5 group" @click="handleOpenSearch">
+            <svg width="20" height="20" class="group-hover:text-[#F59E0B]" viewBox="0 0 20 20" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M10.2465 12.5881C12.8699 12.5881 14.9965 10.4615 14.9965 7.83813C14.9965 5.21478 12.8699 3.08813 10.2465 3.08813C7.62317 3.08813 5.49652 5.21478 5.49652 7.83813C5.49652 10.4615 7.62317 12.5881 10.2465 12.5881Z"
+                stroke="currentColor" stroke-miterlimit="10" />
+              <path
+                d="M3.0473 16.7443C3.77683 15.4805 4.8262 14.431 6.08994 13.7013C7.35368 12.9716 8.78724 12.5874 10.2465 12.5874C11.7058 12.5874 13.1394 12.9716 14.4031 13.7013C15.6668 14.431 16.7162 15.4805 17.4457 16.7443"
+                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </button>
         </div>

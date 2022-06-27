@@ -14,7 +14,7 @@
               pointer-events-auto
               max-h-screen
               sticky
-              top-[79px]
+              top-[80px]
               w-60
             ">
             <div class="
