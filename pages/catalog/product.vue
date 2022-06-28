@@ -1,8 +1,13 @@
 <template>
-  <Loading v-if="$fetchState.pending" />
-  <Container v-else class="pt-4 md:pt-0 ">
+  <!-- <Loading v-if="$fetchState.pending" /> -->
+  <Container class="pt-4 md:pt-0 ">
     <div class="py-4">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-skeleton v-if="$fetchState.pending" style="width: 100%" :loading="$fetchState.pending" animated>
+        <template slot="template">
+          <el-skeleton-item variant="caption" style="width: 100%" />
+        </template>
+      </el-skeleton>
+      <el-breadcrumb v-else separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">Главная</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ name: 'catalog' }">Каталог</el-breadcrumb-item>
         <el-breadcrumb-item>{{ product.name }}</el-breadcrumb-item>
@@ -11,8 +16,12 @@
     <div class="flex flex-col lg:flex-row gap-x-24 pb-3">
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
         <div class="bg-gray-200 rounded-[4px]">
-          <div class="flex items-center justify-center py-9 ">
-
+          <el-skeleton v-if="$fetchState.pending" style="width: 100%" :loading="$fetchState.pending" animated>
+            <template slot="template">
+              <el-skeleton-item variant="image" style="width: 520px; height: 420px;" />
+            </template>
+          </el-skeleton>
+          <div v-else class="flex items-center justify-center py-9 ">
             <Swiper v-if="product.images.length > 1" class="swiper gallery-top" :options="swiperOptionTop"
               ref="swiperTop">
               <SwiperSlide class="swiper-slide" v-for="image in product.images" :key="image.id">
@@ -28,16 +37,21 @@
         </div>
 
 
-        <Swiper class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs" v-if="product.images.length > 1"
-          ref="swiperThumbs">
-          <SwiperSlide v-for="image in product.images" :key="image.id" class="swiper-slide">
-            <div class="bg-gray-200 rounded-[4px] flex justify-center">
-              <img :src="image.url" :alt="product.name" class="py-3 h-24 max-h-[96px]" />
-            </div>
-          </SwiperSlide>
-        </Swiper>
-
-
+        <el-skeleton v-if="$fetchState.pending" style="width: 100%" :loading="$fetchState.pending" animated>
+          <template slot="template">
+            <el-skeleton-item variant="image" style="width: 520px; height: 420px;" />
+          </template>
+        </el-skeleton>
+        <div v-else>
+          <Swiper v-if="product.images.length > 1" class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs"
+            ref="swiperThumbs">
+            <SwiperSlide v-for="image in product.images" :key="image.id" class="swiper-slide">
+              <div class="bg-gray-200 rounded-[4px] flex justify-center">
+                <img :src="image.url" :alt="product.name" class="py-3 h-24 max-h-[96px]" />
+              </div>
+            </SwiperSlide>
+          </Swiper>
+        </div>
       </div>
       <div class="flex flex-col flex-grow px-2 py-1">
         <div class="flex" v-if="product.category && product.category.id != 1">
@@ -90,40 +104,47 @@
             </div>
           </div>
         </div>
-        <el-collapse accordion class="border px-2.5 rounded-[4px]" v-model="activeCollapseName">
-          <el-collapse-item v-if="product.properties.length > 0" title="Характеристики" name="1">
-            <ol class="space-y-2 md:space-y-0.5">
-              <li v-for="prop in product.properties" :key="prop.id">
-                <div class="flex flex-col md:flex-row justify-between items-baseline">
-                  <span class="leading-3 font-inter text-sm">{{ prop.property.name }}</span>
-                  <div
-                    class="hidden md:block md:flex-grow border-b-2 min-w-[50px] border-dotted border-gray-400 mb-1.5 mx-1.5">
-                  </div>
-                  <div class="flex-initial gap-x-1 text-sm">
-                    <span class="font-inter font-semibold">
-                      {{ prop.value }}
-                    </span>
-                    <span v-if="prop.isDimension" class="font-inter font-semibold">
-                      {{ prop.dimension }}
-                    </span>
-                  </div>
+        <el-skeleton style="width: 100%; height: 100%;" :loading="$fetchState.pending" animated>
+          <template slot="template">
+            <el-skeleton-item variant="rect" style="width: 100%; height: 100%;" />
+          </template>
+          <template>
+            <el-collapse accordion class="border px-2.5 rounded-[4px]" v-model="activeCollapseName">
+              <el-collapse-item v-if="product.properties && product.properties.length > 0" title="Характеристики" name="1">
+                <ol class="space-y-2 md:space-y-0.5">
+                  <li v-for="prop in product.properties" :key="prop.id">
+                    <div class="flex flex-col md:flex-row justify-between items-baseline">
+                      <span class="leading-3 font-inter text-sm">{{ prop.property.name }}</span>
+                      <div
+                        class="hidden md:block md:flex-grow border-b-2 min-w-[50px] border-dotted border-gray-400 mb-1.5 mx-1.5">
+                      </div>
+                      <div class="flex-initial gap-x-1 text-sm">
+                        <span class="font-inter font-semibold">
+                          {{ prop.value }}
+                        </span>
+                        <span v-if="prop.isDimension" class="font-inter font-semibold">
+                          {{ prop.dimension }}
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                </ol>
+              </el-collapse-item>
+              <el-collapse-item v-if="product.machines && product.machines.length > 0" title="Применяемость" name="2">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-1">
+                  <span v-for="machine in product.machines" :key="machine.id" class="font-inter">
+                    {{ machine.name }}
+                  </span>
                 </div>
-              </li>
-            </ol>
-          </el-collapse-item>
-          <el-collapse-item v-if="product.machines.length > 0" title="Применяемость" name="2">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-1">
-              <span v-for="machine in product.machines" :key="machine.id" class="font-inter">
-                {{ machine.name }}
-              </span>
-            </div>
-          </el-collapse-item>
-          <el-collapse-item v-if="product.description" title="Описание" name="3">
-            <span class="font-inter">
-              {{ product.description }}
-            </span>
-          </el-collapse-item>
-        </el-collapse>
+              </el-collapse-item>
+              <el-collapse-item v-if="product.description" title="Описание" name="3">
+                <span class="font-inter">
+                  {{ product.description }}
+                </span>
+              </el-collapse-item>
+            </el-collapse>
+          </template>
+        </el-skeleton>
         <el-dialog :title="`Купить ${product.name}`" :visible.sync="dialogVisible"
           custom-class="max-w-none md:max-w-md">
           <div>

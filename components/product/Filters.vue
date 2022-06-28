@@ -2,11 +2,18 @@
   <div class="flex flex-col items-stretch border rounded-[4px]">
     <el-collapse :class="{ 'mb-2': Object.entries(storeFilters).length }" v-model="activeFilter">
       <el-collapse-item title="Производитель" name="1" class="text-left px-2">
-        <el-checkbox-group @change="changeFilters" v-model="filters.brand" class="flex flex-col">
-          <el-checkbox v-for="brand in brands" :key="brand.id" :label="brand.id">
-            {{ brand.name }}
-          </el-checkbox>
-        </el-checkbox-group>
+        <el-skeleton style="width: 100%; height: 100%;" :loading="$fetchState.pending" animated>
+          <template slot="template">
+            <el-skeleton-item v-for="i in 12" :key="i" variant="h2" style="width: 100%" />
+          </template>
+          <template>
+            <el-checkbox-group @change="changeFilters" v-model="filters.brand" class="flex flex-col">
+              <el-checkbox v-for="brand in brands" :key="brand.id" :label="brand.id">
+                {{ brand.name }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </template>
+        </el-skeleton>
       </el-collapse-item>
       <el-collapse-item title="Тип техники" name="2" class="text-left px-2">
         <el-checkbox-group @change="changeFilters" v-model="filters.type" class="flex flex-col">
@@ -47,12 +54,14 @@ const ElCollapseItem = () => import('~/node_modules/element-ui/lib/collapse-item
 const ElCheckboxGroup = () => import('~/node_modules/element-ui/lib/checkbox-group')
 const ElCheckbox = () => import('~/node_modules/element-ui/lib/checkbox')
 const ElButton = () => import('~/node_modules/element-ui/lib/button')
+const ElSkeleton = () => import('~/node_modules/element-ui/lib/skeleton')
+const ElSkeletonItem = () => import('~/node_modules/element-ui/lib/skeleton-item')
 
 import { mapGetters, mapActions } from 'vuex'
 import { deepClone } from '~/helpers'
 export default {
   components: {
-    ElCollapse, ElCollapseItem, ElCheckboxGroup, ElCheckbox, ElButton
+    ElCollapse, ElCollapseItem, ElCheckboxGroup, ElCheckbox, ElButton, ElSkeleton, ElSkeletonItem
   },
   data() {
     return {

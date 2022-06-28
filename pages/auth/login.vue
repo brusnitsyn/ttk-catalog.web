@@ -19,12 +19,22 @@
           <el-input v-model="form.password" type="password" prefix-icon="el-icon-key" placeholder="Пароль"></el-input>
         </el-form-item>
         <div class="pt-2 flex flex-row justify-end items-center gap-x-4">
-          <el-link>
-            Забыли пароль?
-          </el-link>
           <el-button type="primary" @click="submitForm" :loading="loading" class="w-[120px]">Войти</el-button>
         </div>
       </el-form>
+      <el-divider></el-divider>
+      <div class="flex flex-row justify-between px-2">
+        <nuxt-link to="/">
+          <el-link icon="el-icon-back">
+            На главную
+          </el-link>
+        </nuxt-link>
+        <nuxt-link :to="{ name: 'auth-reset' }" replace>
+          <el-link icon="el-icon-key">
+            Забыли пароль?
+          </el-link>
+        </nuxt-link>
+      </div>
       <el-divider></el-divider>
       <div class="flex flex-col justify-center items-center gap-y-4">
         <span>Войти с помощью</span>

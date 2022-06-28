@@ -30,7 +30,7 @@
                 stroke-linejoin="round" />
             </svg>
           </button>
-          <button class="p-1.5 group" @click="handleOpenSearch">
+          <nuxt-link class="p-1.5 group" :to="{ name: 'auth-login' }" replace>
             <svg width="20" height="20" class="group-hover:text-[#F59E0B]" viewBox="0 0 20 20" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -40,7 +40,7 @@
                 d="M3.0473 16.7443C3.77683 15.4805 4.8262 14.431 6.08994 13.7013C7.35368 12.9716 8.78724 12.5874 10.2465 12.5874C11.7058 12.5874 13.1394 12.9716 14.4031 13.7013C15.6668 14.431 16.7162 15.4805 17.4457 16.7443"
                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-          </button>
+          </nuxt-link>
         </div>
       </div>
     </Container>
