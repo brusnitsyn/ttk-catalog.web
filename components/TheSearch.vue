@@ -35,7 +35,7 @@
             </li>
           </ol>
         </div>
-        <div class="flex justify-end">
+        <div v-if="productSearchResult.length > 0" class="flex justify-end">
           <Nuxt-Link :to="'/catalog/search'" replace class="text-sm">
             Все результаты
           </Nuxt-Link>
@@ -46,8 +46,12 @@
 </template>
 
 <script>
+const ProductSearchInput = () => import('~/components/product/SearchInput')
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  components: {
+    ProductSearchInput
+  },
   computed: {
     ...mapGetters({
       isSearchDialogShow: 'ui/getSearchDialogShow',

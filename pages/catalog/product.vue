@@ -2,115 +2,151 @@
   <!-- <Loading v-if="$fetchState.pending" /> -->
   <Container class="pt-4 md:pt-0 ">
     <div class="py-4">
-      <el-skeleton v-if="$fetchState.pending" style="width: 100%" :loading="$fetchState.pending" animated>
+      <el-skeleton :loading="$fetchState.pending" animated>
         <template slot="template">
-          <el-skeleton-item variant="caption" style="width: 100%" />
+          <el-skeleton-item variant="caption" style="max-width: 372px; width: 100%" />
+        </template>
+        <template>
+          <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }">Главная</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ name: 'catalog' }">Каталог</el-breadcrumb-item>
+            <el-breadcrumb-item>{{ product.name }}</el-breadcrumb-item>
+          </el-breadcrumb>
         </template>
       </el-skeleton>
-      <el-breadcrumb v-else separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/' }">Главная</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ name: 'catalog' }">Каталог</el-breadcrumb-item>
-        <el-breadcrumb-item>{{ product.name }}</el-breadcrumb-item>
-      </el-breadcrumb>
     </div>
+
     <div class="flex flex-col lg:flex-row gap-x-24 pb-3">
       <div class="flex flex-col grow-0 max-w-md w-full gap-y-4 pb-4">
         <div class="bg-gray-200 rounded-[4px]">
-          <el-skeleton v-if="$fetchState.pending" style="width: 100%" :loading="$fetchState.pending" animated>
+          <el-skeleton v-if="$fetchState.pending" style="width: 100%; height: 100%;" animated>
             <template slot="template">
-              <el-skeleton-item variant="image" style="width: 520px; height: 420px;" />
+              <el-skeleton-item variant="image" style="width: 100%; height: 300px; " />
             </template>
           </el-skeleton>
-          <div v-else class="flex items-center justify-center py-9 ">
-            <Swiper v-if="product.images.length > 1" class="swiper gallery-top" :options="swiperOptionTop"
-              ref="swiperTop">
-              <SwiperSlide class="swiper-slide" v-for="image in product.images" :key="image.id">
-                <img :src="image.url" :alt="product.name" class="py-3 h-[300px] mx-auto" />
+          <div v-else class="flex items-center justify-center py-9">
+            <Swiper v-if="product.images && product.images.length >= 2" class="swiper gallery-top"
+              :options="swiperOptionTop" ref="swiperTop">
+              <SwiperSlide class="swiper-slide flex items-center justify-center" v-for="image in product.images"
+                :key="image.id">
+                <el-image :src="image.url" :preview-src-list="srcImgs" fit="cover" class="h-[300px]"
+                  :alt="product.name" lazy />
               </SwiperSlide>
             </Swiper>
 
-            <img v-else-if="product.images.length === 1" :src="product.images[0].url"
-              class="object-center object-cover h-[300px]" :alt="product.name" />
-            <img v-else src="/img/no-finded-image.png" class="object-center object-cover h-[300px]"
-              :alt="product.name" />
+            <el-image v-else-if="product.images && product.images.length === 1" :src="product.images[0].url"
+              class="object-center object-cover h-[300px]" fit="cover" :preview-src-list="[product.images[0].url]"
+              :alt="product.name" lazy/>
+            <el-image v-else src="/img/no-finded-image.png" class="object-center object-cover h-[300px]"
+              :alt="product.name" lazy />
           </div>
         </div>
 
-
-        <el-skeleton v-if="$fetchState.pending" style="width: 100%" :loading="$fetchState.pending" animated>
+        <el-skeleton v-if="$fetchState.pending" style="width: 100%" animated>
           <template slot="template">
-            <el-skeleton-item variant="image" style="width: 520px; height: 420px;" />
+            <div style="display: inline-flex; width: 100%;">
+              <el-skeleton-item variant="image" style="width: 32%; height: 96px;" />
+              <el-skeleton-item variant="image"
+                style="width: 32%; height: 96px; margin-left: 10px; margin-right: 10px;" />
+              <el-skeleton-item variant="image" style="width: 32%; height: 96px;" />
+            </div>
           </template>
         </el-skeleton>
-        <div v-else>
-          <Swiper v-if="product.images.length > 1" class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs"
-            ref="swiperThumbs">
+        <client-only v-else-if="product.images && product.images.length >= 2">
+          <Swiper class="w-full swiper gallery-thumbs" :options="swiperOptionThumbs" ref="swiperThumbs">
             <SwiperSlide v-for="image in product.images" :key="image.id" class="swiper-slide">
               <div class="bg-gray-200 rounded-[4px] flex justify-center">
                 <img :src="image.url" :alt="product.name" class="py-3 h-24 max-h-[96px]" />
               </div>
             </SwiperSlide>
           </Swiper>
-        </div>
+        </client-only>
       </div>
+
       <div class="flex flex-col flex-grow px-2 py-1">
-        <div class="flex" v-if="product.category && product.category.id != 1">
-          <div :style="{
-            backgroundColor: product.category.color,
-          }" class="px-4 py-2 rounded-[4px] mb-3">
-            {{ product.category.name }}
-          </div>
-        </div>
-        <div class="flex flex-row justify-between">
-          <div class="flex flex-col">
-            <h1 class="font-inter font-bold text-2xl max-w-lg">
-              {{ product.name }}
-            </h1>
-            <span class="font-inter text-gray-400 text-sm">
-              Артикул: {{ product.article }}
-            </span>
-          </div>
-        </div>
-        <div class="flex flex-col py-3">
-          <div class="flex flex-col md:flex-row justify-between">
-            <div v-if="product.actualPrice > 0"
-              class="flex flex-col md:flex-row md:items-center gap-y-2.5 md:gap-y-0 md:gap-x-2.5">
-              <el-input-number class="text-lg order-1 md:order-none" @change="handleChange" v-model="productSelectCount"
-                :min="1" :max="99" />
-              <div class="flex flex-col items-start">
-                <s v-if="product.discountPrice" class="font-inter text-sm leading-4">
-                  {{ Number(product.actualPrice).toLocaleString() }} ₽
-                </s>
-                <div class="flex flex-row">
-                  <span class="font-inter text-lg">{{ Number(calculatePrice).toLocaleString() }} ₽</span>
-                  <span class="font-inter text-sm text-gray-500 pl-1.5 leading-7">
-                    без НДС / за {{ productSelectCount }} шт.
-                  </span>
-                </div>
-              </div>
+        <el-skeleton v-if="$fetchState.pending" style="width: 100%" animated>
+          <template slot="template">
+            <el-skeleton-item variant="rect" style="width: 97px; height: 40px;" />
+            <div style="margin-top: 8px; display: flex; flex-direction: column;">
+              <el-skeleton-item variant="h1" style="width: 160px; height: 20px;" />
+              <el-skeleton-item variant="text" style="width: 130px; height: 20px; margin-top: 2px;" />
             </div>
-            <div v-else class="flex flex-col md:flex-row md:items-center gap-y-2.5 md:gap-y-0 md:gap-x-2.5">
-              <span class="font-inter text-sm leading-4">
-                Стоимость по запросу
+          </template>
+        </el-skeleton>
+        <div v-else>
+          <div class="flex" v-if="product.category && product.category.id != 1">
+            <div :style="{
+              backgroundColor: product.category.color,
+            }" class="px-4 py-2 rounded-[4px] mb-3">
+              {{ product.category.name }}
+            </div>
+          </div>
+          <div class="flex flex-row justify-between">
+            <div class="flex flex-col">
+              <h1 class="font-inter font-bold text-2xl max-w-lg">
+                {{ product.name }}
+              </h1>
+              <span class="font-inter text-gray-400 text-sm">
+                Артикул: {{ product.article }}
               </span>
             </div>
-            <div class="flex flex-col justify-center pt-4 md:pt-0 w-full md:w-auto">
-              <el-button v-if="product.forSale" type="primary">
-                Купить
-              </el-button>
-              <el-button type="primary" @click="dialogVisible = !dialogVisible">
-                Купить
-              </el-button>
+          </div>
+        </div>
+
+        <div class="flex flex-col py-3">
+          <div class="flex flex-col md:block">
+            <el-skeleton v-if="$fetchState.pending" style="width: 100%" animated>
+              <template slot="template">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="display: flex; align-items: center;">
+                    <el-skeleton-item variant="rect" style="width: 120px; height: 40px; margin-right: 8px;" />
+                    <el-skeleton-item variant="h1" style="width: 160px; height: 20px;" />
+                  </div>
+                </div>
+              </template>
+            </el-skeleton>
+            <div v-else class="flex flex-col md:flex-row justify-between">
+              <div v-if="product.actualPrice > 0"
+                class="flex flex-col md:flex-row md:items-center gap-y-2.5 md:gap-y-0 md:gap-x-2.5">
+                <el-input-number class="text-lg order-1 md:order-none" @change="handleChange"
+                  v-model="productSelectCount" :min="1" :max="99" />
+                <div class="flex flex-col items-start">
+                  <s v-if="product.discountPrice" class="font-inter text-sm leading-4">
+                    {{ Number(product.actualPrice).toLocaleString() }} ₽
+                  </s>
+                  <div class="flex flex-row">
+                    <span class="font-inter text-lg">{{ Number(calculatePrice).toLocaleString() }} ₽</span>
+                    <span class="font-inter text-sm text-gray-500 pl-1.5 leading-7">
+                      без НДС / за {{ productSelectCount }} шт.
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="flex flex-col md:flex-row md:items-center gap-y-2.5 md:gap-y-0 md:gap-x-2.5">
+                <span class="font-inter text-sm leading-4">
+                  Стоимость по запросу
+                </span>
+              </div>
+              <div class="pt-4 md:pt-0 w-full md:w-auto">
+                <el-button v-if="product.forSale" type="primary" class="md:w-[160px]">
+                  Купить
+                </el-button>
+                <el-button type="primary" @click="dialogVisible = !dialogVisible" class="w-full md:w-[160px]">
+                  Купить
+                </el-button>
+              </div>
             </div>
+
           </div>
         </div>
         <el-skeleton style="width: 100%; height: 100%;" :loading="$fetchState.pending" animated>
           <template slot="template">
-            <el-skeleton-item variant="rect" style="width: 100%; height: 100%;" />
+            <el-skeleton-item variant="rect" style="width: 100%; height: 420px;" />
           </template>
           <template>
             <el-collapse accordion class="border px-2.5 rounded-[4px]" v-model="activeCollapseName">
-              <el-collapse-item v-if="product.properties && product.properties.length > 0" title="Характеристики" name="1">
+              <el-collapse-item v-if="product.properties && product.properties.length > 0" title="Характеристики"
+                name="1">
                 <ol class="space-y-2 md:space-y-0.5">
                   <li v-for="prop in product.properties" :key="prop.id">
                     <div class="flex flex-col md:flex-row justify-between items-baseline">
@@ -211,6 +247,7 @@ const ElBreadcrumbItem = () => import('~/node_modules/element-ui/lib/breadcrumb-
 const ElCollapse = () => import('~/node_modules/element-ui/lib/collapse')
 const ElCollapseItem = () => import('~/node_modules/element-ui/lib/collapse-item')
 const ElDialog = () => import('~/node_modules/element-ui/lib/dialog')
+const ElImage = () => import('~/node_modules/element-ui/lib/image')
 const ElLink = () => import('~/node_modules/element-ui/lib/link')
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 
@@ -219,16 +256,27 @@ export default {
   auth: false,
   layout: 'index',
   components: {
-    ElButton, ElInputNumber, ElBreadcrumb, ElBreadcrumbItem, ElCollapse, ElCollapseItem, ElDialog, ElLink, Swiper, SwiperSlide
+    ElButton, ElInputNumber, ElBreadcrumb,
+    ElBreadcrumbItem, ElCollapse, ElCollapseItem,
+    ElDialog, ElLink, Swiper,
+    SwiperSlide, ElImage
   },
-  // computed: {
-  //   swiperTop() {
-  //     return this.$refs.swiperTop
-  //   },
-  //   swiperThumbs() {
-  //     return this.$refs.swiperThumbs
-  //   }
-  // },
+  watch: {
+    product(value) {
+      if (!value.images)
+        return
+      if (value.images.length == 0)
+        return
+      if (value.images.length >= 2) {
+        value.images.forEach(img => {
+          this.srcImgs.push(img.url)
+        })
+      } else {
+        this.srcImgs.push(value.images[0].url)
+      }
+
+    }
+  },
   data() {
     return {
       dialogVisible: false,
@@ -256,7 +304,8 @@ export default {
       productSelectCount: 1,
       startPrice: 0,
       calculatePrice: 0,
-      activeCollapseName: ['1']
+      activeCollapseName: ['1'],
+      srcImgs: [],
     }
   },
   head() {
@@ -297,22 +346,15 @@ export default {
 
     this.calculatePrice = this.startPrice
   },
-  mounted() {
-
-  },
-  beforeUpdate() {
-    if (this.product.images && this.product.images.length > 1)
+  updated() {
+    if (this.product.images && this.product.images.length >= 2)
       try {
-        this.$nextTick(function () {
-          const swiperTop = this.$refs.swiperTop.$swiper
-          const swiperThumbs = this.$refs.swiperThumbs.$swiper
+        const swiperTop = this.$refs.swiperTop.$swiper
+        const swiperThumbs = this.$refs.swiperThumbs.$swiper
 
-          this.$refs.swiperTop.$swiper.controller.control = swiperThumbs
-          this.$refs.swiperThumbs.$swiper.controller.control = swiperTop
-        })
-      } catch (error) {
-        console.error(error)
-      }
+        this.$refs.swiperTop.$swiper.controller.control = swiperThumbs
+        this.$refs.swiperThumbs.$swiper.controller.control = swiperTop
+      } catch { }
   },
 }
 </script>

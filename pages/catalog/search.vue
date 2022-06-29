@@ -19,8 +19,6 @@
 </template>
 
 <script>
-// import('~/assets/css/element-index.scss')
-
 const ProductSearchImport = () => import('~/components/product/SearchInput.vue')
 const LazyProductCard = () => import('~/components/product/Card.vue')
 const Container = () => import('~/components/Container.vue')

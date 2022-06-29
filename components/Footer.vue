@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import('~/assets/css/element-index.scss')
 
 const ElLink = () => import('~/node_modules/element-ui/lib/link')
 

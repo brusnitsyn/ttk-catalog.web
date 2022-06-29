@@ -72,11 +72,7 @@
 </template>
 
 <script>
-import('~/assets/css/element-index.scss')
-
 const ElButton = () => import('~/node_modules/element-ui/lib/button')
-const ElSkeleton = () => import('~/node_modules/element-ui/lib/skeleton')
-const ElSkeletonItem = () => import('~/node_modules/element-ui/lib/skeleton-item')
 const ElPagination = () => import('~/node_modules/element-ui/lib/pagination')
 const ElDrawer = () => import('~/node_modules/element-ui/lib/drawer')
 
@@ -85,7 +81,7 @@ export default {
   name: 'ProductPage',
   layout: 'index',
   components: {
-    ElButton, ElSkeleton, ElSkeletonItem, ElPagination, ElDrawer
+    ElButton, ElPagination, ElDrawer
   },
   data() {
     return {

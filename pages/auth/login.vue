@@ -61,8 +61,6 @@
 </template>
 
 <script>
-import('~/assets/css/element-index.scss')
-
 const ElButton = () => import('~/node_modules/element-ui/lib/button')
 const ElLink = () => import('~/node_modules/element-ui/lib/link')
 const ElForm = () => import('~/node_modules/element-ui/lib/form')

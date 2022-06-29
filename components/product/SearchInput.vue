@@ -5,8 +5,14 @@
 </template>
 
 <script>
+
+const ElInput = () => import('~/node_modules/element-ui/lib/input')
+
 import { debounce } from '~/helpers/index'
 export default {
+  components: {
+    ElInput
+  },
   data() {
     return {
       search: ''

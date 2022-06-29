@@ -76,8 +76,6 @@
 </template>
 
 <script>
-import('~/assets/css/element-index.scss')
-
 const ElButton = () => import('~/node_modules/element-ui/lib/button')
 
 import { mapGetters } from 'vuex'

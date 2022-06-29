@@ -16,18 +16,32 @@
         </el-skeleton>
       </el-collapse-item>
       <el-collapse-item title="Тип техники" name="2" class="text-left px-2">
-        <el-checkbox-group @change="changeFilters" v-model="filters.type" class="flex flex-col">
-          <el-checkbox v-for="machineType in machineTypes" :key="machineType.id" :label="machineType.id">
-            {{ machineType.name }}
-          </el-checkbox>
-        </el-checkbox-group>
+        <el-skeleton style="width: 100%; height: 100%;" :loading="$fetchState.pending" animated>
+          <template slot="template">
+            <el-skeleton-item v-for="i in 8" :key="i" variant="h2" style="width: 100%" />
+          </template>
+          <template>
+            <el-checkbox-group @change="changeFilters" v-model="filters.type" class="flex flex-col">
+              <el-checkbox v-for="machineType in machineTypes" :key="machineType.id" :label="machineType.id">
+                {{ machineType.name }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </template>
+        </el-skeleton>
       </el-collapse-item>
       <el-collapse-item title="Техника" name="3" class="text-left px-2">
-        <el-checkbox-group @change="changeFilters" v-model="filters.machine" class="flex flex-col">
-          <el-checkbox v-for="machine in machines" :key="machine.id" :label="machine.id">
-            {{ machine.name }}
-          </el-checkbox>
-        </el-checkbox-group>
+        <el-skeleton style="width: 100%; height: 100%;" :loading="$fetchState.pending" animated>
+          <template slot="template">
+            <el-skeleton-item v-for="i in 4" :key="i" variant="h2" style="width: 100%" />
+          </template>
+          <template>
+            <el-checkbox-group @change="changeFilters" v-model="filters.machine" class="flex flex-col">
+              <el-checkbox v-for="machine in machines" :key="machine.id" :label="machine.id">
+                {{ machine.name }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </template>
+        </el-skeleton>
       </el-collapse-item>
     </el-collapse>
 
@@ -47,21 +61,18 @@
 </template>
 
 <script>
-import('~/assets/css/element-index.scss')
 
 const ElCollapse = () => import('~/node_modules/element-ui/lib/collapse')
 const ElCollapseItem = () => import('~/node_modules/element-ui/lib/collapse-item')
 const ElCheckboxGroup = () => import('~/node_modules/element-ui/lib/checkbox-group')
 const ElCheckbox = () => import('~/node_modules/element-ui/lib/checkbox')
 const ElButton = () => import('~/node_modules/element-ui/lib/button')
-const ElSkeleton = () => import('~/node_modules/element-ui/lib/skeleton')
-const ElSkeletonItem = () => import('~/node_modules/element-ui/lib/skeleton-item')
 
 import { mapGetters, mapActions } from 'vuex'
 import { deepClone } from '~/helpers'
 export default {
   components: {
-    ElCollapse, ElCollapseItem, ElCheckboxGroup, ElCheckbox, ElButton, ElSkeleton, ElSkeletonItem
+    ElCollapse, ElCollapseItem, ElCheckboxGroup, ElCheckbox, ElButton
   },
   data() {
     return {

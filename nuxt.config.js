@@ -32,6 +32,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '@/plugins/VueAwesomeSwiper', mode: 'client' },
+    { src: '@/plugins/ElementUI', mode: 'client' },
     { src: '@/plugins/vClickOutside', ssr: false },
     { src: '@/plugins/ymapPlugin', mode: 'client' },
   ],
@@ -46,7 +47,7 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'http://localhost:8000',
+        url: 'https://dv-ttk.ru/api',
         endpoints: {
           login: { url: '/admin/login', method: 'post' },
           logout: { url: '/admin/logout', method: 'post' },
@@ -86,15 +87,15 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    analyze: true,
-    assetFilter: function (assetFilename) {
-      return assetFilename.endsWith('.js')
-    },
-    extend(config, { isDev, isClient }) {
-      if (isClient) {
+    // analyze: true,
+    // assetFilter: function (assetFilename) {
+    //   return assetFilename.endsWith('.js')
+    // },
+    // extend(config, { isDev, isClient }) {
+    //   if (isClient) {
 
-      }
-    },
+    //   }
+    // },
     postcss: {
       plugins: {
         tailwindcss: {},
