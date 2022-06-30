@@ -95,7 +95,7 @@ export default {
     async onSubmit() {
       try {
         await this.$auth
-          .loginWith('laravelSanctum', { data: this.form })
+          .loginWith('laravelSanctum', {data: this.form})
           .then((response) => {
             this.$router.push('/admin')
           })

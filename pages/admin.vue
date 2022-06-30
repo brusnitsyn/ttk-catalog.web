@@ -41,18 +41,23 @@
       </el-menu>
     </aside>
 
-    <el-container class="ml-[64px]">
-      <Nuxt class="w-full" />
-    </el-container>
+    <Nuxt class="w-full" />
     <!-- <ProductPropertiesDialog v-if="showPropertiesDialog" /> -->
   </div>
 </template>
 
 <script>
+const ElMenu = () => import('~/node_modules/element-ui/lib/menu')
+const ElMenuItem = () => import('~/node_modules/element-ui/lib/menu-item')
+const ElSubmenu = () => import('~/node_modules/element-ui/lib/submenu')
+const ElContainer = () => import('~/node_modules/element-ui/lib/container')
 import { mapGetters } from 'vuex'
 export default {
   layout: "admin",
   middleware: "auth",
+  components: {
+    ElMenu, ElMenuItem, ElSubmenu, ElContainer
+  },
   data() {
     return {
       openMenu: true

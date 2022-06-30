@@ -47,12 +47,12 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'https://dv-ttk.ru/api',
+        url: 'http://localhost:8000',
         endpoints: {
-          login: { url: '/admin/login', method: 'post' },
-          logout: { url: '/admin/logout', method: 'post' },
+          login: { url: '/auth/login', method: 'post' },
+          logout: { url: '/auth/logout', method: 'post' },
           refresh: {
-            url: '/admin/refresh',
+            url: '/auth/refresh',
             method: 'post',
           },
           user: { url: '/user', method: 'get' },
@@ -81,7 +81,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'https://dv-ttk.ru/api',
+    baseURL: 'http://localhost:8000/',
     credentials: true,
   },
 
