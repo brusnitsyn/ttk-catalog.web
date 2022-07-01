@@ -255,6 +255,7 @@ import { mapGetters } from 'vuex'
 export default {
   auth: false,
   layout: 'index',
+  name: 'ProductPage',
   components: {
     ElButton, ElInputNumber, ElBreadcrumb,
     ElBreadcrumbItem, ElCollapse, ElCollapseItem,

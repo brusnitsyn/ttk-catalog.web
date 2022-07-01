@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header class="hidden md:block sticky top-0 w-full bg-white bg-opacity-50 backdrop-blur-lg z-50" />
-    <Nuxt keep-alive :keep-alive-props="{ exclude: ['pages/catalog/index.vue', 'pages/catalog/product.vue'] }" class="min-h-screen" />
+    <Nuxt keep-alive :keep-alive-props="{ exclude: ['ProductPage'] }" class="min-h-screen" />
     <Footer />
     <MobileMenu class="md:hidden" />
     <Search />
