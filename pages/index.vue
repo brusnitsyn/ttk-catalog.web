@@ -101,6 +101,7 @@ export default {
             slidesPerView: 4,
           },
         },
+        lazy: true
       },
       bannersOptions: {
         loop: true,

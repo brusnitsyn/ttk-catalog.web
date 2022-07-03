@@ -1,7 +1,7 @@
 <template>
   <div>
     <button v-if="!isOpenMobileMenu" @click="setOpenMobileMenu"
-      class="fixed right-4 bottom-4 rounded-full p-4 bg-[#F59E0B] z-50 shadow-2xl">
+      class="fixed right-4 bottom-4 rounded-full p-4 bg-primary z-50 shadow-2xl">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M2.40002 5.39999C2.40002 5.06862 2.66866 4.79999 3.00002 4.79999H21C21.3313 4.79999 21.6 5.06862 21.6 5.39999C21.6 5.73136 21.3313 5.99999 21 5.99999H3.00002C2.66866 5.99999 2.40002 5.73136 2.40002 5.39999ZM2.40002 11.4C2.40002 11.0686 2.66866 10.8 3.00002 10.8H21C21.3313 10.8 21.6 11.0686 21.6 11.4C21.6 11.7314 21.3313 12 21 12H3.00002C2.66866 12 2.40002 11.7314 2.40002 11.4ZM3.00002 16.8C2.66866 16.8 2.40002 17.0687 2.40002 17.4C2.40002 17.7313 2.66866 18 3.00002 18H21C21.3313 18 21.6 17.7313 21.6 17.4C21.6 17.0687 21.3313 16.8 21 16.8H3.00002Z"
@@ -9,25 +9,25 @@
       </svg>
     </button>
     <div v-if="isOpenMobileMenu"
-      class="bg-[#F59E0B] bg-opacity-5 backdrop-blur fixed bottom-0 left-0 right-0 top-0 z-30" />
+      class="bg-primary bg-opacity-5 backdrop-blur fixed bottom-0 left-0 right-0 top-0 z-30" />
 
     <transition name="menu">
       <div v-if="isOpenMobileMenu" v-click-outside="outClick"
         class="modal bg-gray-100 border-gray-200 border m-4 p-6 rounded-[4px] bottom-0 right-0 left-0 fixed z-40 font-inter">
         <ul class="flex flex-col w-full">
-          <li class="hover:bg-[#F59E0B] rounded-[4px] px-2">
+          <li class="hover:bg-primary rounded-[4px] px-2">
             <NuxtLink class="py-2 flex flex-row justify-between items-center" to="/" replace>
               <span class="text-[#212121]">Главная</span>
               <!-- <span class="ml-auto text-[#212121]">11</span> -->
             </NuxtLink>
           </li>
-          <li class="hover:bg-[#F59E0B] rounded-[4px] px-2">
+          <li class="hover:bg-primary rounded-[4px] px-2">
             <NuxtLink class="py-2 flex flex-row justify-between items-center" :to="'/catalog'" replace>
               <span class="text-[#212121]">Каталог</span>
               <!-- <span class="ml-auto text-gray-400">6</span> -->
             </NuxtLink>
           </li>
-          <li class="hover:bg-[#F59E0B] rounded-[4px] px-2">
+          <li class="hover:bg-primary rounded-[4px] px-2">
             <NuxtLink class="py-2 flex flex-row justify-between items-center" :to="'/catalog/search'" replace>
               <span class="text-[#212121]">Поиск</span>
             </NuxtLink>

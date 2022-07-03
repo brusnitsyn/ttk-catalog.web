@@ -14,6 +14,9 @@ module.exports = {
       fontFamily: {
         sans: ['Ubuntu', 'sans-serif'],
       },
+      colors: {
+        'primary': '#E93535'
+      }
     },
   },
   plugins: [],

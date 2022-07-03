@@ -21,7 +21,7 @@
 
         <div class="hidden md:flex flex-row gap-x-4 font-inter">
           <button class="p-1.5 group" @click="handleOpenSearch">
-            <svg width="20" height="20" class="group-hover:text-[#F59E0B]" viewBox="0 0 20 20" fill="none"
+            <svg width="20" height="20" class="group-hover:text-primary" viewBox="0 0 20 20" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M9.00494 14.928C12.4481 14.928 15.2393 12.1368 15.2393 8.6936C15.2393 5.25045 12.4481 2.45923 9.00494 2.45923C5.56179 2.45923 2.77057 5.25045 2.77057 8.6936C2.77057 12.1368 5.56179 14.928 9.00494 14.928Z"

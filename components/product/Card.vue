@@ -19,10 +19,10 @@
         </div>
       </div>
       <el-image v-if="product.images.length > 0" :src="product.images[0].url" alt=""
-        class="w-full h-full lg:max-w-[128px] max-h-56 object-cover" lazy>
+        class="w-full h-full lg:max-w-[128px] max-h-56 object-cover">
       </el-image>
       <el-image v-else src="/img/no-finded-image.png" alt=""
-        class="w-full h-full lg:max-w-[128px] max-h-56 object-cover" lazy>
+        class="w-full h-full lg:max-w-[128px] max-h-56 object-cover">
       </el-image>
     </div>
     <div class="px-2 flex flex-col pt-2 pb-4 gap-y-0.5 justify-between h-full">
@@ -33,18 +33,18 @@
         </span>
       </div>
       <div class="pt-1 flex flex-col" v-if="product.actualPrice > 0">
-        <s v-if="product.discountPrice > 0" class="text-[#CE870F] font-inter">
+        <s v-if="product.discountPrice > 0" class="text-primary font-inter">
           {{ Number(product.actualPrice).toLocaleString() }} ₽
         </s>
-        <span v-if="product.discountPrice > 0" class="text-[#F59E0B] font-bold text-lg font-inter">
+        <span v-if="product.discountPrice > 0" class="text-primary font-bold text-lg font-inter">
           {{ Number(product.discountPrice).toLocaleString() }} ₽
         </span>
-        <span v-else class="text-[#F59E0B] font-bold text-lg font-inter">
+        <span v-else class="text-primary font-bold text-lg font-inter">
           {{ Number(product.actualPrice).toLocaleString() }} ₽
         </span>
       </div>
       <div v-else class="pt-1">
-        <span class="text-[#F59E0B] text-center text-sm lg:text-base font-inter leading-7 lg:leading-6">
+        <span class="text-primary text-center text-sm lg:text-base font-inter leading-7 lg:leading-6">
           Стоимость по запросу
         </span>
       </div>

@@ -30,15 +30,15 @@
               <SwiperSlide class="swiper-slide flex items-center justify-center" v-for="image in product.images"
                 :key="image.id">
                 <el-image :src="image.url" :preview-src-list="srcImgs" fit="cover" class="h-[300px]"
-                  :alt="product.name" lazy />
+                  :alt="product.name" />
               </SwiperSlide>
             </Swiper>
 
             <el-image v-else-if="product.images && product.images.length === 1" :src="product.images[0].url"
               class="object-center object-cover h-[300px]" fit="cover" :preview-src-list="[product.images[0].url]"
-              :alt="product.name" lazy/>
+              :alt="product.name"/>
             <el-image v-else src="/img/no-finded-image.png" class="object-center object-cover h-[300px]"
-              :alt="product.name" lazy />
+              :alt="product.name" />
           </div>
         </div>
 
@@ -187,7 +187,7 @@
             <p class="break-words">Свяжитесь с менеджерами для уточнения наличия</p>
             <div class="flex flex-col md:flex-row gap-x-3 gap-y-1 items-start pt-2">
               <el-link href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Валерий)</el-link>
-              <el-link href="tel:+7(914)043-89-22">+7 (914)-043-89-22 (Андрей)</el-link>
+              <el-link href="tel:+7(914)619-12-30">+7 (914)-619-12-30 (Андрей)</el-link>
             </div>
           </div>
         </el-dialog>

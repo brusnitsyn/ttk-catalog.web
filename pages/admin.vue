@@ -42,7 +42,6 @@
     </aside>
 
     <Nuxt class="w-full" />
-    <!-- <ProductPropertiesDialog v-if="showPropertiesDialog" /> -->
   </div>
 </template>
 

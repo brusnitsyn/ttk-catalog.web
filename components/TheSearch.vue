@@ -1,6 +1,6 @@
 <template>
   <div v-if="isSearchDialogShow"
-    class="bg-[#F59E0B] bg-opacity-60 backdrop-blur-md fixed top-0 left-0 right-0 bottom-0 flex flex-col z-50">
+    class="bg-primary bg-opacity-60 backdrop-blur-md fixed top-0 left-0 right-0 bottom-0 flex flex-col z-50">
     <div class="mx-auto md:max-w-md lg:max-w-lg w-full lg:max-h-[612px] top-14 relative">
       <div
         class="flex flex-col justify-between py-4 lg:py-6 px-3.5 lg:px-5 shadow-gray-300 drop-shadow-md bg-white rounded-[4px] ">
