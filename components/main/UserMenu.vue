@@ -1,0 +1,79 @@
+<template>
+  <div class="flex border rounded-[4px] min-h-[460px] max-h-min h-full w-full absolute bg-white">
+    <div class="px-6 py-6 bg-gray-50 min-w-[320px]">
+      <div class="flex flex-col min-h-[360px] max-h-min h-full">
+        <span>Корзина</span>
+        <ul class="shrink overflow-auto overscroll-none my-4">
+          <li v-for="i in 18" :key="i" class="text-sm">
+            Товар {{ i }}
+          </li>
+        </ul>
+        <el-link type="primary" class=" self-start" icon="el-icon-shopping-cart-2">
+          <nuxt-link :to="{name: 'basket'}">
+            В корзину
+          </nuxt-link>
+        </el-link>
+      </div>
+    </div>
+    <div class="px-6 py-6 grow min-h-[360px] max-h-min">
+      <div class="flex flex-col h-full">
+        <div v-if="$auth.loggedIn" class="flex justify-between items-center">
+          <span>{{ $auth.user.name }}</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10.2465 12.5881C12.8699 12.5881 14.9965 10.4615 14.9965 7.83813C14.9965 5.21478 12.8699 3.08813 10.2465 3.08813C7.62317 3.08813 5.49652 5.21478 5.49652 7.83813C5.49652 10.4615 7.62317 12.5881 10.2465 12.5881Z"
+              stroke="currentColor" stroke-miterlimit="10" />
+            <path
+              d="M3.0473 16.7443C3.77683 15.4805 4.8262 14.431 6.08994 13.7013C7.35368 12.9716 8.78724 12.5874 10.2465 12.5874C11.7058 12.5874 13.1394 12.9716 14.4031 13.7013C15.6668 14.431 16.7162 15.4805 17.4457 16.7443"
+              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div v-else class="flex flex-col items-center justify-center h-full">
+          <div class="flex flex-col items-center justify-center">
+            <svg width="48" height="48" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M10.2465 12.5881C12.8699 12.5881 14.9965 10.4615 14.9965 7.83813C14.9965 5.21478 12.8699 3.08813 10.2465 3.08813C7.62317 3.08813 5.49652 5.21478 5.49652 7.83813C5.49652 10.4615 7.62317 12.5881 10.2465 12.5881Z"
+                stroke="currentColor" stroke-miterlimit="10" />
+              <path
+                d="M3.0473 16.7443C3.77683 15.4805 4.8262 14.431 6.08994 13.7013C7.35368 12.9716 8.78724 12.5874 10.2465 12.5874C11.7058 12.5874 13.1394 12.9716 14.4031 13.7013C15.6668 14.431 16.7162 15.4805 17.4457 16.7443"
+                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <p class="text-sm text-center py-2">Войдите в личный кабинет, чтобы сохранять товары в избранное.</p>
+            <div class="flex flex-col text-sm items-center gap-y-2">
+              <el-link type="primary">
+                <nuxt-link :to="{ name: 'auth-login' }" replace>
+                  Войти
+                </nuxt-link>
+              </el-link>
+              <div class="flex flex-col items-center gap-y-0.5">
+                <span>Нет личного кабинета?</span>
+                <el-link type="primary">
+                  <nuxt-link :to="{ name: 'auth-register' }" replace>
+                    Зарегистрировать
+                  </nuxt-link>
+                </el-link>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul>
+          <li>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import ElLink from '~/node_modules/element-ui/lib/link'
+export default {
+  components: {
+    ElLink
+  }
+}
+</script>
+
+<style>
+</style>

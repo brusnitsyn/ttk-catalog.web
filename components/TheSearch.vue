@@ -46,7 +46,7 @@
 </template>
 
 <script>
-const ProductSearchInput = () => import('~/components/product/SearchInput')
+const ProductSearchInput = import('~/components/product/SearchInput')
 import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {

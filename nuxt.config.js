@@ -1,27 +1,25 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Запчасти для сельхозтехники — Компания ТТК+',
+    title: 'Запчасти для сельхозтехники — Компания НИЛ',
     htmlAttrs: {
       lang: 'ru',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'theme-color', content: '#f59e0b' },
+      { name: 'theme-color', content: '#E93535' },
       {
         hid: 'description',
         name: 'description',
         content:
-          'Запчасти для сельхозтехники: огромный выбор запчастей по самым низким. Заказывайте запчасти в интернет-магазине ТТК+ с доставкой по России',
+          'Продажа запасных частей для сельхозтехники, по выгодным ценам.',
       },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
   },
-
-  ssr: false,
 
   router: {
     middleware: 'dialogs',
@@ -82,7 +80,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'https://dv-ttk.ru/api',
+    baseURL: 'https://dv-ttk.ru/api/',
     credentials: true,
   },
 

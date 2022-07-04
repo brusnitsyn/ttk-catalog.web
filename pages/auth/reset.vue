@@ -9,10 +9,12 @@
     ">
     <div class="p-5 shadow-lg rounded-[4px] border bg-white max-w-sm w-full">
       <h2 class="py-4 text-center font-inter text-lg">Восстановление доступа</h2>
-      <el-button-group>
-        <el-button type="primary" icon="el-icon-arrow-left">Previous Page</el-button>
-        <el-button type="primary">Next Page</el-button>
-      </el-button-group>
+      <el-form :model="form" action=" " status-icon>
+        <el-form-item label="Введите адрес электронной почты" required>
+          <el-input prefix-icon="el-icon-message" v-model="form.email" placeholder="example@domain.ru" />
+        </el-form-item>
+      </el-form>
+      <el-button type="primary" @keyup.native.enter="submitForm" @click="submitForm">Восстановить</el-button>
     </div>
   </div>
 </template>
@@ -34,15 +36,10 @@ export default {
     return {
       form: {
         email: '',
-        password: '',
       },
       rules: {
         email: [
           { required: true, message: 'Введите адрес электронной почты', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: 'Введите пароль', trigger: 'blur' },
-          { min: 6, message: 'Минимальная длина пароля составляет 6 символов', trigger: 'blur' }
         ],
       },
       loading: false

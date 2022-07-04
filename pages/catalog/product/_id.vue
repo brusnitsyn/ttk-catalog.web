@@ -311,7 +311,7 @@ export default {
   },
   head() {
     return {
-      title: `${this.product.name} | Компания ТТК+`,
+      title: `${this.product.name} | Компания НИЛ`,
       meta: [
         {
           hid: 'description',
@@ -335,12 +335,11 @@ export default {
     },
   },
   async fetch() {
-    const { store, query } = this.$nuxt.context
+    const { store, params } = this.$nuxt.context
     await store.dispatch(
       'products/fetchSingleProduct',
-      query.id
+      params.id
     )
-    this.productSelectCount = 1
 
     if (this.product.discountPrice) this.startPrice = this.product.discountPrice
     else this.startPrice = this.product.actualPrice

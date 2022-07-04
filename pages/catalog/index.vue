@@ -51,7 +51,7 @@
           <ProductNoProductsCard v-if="!products.length && !$fetchState.pending" class="grow" />
           <div v-else class="grow grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
             <nuxt-link v-for="product in products" :key="product.id"
-              :to="{ path: '/catalog/product', query: { id: product.id } }" replace>
+              :to="{ name: 'catalog-product-id', params: { id: product.id } }" replace>
               <LazyProductCard :product="product" />
             </nuxt-link>
           </div>
