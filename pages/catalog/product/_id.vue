@@ -128,11 +128,8 @@
                 </span>
               </div>
               <div class="pt-4 md:pt-0 w-full md:w-auto">
-                <el-button v-if="product.forSale" type="primary" class="md:w-[160px]">
-                  Купить
-                </el-button>
-                <el-button type="primary" @click="dialogVisible = !dialogVisible" class="w-full md:w-[160px]">
-                  Купить
+                <el-button @click="addProductToBasket({product: product, productQty: productSelectCount})" type="primary" class="md:w-[160px]">
+                  В корзину
                 </el-button>
               </div>
             </div>
@@ -251,7 +248,7 @@ const ElImage = () => import('~/node_modules/element-ui/lib/image')
 const ElLink = () => import('~/node_modules/element-ui/lib/link')
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   auth: false,
   layout: 'index',
@@ -333,6 +330,9 @@ export default {
 
       this.calculatePrice = (this.startPrice * this.productSelectCount)
     },
+    ...mapActions({
+      addProductToBasket: 'basket/addProduct'
+    })
   },
   async fetch() {
     const { store, params } = this.$nuxt.context

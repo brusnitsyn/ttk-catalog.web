@@ -1,15 +1,23 @@
 <template>
   <div class="flex border rounded-[4px] min-h-[460px] max-h-min h-full w-full absolute bg-white">
     <div class="px-6 py-6 bg-gray-50 min-w-[320px]">
-      <div class="flex flex-col min-h-[360px] max-h-min h-full">
+      <div class="flex flex-col justify-between h-full">
         <span>Корзина</span>
-        <ul class="shrink overflow-auto overscroll-none my-4">
-          <li v-for="i in 18" :key="i" class="text-sm">
-            Товар {{ i }}
-          </li>
-        </ul>
+        <div class="grow bg-gray-100 rounded-[4px] space-y-2 my-2 px-3 py-2 min-h-[360px] max-h-min overflow-auto overscroll-none">
+          <ul class="overflow-auto">
+            <li v-for="item in basket" :key="item.id" class="text-sm">
+              <div class="flex justify-between py-2">
+                <div class="flex gap-x-4 items-center overflow-hidden overscroll-none">
+                  <el-image v-if="item.product.images && item.product.images.length > 0"
+                    :src="item.product.images[0].url" :alt="item.product.name" class="w-8 h-8" />
+                  <span class="truncate w-full">{{ item.product.name }}</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
         <el-link type="primary" class=" self-start" icon="el-icon-shopping-cart-2">
-          <nuxt-link :to="{name: 'basket'}">
+          <nuxt-link :to="{ name: 'basket' }">
             В корзину
           </nuxt-link>
         </el-link>
@@ -67,11 +75,21 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ElLink from '~/node_modules/element-ui/lib/link'
+import ElImage from '~/node_modules/element-ui/lib/image'
 export default {
   components: {
-    ElLink
-  }
+    ElLink, ElImage
+  },
+  computed: {
+    ...mapGetters({
+      basket: 'basket/getProducts'
+    })
+  },
+  mounted() {
+    this.$store.dispatch('basket/getAllProducts')
+  },
 }
 </script>
 
