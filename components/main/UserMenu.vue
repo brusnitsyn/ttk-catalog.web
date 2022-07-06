@@ -3,13 +3,14 @@
     <div class="px-6 py-6 bg-gray-50 min-w-[320px]">
       <div class="flex flex-col justify-between h-full">
         <span>Корзина</span>
-        <div class="grow bg-gray-100 rounded-[4px] space-y-2 my-2 px-3 py-2 min-h-[360px] max-h-min overflow-auto overscroll-none">
+        <div
+          class="grow bg-gray-100 rounded-[4px] space-y-2 my-2 px-3 py-2 min-h-[360px] max-h-min overflow-auto overscroll-none">
           <ul class="overflow-auto">
             <li v-for="item in basket" :key="item.id" class="text-sm">
-              <div class="flex justify-between py-2">
+              <div class="flex justify-between py-1.5">
                 <div class="flex gap-x-4 items-center overflow-hidden overscroll-none">
-                  <el-image v-if="item.product.images && item.product.images.length > 0"
-                    :src="item.product.images[0].url" :alt="item.product.name" class="w-8 h-8" />
+                  <el-image v-if="item.product.images && item.product.images.length > 0" fit="contain"
+                    :src="item.product.images[0].url" :alt="item.product.name" class="h-10" />
                   <span class="truncate w-full">{{ item.product.name }}</span>
                 </div>
               </div>

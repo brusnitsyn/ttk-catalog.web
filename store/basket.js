@@ -21,7 +21,7 @@ export const actions = {
       await commit('setProducts', productsInStorage)
     }
   },
-  async addProduct({ commit }, { product, productQty }) {
+  async addProduct({ commit }, { product, qty, price }) {
     let productsInStorage = JSON.parse(window.localStorage.getItem("basket"))
     if (!productsInStorage || Object.prototype.toString.call(productsInStorage) !== '[object Array]') {
       productsInStorage = []
@@ -33,10 +33,10 @@ export const actions = {
         basketProduct.qty++;
       } else {
         let id = productsInStorage.length
-        productsInStorage.push(Object.assign({}, { product }, { id: ++id, qty: productQty }))
+        productsInStorage.push(Object.assign({}, { product }, { id: ++id, qty, price }))
       }
     } else {
-      productsInStorage.push(Object.assign({}, { product }, { id: 1, qty: productQty }))
+      productsInStorage.push(Object.assign({}, { product }, { id: 1, qty, price }))
     }
 
     window.localStorage.setItem('basket', JSON.stringify(productsInStorage))

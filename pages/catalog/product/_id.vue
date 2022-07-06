@@ -25,18 +25,20 @@
             </template>
           </el-skeleton>
           <div v-else class="flex items-center justify-center py-9">
-            <Swiper v-if="product.images && product.images.length >= 2" class="swiper gallery-top"
-              :options="swiperOptionTop" ref="swiperTop">
-              <SwiperSlide class="swiper-slide flex items-center justify-center" v-for="image in product.images"
-                :key="image.id">
-                <el-image :src="image.url" :preview-src-list="srcImgs" fit="cover" class="h-[300px]"
-                  :alt="product.name" />
-              </SwiperSlide>
-            </Swiper>
+            <client-only v-if="product.images && product.images.length >= 2">
+              <Swiper class="swiper gallery-top"
+                :options="swiperOptionTop" ref="swiperTop">
+                <SwiperSlide class="swiper-slide flex items-center justify-center" v-for="image in product.images"
+                  :key="image.id">
+                  <el-image :src="image.url" :preview-src-list="srcImgs" fit="cover" class="h-[300px]"
+                    :alt="product.name" />
+                </SwiperSlide>
+              </Swiper>
+            </client-only>
 
             <el-image v-else-if="product.images && product.images.length === 1" :src="product.images[0].url"
               class="object-center object-cover h-[300px]" fit="cover" :preview-src-list="[product.images[0].url]"
-              :alt="product.name"/>
+              :alt="product.name" />
             <el-image v-else src="/img/no-finded-image.png" class="object-center object-cover h-[300px]"
               :alt="product.name" />
           </div>
@@ -128,7 +130,8 @@
                 </span>
               </div>
               <div class="pt-4 md:pt-0 w-full md:w-auto">
-                <el-button @click="addProductToBasket({product: product, productQty: productSelectCount})" type="primary" class="md:w-[160px]">
+                <el-button @click="addProductToBasket({ product: product, qty: productSelectCount, price: calculatePrice })"
+                  type="primary" class="md:w-[160px]">
                   В корзину
                 </el-button>
               </div>
