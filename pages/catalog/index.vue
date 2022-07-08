@@ -50,10 +50,7 @@
 
           <ProductNoProductsCard v-if="!products.length && !$fetchState.pending" class="grow" />
           <div v-else class="grow grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-3">
-            <nuxt-link v-for="product in products" :key="product.id"
-              :to="{ name: 'catalog-product-id', params: { id: product.id } }" replace>
-              <LazyProductCard :product="product" />
-            </nuxt-link>
+            <LazyProductCard v-for="product in products" :key="product.id" :product="product" />
           </div>
           <div v-if="pagination.lastPage > 1" class="flex justify-center mb-2">
             <el-pagination :page-size.sync="pagination.perPage" background :page-count="pagination.perPage"

@@ -1,11 +1,11 @@
 <template>
-  <div class="flex border rounded-[4px] min-h-[460px] max-h-min h-full w-full absolute bg-white">
+  <div class="flex border rounded-[4px] min-h-[460px] max-h-min h-full w-full absolute bg-white shadow-lg">
     <div class="px-6 py-6 bg-gray-50 min-w-[320px]">
       <div class="flex flex-col justify-between h-full">
         <span>Корзина</span>
         <div
           class="grow bg-gray-100 rounded-[4px] space-y-2 my-2 px-3 py-2 min-h-[360px] max-h-min overflow-auto overscroll-none">
-          <ul class="overflow-auto">
+          <ul v-if="basket.length" class="overflow-auto">
             <li v-for="item in basket" :key="item.id" class="text-sm">
               <div class="flex justify-between py-1.5">
                 <div class="flex gap-x-4 items-center overflow-hidden overscroll-none">
@@ -16,6 +16,11 @@
               </div>
             </li>
           </ul>
+          <el-empty v-else description="Корзина пуста">
+            <nuxt-link :to="{ name: 'catalog' }">
+              <el-link type="primary">В каталог</el-link>
+            </nuxt-link>
+          </el-empty>
         </div>
         <el-link type="primary" class=" self-start" icon="el-icon-shopping-cart-2">
           <nuxt-link :to="{ name: 'basket' }">
@@ -78,10 +83,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import ElLink from '~/node_modules/element-ui/lib/link'
+import ElEmpty from '~/node_modules/element-ui/lib/empty'
 import ElImage from '~/node_modules/element-ui/lib/image'
 export default {
   components: {
-    ElLink, ElImage
+    ElLink, ElImage, ElEmpty
   },
   computed: {
     ...mapGetters({

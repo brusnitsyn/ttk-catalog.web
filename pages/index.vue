@@ -50,9 +50,7 @@
         <client-only>
           <swiper :options="swiperOptions">
             <swiper-slide v-for="product in newProducts" :key="product.id">
-              <nuxt-link :to="'catalog/product?id=' + product.id">
-                <LazyProductCard :product="product" />
-              </nuxt-link>
+              <LazyProductCard :product="product" />
             </swiper-slide>
           </swiper>
         </client-only>
@@ -64,9 +62,7 @@
         <client-only>
           <swiper :options="swiperOptions">
             <swiper-slide v-for="product in saleProducts" :key="product.id">
-              <nuxt-link :to="'catalog/product?id=' + product.id">
-                <LazyProductCard :product="product" />
-              </nuxt-link>
+             <LazyProductCard :product="product" />
             </swiper-slide>
           </swiper>
         </client-only>

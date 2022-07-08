@@ -111,7 +111,7 @@
               <div v-if="product.actualPrice > 0"
                 class="flex flex-col md:flex-row md:items-center gap-y-2.5 md:gap-y-0 md:gap-x-2.5">
                 <el-input-number class="text-lg order-1 md:order-none" @change="handleChange"
-                  v-model="productSelectCount" :min="1" :max="99" />
+                  v-model="productSelectCount" :min="1" :max="999" />
                 <div class="flex flex-col items-start">
                   <s v-if="product.discountPrice" class="font-inter text-sm leading-4">
                     {{ Number(product.actualPrice).toLocaleString() }} ₽
