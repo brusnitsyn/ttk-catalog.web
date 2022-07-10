@@ -45,7 +45,7 @@
       </client-only>
     </section>
     <Container class="lg:flex lg:flex-col">
-      <section v-if="newP roducts.length">
+      <section v-if="newProducts.length">
         <h1 class="font-inter font-semibold text-lg pb-2 pt-4">Новинки</h1>
         <client-only>
           <swiper :options="swiperOptions">
