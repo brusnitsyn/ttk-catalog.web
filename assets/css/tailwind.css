@@ -73,3 +73,6 @@
 
 @tailwind utilities;
 
+.nuxt-link-active {
+  color: #E93535;
+}

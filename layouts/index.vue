@@ -1,19 +1,20 @@
 <template>
-  <div>
-    <Header class="hidden md:block sticky top-0 w-full bg-white bg-opacity-50 backdrop-blur-lg z-50" />
+  <main>
+    <AppHeader />
     <Nuxt keep-alive :keep-alive-props="{ exclude: ['ProductPage'] }" class="min-h-screen" />
-    <Footer />
-    <MobileMenu class="md:hidden" />
+    <Footer class="mb-[68px] lg:mb-0"/>
+    <!-- <MobileMenu class="md:hidden" /> -->
     <Search />
-  </div>
+  </main>
 </template>
 
 <script>
-const MobileMenu = () => import('~/components/MobileMenu.vue')
-const Search = () => import('~/components/TheSearch.vue')
+import AppHeader from '@/components/AppHeader.vue'
+const MobileMenu = () => import('@/components/MobileMenu.vue')
+const Search = () => import('@/components/TheSearch.vue')
 export default {
   components: {
-    MobileMenu, Search
+    AppHeader, MobileMenu, Search
   }
 }
 </script>
