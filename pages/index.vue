@@ -45,11 +45,11 @@
       </client-only>
     </section>
     <Container class="lg:flex lg:flex-col">
-      <section v-if="newProducts.length">
+      <section v-if="newP roducts.length">
         <h1 class="font-inter font-semibold text-lg pb-2 pt-4">Новинки</h1>
         <client-only>
           <swiper :options="swiperOptions">
-            <swiper-slide v-for="product in newProducts" :key="product.id">
+            <swiper-slide v-for="product in newProducts" :key="product.id" class="h-full">
               <LazyProductCard :product="product" />
             </swiper-slide>
           </swiper>
