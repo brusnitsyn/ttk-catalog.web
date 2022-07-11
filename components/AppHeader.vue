@@ -51,88 +51,97 @@
       </div>
     </Container>
   </div> -->
-  <div class="flex flex-row lg:justify-between lg:sticky lg:top-0 z-50 bg-[#FFFBFE]/80 lg:backdrop-blur-md">
-    <div class="w-full lg:w-auto">
-      <div class="flex flex-row px-4 py-2.5 gap-x-8">
-        <nuxt-link to="/" class="hidden lg:block">
-          <LogoShort />
-        </nuxt-link>
-        <ProductSearchInput class="lg:w-80"/>
-      </div>
-    </div>
-    <div
-      class="fixed bottom-0 left-0 right-0 lg:sticky lg:top-0 bg-[#FFFBFE]/80 lg:bg-transparent z-50 lg:py-4 shadow-[0_3px_10px_0px_rgba(0,0,0,.15)] lg:shadow-none backdrop-blur-md lg:backdrop-blur-none">
-      <nav class="lg:max-w-7xl lg:mx-auto flex justify-between items-center w-full lg:px-4">
-        <div class="w-full">
-          <ul
-            class="flex flex-row justify-around lg:justify-start p-2.5 lg:p-0 text-xs lg:text-sm lg:gap-x-4 lg:ml-6 font-inter items-stretch"
-            ref="menu">
-            <li>
-              <nuxt-link to="/" class="flex flex-col lg:flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
-                  <path
-                    d="M12.71 2.29a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42A1 1 0 0 0 3 13h1v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7h1a1 1 0 0 0 1-1 1 1 0 0 0-.29-.71zM6 20v-9.59l6-6 6 6V20z"
-                    fill="currentColor">
-                  </path>
-                </svg>
-                <span class="mt-1">Главная</span>
-              </nuxt-link>
-            </li>
-
-            <li>
-              <nuxt-link :to="{ name: 'catalog' }" class="flex flex-col lg:flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
-                  <path
-                    d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm5 2h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm1-6h4v4h-4V5zM3 20a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6zm2-5h4v4H5v-4zm8 5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6zm2-5h4v4h-4v-4z"
-                    fill="currentColor">
-                  </path>
-                </svg>
-                <span class="mt-1">Каталог</span>
-              </nuxt-link>
-            </li>
-
-            <li>
-              <nuxt-link :to="{ name: 'catalog' }" class="flex flex-col lg:flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
-                  <path
-                    d="M19.875 3H4.125C2.953 3 2 3.897 2 5v14c0 1.103.953 2 2.125 2h15.75C21.047 21 22 20.103 22 19V5c0-1.103-.953-2-2.125-2zm0 16H4.125c-.057 0-.096-.016-.113-.016-.007 0-.011.002-.012.008L3.988 5.046c.007-.01.052-.046.137-.046h15.75c.079.001.122.028.125.008l.012 13.946c-.007.01-.052.046-.137.046z"
-                    fill="currentColor">
-                  </path>
-                  <path d="M6 7h6v6H6zm7 8H6v2h12v-2h-4zm1-4h4v2h-4zm0-4h4v2h-4z" fill="currentColor"></path>
-                </svg>
-                <span class="mt-1">Статьи</span>
-              </nuxt-link>
-            </li>
-
-            <li>
-              <nuxt-link :to="{ name: 'basket' }" class="flex flex-col lg:flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
-                  <path
-                    d="M5 22h14c1.103 0 2-.897 2-2V9a1 1 0 0 0-1-1h-3V7c0-2.757-2.243-5-5-5S7 4.243 7 7v1H4a1 1 0 0 0-1 1v11c0 1.103.897 2 2 2zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v1H9V7zm-4 3h2v2h2v-2h6v2h2v-2h2l.002 10H5V10z"
-                    fill="currentColor"></path>
-                </svg>
-                <span class="mt-1">Корзина</span>
-              </nuxt-link>
-            </li>
-
-            <li>
-              <nuxt-link :to="{ name: 'catalog' }" class="flex flex-col lg:flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
-                  <path
-                    d="M12 2A10.13 10.13 0 0 0 2 12a10 10 0 0 0 4 7.92V20h.1a9.7 9.7 0 0 0 11.8 0h.1v-.08A10 10 0 0 0 22 12 10.13 10.13 0 0 0 12 2zM8.07 18.93A3 3 0 0 1 11 16.57h2a3 3 0 0 1 2.93 2.36 7.75 7.75 0 0 1-7.86 0zm9.54-1.29A5 5 0 0 0 13 14.57h-2a5 5 0 0 0-4.61 3.07A8 8 0 0 1 4 12a8.1 8.1 0 0 1 8-8 8.1 8.1 0 0 1 8 8 8 8 0 0 1-2.39 5.64z"
-                    fill="currentColor">
-                  </path>
-                  <path
-                    d="M12 6a3.91 3.91 0 0 0-4 4 3.91 3.91 0 0 0 4 4 3.91 3.91 0 0 0 4-4 3.91 3.91 0 0 0-4-4zm0 6a1.91 1.91 0 0 1-2-2 1.91 1.91 0 0 1 2-2 1.91 1.91 0 0 1 2 2 1.91 1.91 0 0 1-2 2z"
-                    fill="currentColor">
-                  </path>
-                </svg>
-                <span class="mt-1">Кабинет</span>
-              </nuxt-link>
-            </li>
-          </ul>
+  <div class="bg-[#FFFBFE]/95 lg:backdrop-blur-md lg:sticky lg:top-0 z-50 ">
+    <div class="flex flex-row lg:justify-between lg:max-w-7xl lg:mx-auto">
+      <div class="w-full">
+        <div class="flex flex-row px-4 py-2.5 gap-x-8">
+          <nuxt-link :to="{ name: 'index' }" class="hidden lg:block">
+            <LogoShort />
+          </nuxt-link>
+          <ProductSearchInput class="lg:max-w-[420px]" />
         </div>
-      </nav>
+      </div>
+
+      <div
+        class="fixed bottom-0 left-0 right-0 lg:sticky lg:top-0 bg-[#FFFBFE]/95 lg:bg-transparent z-50 lg:py-4 shadow-[0_3px_10px_0px_rgba(0,0,0,.15)] lg:shadow-none backdrop-blur-md lg:backdrop-blur-none">
+        <nav class="flex justify-between items-center w-full lg:px-4">
+          <div class="w-full">
+            <ul
+              class="flex flex-row justify-around lg:justify-start lg:items-center p-2.5 lg:p-0 text-xs lg:text-sm lg:gap-x-4 lg:ml-6 font-inter items-stretch"
+              ref="menu">
+
+              <li>
+                <nuxt-link :to="{ name: 'index' }" class="flex flex-col lg:flex-row items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
+                    <path
+                      d="M12.71 2.29a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42A1 1 0 0 0 3 13h1v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7h1a1 1 0 0 0 1-1 1 1 0 0 0-.29-.71zM6 20v-9.59l6-6 6 6V20z"
+                      fill="currentColor">
+                    </path>
+                  </svg>
+                  <span class="mt-1 lg:mt-0">Главная</span>
+                </nuxt-link>
+              </li>
+
+              <li>
+                <nuxt-link :to="{ name: 'catalog' }" class="flex flex-col lg:flex-row items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
+                    <path
+                      d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm5 2h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm1-6h4v4h-4V5zM3 20a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6zm2-5h4v4H5v-4zm8 5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6zm2-5h4v4h-4v-4z"
+                      fill="currentColor">
+                    </path>
+                  </svg>
+                  <span class="mt-1 lg:mt-0">Каталог</span>
+                </nuxt-link>
+              </li>
+
+              <li>
+                <nuxt-link :to="{ name: 'catalog' }" class="flex flex-col lg:flex-row items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
+                    <path
+                      d="M19.875 3H4.125C2.953 3 2 3.897 2 5v14c0 1.103.953 2 2.125 2h15.75C21.047 21 22 20.103 22 19V5c0-1.103-.953-2-2.125-2zm0 16H4.125c-.057 0-.096-.016-.113-.016-.007 0-.011.002-.012.008L3.988 5.046c.007-.01.052-.046.137-.046h15.75c.079.001.122.028.125.008l.012 13.946c-.007.01-.052.046-.137.046z"
+                      fill="currentColor">
+                    </path>
+                    <path d="M6 7h6v6H6zm7 8H6v2h12v-2h-4zm1-4h4v2h-4zm0-4h4v2h-4z" fill="currentColor"></path>
+                  </svg>
+                  <span class="mt-1 lg:mt-0">Статьи</span>
+                </nuxt-link>
+              </li>
+
+              <li>
+                <nuxt-link :to="{ name: 'basket' }" class="flex flex-col lg:flex-row items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
+                    <path
+                      d="M5 22h14c1.103 0 2-.897 2-2V9a1 1 0 0 0-1-1h-3V7c0-2.757-2.243-5-5-5S7 4.243 7 7v1H4a1 1 0 0 0-1 1v11c0 1.103.897 2 2 2zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v1H9V7zm-4 3h2v2h2v-2h6v2h2v-2h2l.002 10H5V10z"
+                      fill="currentColor"></path>
+                  </svg>
+                  <span class="mt-1 lg:mt-0">Корзина</span>
+                </nuxt-link>
+              </li>
+
+              <li class="group relative">
+                <nuxt-link :to="{ name: 'auth-login' }" class="flex flex-col lg:flex-row items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                    <path
+                      d="M12 2A10.13 10.13 0 0 0 2 12a10 10 0 0 0 4 7.92V20h.1a9.7 9.7 0 0 0 11.8 0h.1v-.08A10 10 0 0 0 22 12 10.13 10.13 0 0 0 12 2zM8.07 18.93A3 3 0 0 1 11 16.57h2a3 3 0 0 1 2.93 2.36 7.75 7.75 0 0 1-7.86 0zm9.54-1.29A5 5 0 0 0 13 14.57h-2a5 5 0 0 0-4.61 3.07A8 8 0 0 1 4 12a8.1 8.1 0 0 1 8-8 8.1 8.1 0 0 1 8 8 8 8 0 0 1-2.39 5.64z"
+                      fill="currentColor">
+                    </path>
+                    <path
+                      d="M12 6a3.91 3.91 0 0 0-4 4 3.91 3.91 0 0 0 4 4 3.91 3.91 0 0 0 4-4 3.91 3.91 0 0 0-4-4zm0 6a1.91 1.91 0 0 1-2-2 1.91 1.91 0 0 1 2-2 1.91 1.91 0 0 1 2 2 1.91 1.91 0 0 1-2 2z"
+                      fill="currentColor">
+                    </path>
+                  </svg>
+                  <span class="mt-1 lg:hidden">Кабинет</span>
+                </nuxt-link>
+                <div
+                  class="hidden group-hover:block max-h-max absolute -top-0 -right-0 w-[600px] origin-[98%_5%] duration-300 ease-in-out opacity-0 group-hover:opacity-100 scale-0 group-hover:scale-100">
+                  <UserMenu />
+                </div>
+              </li>
+
+            </ul>
+          </div>
+        </nav>
+      </div>
     </div>
   </div>
 </template>
