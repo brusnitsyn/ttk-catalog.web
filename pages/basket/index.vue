@@ -34,7 +34,7 @@
                 </div>
                 <div class="flex flex-col items-center justify-center">
                   <div class="flex flex-row">
-                    <nuxt-link :to="{ name: 'catalog-product-id', params: { id: item.product.id } }" class="mr-2.5">
+                    <nuxt-link :to="{ name: 'catalog-product', query: { id: item.product.id } }" class="mr-2.5">
                       <el-button icon="el-icon-search" circle></el-button>
                     </nuxt-link>
                     <el-button icon="el-icon-share" circle @click="copyToClipboard(item)"></el-button>

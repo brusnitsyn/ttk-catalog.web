@@ -1,6 +1,7 @@
 <template>
   <!-- <Loading v-if="$fetchState.pending" /> -->
   <Container class="pt-4 md:pt-0 ">
+
     <div class="py-4">
       <el-skeleton :loading="$fetchState.pending" animated>
         <template slot="template">
@@ -26,8 +27,7 @@
           </el-skeleton>
           <div v-else class="flex items-center justify-center py-9">
             <client-only v-if="product.images && product.images.length >= 2">
-              <Swiper class="swiper gallery-top"
-                :options="swiperOptionTop" ref="swiperTop">
+              <Swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
                 <SwiperSlide class="swiper-slide flex items-center justify-center" v-for="image in product.images"
                   :key="image.id">
                   <el-image :src="image.url" :preview-src-list="srcImgs" fit="cover" class="h-[300px]"
@@ -130,8 +130,7 @@
                 </span>
               </div>
               <div class="pt-4 md:pt-0 w-full md:w-auto">
-                <el-button @click="addProductToBasket({ product: product, qty: productSelectCount, price: calculatePrice })"
-                  type="primary" class="md:w-[160px]">
+                <el-button @click="addProductToBasket(product)" type="primary" class="md:w-[160px]">
                   В корзину
                 </el-button>
               </div>
@@ -181,7 +180,7 @@
             </el-collapse>
           </template>
         </el-skeleton>
-        <el-dialog :title="`Купить ${product.name}`" :visible.sync="dialogVisible"
+        <!-- <el-dialog :title="`Купить ${product.name}`" :visible.sync="dialogVisible"
           custom-class="max-w-none md:max-w-md">
           <div>
             <p class="break-words">Свяжитесь с менеджерами для уточнения наличия</p>
@@ -190,7 +189,7 @@
               <el-link href="tel:+7(914)619-12-30">+7 (914)-619-12-30 (Андрей)</el-link>
             </div>
           </div>
-        </el-dialog>
+        </el-dialog> -->
       </div>
     </div>
   </Container>
@@ -237,18 +236,17 @@
 </style>
 
 <script>
-import('~/assets/css/element-index.scss')
 import 'swiper/css/swiper.css'
 
-const ElButton = () => import('~/node_modules/element-ui/lib/button')
-const ElInputNumber = () => import('~/node_modules/element-ui/lib/input-number')
-const ElBreadcrumb = () => import('~/node_modules/element-ui/lib/breadcrumb')
-const ElBreadcrumbItem = () => import('~/node_modules/element-ui/lib/breadcrumb-item')
-const ElCollapse = () => import('~/node_modules/element-ui/lib/collapse')
-const ElCollapseItem = () => import('~/node_modules/element-ui/lib/collapse-item')
-const ElDialog = () => import('~/node_modules/element-ui/lib/dialog')
-const ElImage = () => import('~/node_modules/element-ui/lib/image')
-const ElLink = () => import('~/node_modules/element-ui/lib/link')
+const ElButton = () => import('@/node_modules/element-ui/lib/button')
+const ElInputNumber = () => import('@/node_modules/element-ui/lib/input-number')
+const ElBreadcrumb = () => import('@/node_modules/element-ui/lib/breadcrumb')
+const ElBreadcrumbItem = () => import('@/node_modules/element-ui/lib/breadcrumb-item')
+const ElCollapse = () => import('@/node_modules/element-ui/lib/collapse')
+const ElCollapseItem = () => import('@/node_modules/element-ui/lib/collapse-item')
+const ElDialog = () => import('@/node_modules/element-ui/lib/dialog')
+const ElImage = () => import('@/node_modules/element-ui/lib/image')
+const ElLink = () => import('@/node_modules/element-ui/lib/link')
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 
 import { mapActions, mapGetters } from 'vuex'
@@ -338,11 +336,16 @@ export default {
     })
   },
   async fetch() {
-    const { store, params } = this.$nuxt.context
-    await store.dispatch(
-      'products/fetchSingleProduct',
-      params.id
-    )
+    //const { store, query } = this.$nuxt.context
+    const id = this.$nuxt.context.query.id
+    try {
+      await this.$store.dispatch(
+        'products/fetchSingleProduct',
+        id
+      )
+    } catch (err) {
+      console.error(err)
+    }
 
     if (this.product.discountPrice) this.startPrice = this.product.discountPrice
     else this.startPrice = this.product.actualPrice

@@ -11,7 +11,11 @@
                 <div class="flex gap-x-4 items-center overflow-hidden overscroll-none">
                   <el-image v-if="item.product.images && item.product.images.length > 0" fit="contain"
                     :src="item.product.images[0].url" :alt="item.product.name" class="h-10" />
-                  <span class="truncate w-full">{{ item.product.name }}</span>
+                  <el-image v-else fit="contain" src="/img/no-finded-image.png" :alt="item.product.name" class="h-10" />
+                  <div class="flex flex-col items-start truncate w-full">
+                    <span class="">{{ item.product.name }}</span>
+                    <el-link @click="removeProduct(item)">Удалить</el-link>
+                  </div>
                 </div>
               </div>
             </li>
@@ -81,7 +85,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import ElLink from '~/node_modules/element-ui/lib/link'
 import ElEmpty from '~/node_modules/element-ui/lib/empty'
 import ElImage from '~/node_modules/element-ui/lib/image'
@@ -92,6 +96,11 @@ export default {
   computed: {
     ...mapGetters({
       basket: 'basket/getProducts'
+    })
+  },
+  methods: {
+    ...mapActions({
+      removeProduct: 'basket/deleteProduct'
     })
   },
   mounted() {

@@ -133,7 +133,7 @@
                   <span class="mt-1 lg:hidden">Кабинет</span>
                 </nuxt-link>
                 <div
-                  class="hidden group-hover:block max-h-max absolute -top-0 -right-0 w-[600px] origin-[98%_5%] duration-300 ease-in-out opacity-0 group-hover:opacity-100 scale-0 group-hover:scale-100">
+                  class="max-h-max absolute -top-0 -right-0 w-[600px] origin-[98%_5%] duration-300 ease-in-out opacity-0 group-hover:lg:opacity-100 scale-0 group-hover:lg:scale-100">
                   <UserMenu />
                 </div>
               </li>

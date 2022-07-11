@@ -1,7 +1,7 @@
 <template>
   <div class="my-px mx-px">
     <div class="flex rounded-[4px] h-full shadow-[0_0_2px_0px_rgba(0,0,0,.10)]" :class="classTemplate">
-      <nuxt-link :to="{ name: 'catalog-product-id', params: { id: product.id } }" class="cursor-pointer w-full">
+      <nuxt-link :to="{ name: 'catalog-product', query: { id: product.id } }" class="cursor-pointer w-full">
         <div class="py-4
         px-6
         lg:py-6 lg:px-8
@@ -47,14 +47,11 @@
                 {{ Number(product.actualPrice).toLocaleString() }} ₽
               </span>
             </div>
-            <!-- <el-button v-if="product.discountPrice > 0" type="primary" size="small" plain
-              @click="addProductToBasket({ product: product, qty: 1, price: product.discountPrice })">
-              В корзину
-            </el-button>
-            <el-button v-else type="primary" size="small" plain
-              @click="addProductToBasket({ product: product, qty: 1, price: product.actualPrice })">
-              В корзину
-            </el-button> -->
+          </div>
+          <div v-else class="pt-1">
+            <span class="text-primary text-center text-sm font-inter leading-7 lg:leading-6">
+              Стоимость по запросу
+            </span>
           </div>
         </div>
 
@@ -140,8 +137,8 @@
 <script>
 import { mapActions } from 'vuex'
 
-const ElImage = () => import('~/node_modules/element-ui/lib/image')
-const ElButton = () => import('~/node_modules/element-ui/lib/button')
+import ElImage from '@/node_modules/element-ui/lib/image'
+import ElButton from '~/node_modules/element-ui/lib/button'
 export default {
   components: {
     ElImage, ElButton

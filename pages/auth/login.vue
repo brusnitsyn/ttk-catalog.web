@@ -61,12 +61,12 @@
 </template>
 
 <script>
-const ElButton = () => import('~/node_modules/element-ui/lib/button')
-const ElLink = () => import('~/node_modules/element-ui/lib/link')
-const ElForm = () => import('~/node_modules/element-ui/lib/form')
-const ElInput = () => import('~/node_modules/element-ui/lib/input')
-const ElFormItem = () => import('~/node_modules/element-ui/lib/form-item')
-const ElDivider = () => import('~/node_modules/element-ui/lib/divider')
+import ElButton from '@/node_modules/element-ui/lib/button'
+import ElLink from '@/node_modules/element-ui/lib/link'
+import ElForm from '@/node_modules/element-ui/lib/form'
+import ElInput from '@/node_modules/element-ui/lib/input'
+import ElFormItem from '@/node_modules/element-ui/lib/form-item'
+import ElDivider from '@/node_modules/element-ui/lib/divider'
 export default {
   layout: 'admin',
   auth: 'guest',
@@ -95,7 +95,7 @@ export default {
     async onSubmit() {
       try {
         await this.$auth
-          .loginWith('laravelSanctum', {data: this.form})
+          .loginWith('laravelSanctum', { data: this.form })
           .then((response) => {
             this.$router.push('/admin')
           })
