@@ -51,7 +51,7 @@ export default {
         await this.$auth
           .loginWith('laravelSanctum', { data: this.form })
           .then((response) => {
-            this.$router.push('/admin')
+            //this.$router.push({name: ''})
           })
           .catch((error) => {
             this.$notify({

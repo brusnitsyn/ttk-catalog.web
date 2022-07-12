@@ -1,5 +1,4 @@
 <template>
-  <!-- <Loading v-if="$fetchState.pending" /> -->
   <Container class="flex flex-col pt-4 md:pt-0">
     <div class="flex flex-col md:flex-row md:gap-x-4">
       <div class="flex items-start pb-2 md:hidden">

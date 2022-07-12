@@ -20,14 +20,14 @@
 
 <script>
 const ProductSearchImport = () => import('~/components/product/SearchInput.vue')
-const LazyProductCard = () => import('~/components/product/Card.vue')
+const ProductCard = () => import('~/components/product/Card.vue')
 const Container = () => import('~/components/Container.vue')
 
 import { mapGetters } from 'vuex'
 export default {
   layout: 'index',
   components: {
-    ProductSearchImport, LazyProductCard, Container
+    ProductSearchImport, ProductCard, Container
   },
   computed: {
     ...mapGetters({

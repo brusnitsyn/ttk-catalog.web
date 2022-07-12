@@ -8,7 +8,7 @@
       items-center
     ">
     <div class="p-5 shadow-lg rounded-[4px] border bg-white max-w-sm w-full">
-      <el-form method="post" action="" @submit.native.prevent="submitForm" native-type="submit" ref="loginForm"
+      <el-form method="post" ref="loginForm"
         :rules="rules" :model="form" class="">
         <h2 class="py-4 text-center font-inter text-lg">Вход в личный кабинет</h2>
         <el-form-item prop="email">
@@ -77,7 +77,7 @@ export default {
     return {
       form: {
         email: '',
-        password: '',
+        password: ''
       },
       rules: {
         email: [
@@ -97,7 +97,8 @@ export default {
         await this.$auth
           .loginWith('laravelSanctum', { data: this.form })
           .then((response) => {
-            this.$router.push('/admin')
+            console.log(response)
+            this.$router.push({name: 'admin'})
           })
           .catch((error) => {
             this.$notify({
@@ -111,7 +112,7 @@ export default {
           title: 'Ошибка сервера',
           message: error.message,
           type: 'error'
-        });
+        })
       }
       this.loading = false
     },

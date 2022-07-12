@@ -21,19 +21,22 @@ export default {
     ],
   },
 
-  router: {
-    middleware: 'dialogs',
-  },
+  ssr: true,
+
+  // router: {
+  //   middleware: 'dialogs',
+  // },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/css/tailwind.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '@/plugins/VueAwesomeSwiper', mode: 'client' },
-    { src: '@/plugins/ElementUI', mode: 'client' },
+    { src: '@/plugins/VueAwesomeSwiper', ssr: false },
+    { src: '@/plugins/VueTheMask' },
+    { src: '@/plugins/ElementUI', ssr: false },
     { src: '@/plugins/vClickOutside', ssr: false },
-    { src: '@/plugins/ymapPlugin', mode: 'client' },
+    { src: '@/plugins/ymapPlugin', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -66,7 +69,7 @@ export default {
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', '@nuxtjs/auth-next', '@nuxtjs/yandex-metrika'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/yandex-metrika', '@nuxtjs/auth-next'],
   publicRuntimeConfig: {
     yandexMetrika: {
       id: 88691917,
