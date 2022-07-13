@@ -69,8 +69,8 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchProductsByFilter({ commit, rootGetters }) {
-    const params = rootGetters['api/products/filters/getFilters']
+  async fetchProductsByFilter({ commit, rootGetters }, params = false) {
+    params = params ? params : rootGetters['api/products/filters/getFilters']
     const data = await this.$axios.get('/products', {
       params,
       paramsSerializer: function paramsSerializer(params) {

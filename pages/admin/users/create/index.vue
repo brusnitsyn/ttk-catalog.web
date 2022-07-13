@@ -1,8 +1,6 @@
 <template>
-  <el-container direction="vertical" class="pt-6 px-4">
-    <el-page-header @back="$router.go(-1)" class="text-2xl font-semibold" title="Назад"
-      content="Добавить пользователя" />
-    <el-form ref="createForm" :model="form" :rules="rules" class="pt-6 max-w-md">
+  <el-container direction="vertical" class="items-center">
+    <el-form ref="createForm" :model="form" :rules="rules" class="w-full max-w-md">
       <el-form-item label="Имя" prop="name">
         <el-input type="name" v-model="form.name" />
       </el-form-item>
@@ -21,7 +19,19 @@
 </template>
 
 <script>
+import ElContainer from '@/node_modules/element-ui/lib/container'
+import ElForm from '@/node_modules/element-ui/lib/form'
+import ElFormItem from '@/node_modules/element-ui/lib/form-item'
+import ElInput from '@/node_modules/element-ui/lib/input'
+import ElButton from '@/node_modules/element-ui/lib/button'
+
 export default {
+  components: {
+    ElContainer, ElForm, ElFormItem, ElInput, ElButton
+  },
+  head: {
+    title: 'Пользователи'
+  },
   data() {
     return {
       form: {},

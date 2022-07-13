@@ -36,6 +36,9 @@ const ElRow = () => import('~/node_modules/element-ui/lib/row')
 const ElCol = () => import('~/node_modules/element-ui/lib/col')
 const ElButton = () => import('~/node_modules/element-ui/lib/button')
 export default {
+  head: {
+    title: 'Дашбоард'
+  },
   components: {
     ElContainer, ElRow, ElCol, ElButton
   }

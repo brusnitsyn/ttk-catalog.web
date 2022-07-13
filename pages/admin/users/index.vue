@@ -1,14 +1,7 @@
 <template>
-  <Loading v-if="$fetchState.pending" />
-  <el-container v-else direction="vertical" class="pt-6 px-4">
-    <div class="
-        flex
-        items-center
-        flex-row justify-between
-      ">
-      <el-page-header @back="$router.go(-1)" class="text-2xl font-semibold" title="Назад" content="Все пользователи" />
-    </div>
-    <el-table ref="multipleTable" :data="users" class="w-full pt-6" @selection-change="handleSelectionChange">
+  <!-- <Loading v-if="$fetchState.pending" /> -->
+  <el-container direction="vertical">
+    <el-table ref="multipleTable" :data="users" class="w-full" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" />
       <el-table-column property="name" label="ФИО" min-width="200" />
       <el-table-column property="email" label="E-Mail" min-width="200" />
@@ -21,8 +14,8 @@
     </el-table>
     <div class="flex justify-center pt-2">
       <el-pagination v-if="pagination.lastPage > 1" :page-size.sync="pagination.perPage" background
-        :pager-count="pagination.perPage" @prev-click="paginationPrevClick" @next-click="paginationNextClick"
-        @current-change="paginationCurrentChange" layout="prev, pager, next" :total="pagination.total">
+        :page-count="pagination.perPage" @current-change="paginationCurrentChange" layout="pager"
+        :total="pagination.total">
       </el-pagination>
     </div>
   </el-container>
@@ -31,12 +24,24 @@
 <script>
 import { mapGetters } from 'vuex';
 
+import ElContainer from '@/node_modules/element-ui/lib/container'
+import ElTable from '@/node_modules/element-ui/lib/table'
+import ElTableColumn from '@/node_modules/element-ui/lib/table-column'
+import ElButton from '@/node_modules/element-ui/lib/button'
+import ElPagination from '@/node_modules/element-ui/lib/pagination'
+
 export default {
+  components: {
+    ElContainer, ElTable, ElTableColumn, ElButton, ElPagination
+  },
   computed: {
     ...mapGetters({
       users: 'api/users/get/getUsers',
       pagination: 'api/users/get/getPagination'
     })
+  },
+  head: {
+    title: 'Пользователи'
   },
   async fetch() {
     await this.$store.dispatch('api/users/get/fetchAllUsers')

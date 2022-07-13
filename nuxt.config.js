@@ -49,7 +49,7 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'http://localhost:8000',
+        url: 'https://api.nilparts.shop',
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
           logout: { url: '/auth/logout', method: 'post' },
@@ -75,9 +75,19 @@ export default {
     ],
     routes: []
   },
+  breakpoints: {
+    sm: 640,
+    md: 768,
+    lg: 1024,
+    xl: 1280,
+    options: {
+      polyfill: true,
+      throttle: 200
+    }
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', '@nuxtjs/yandex-metrika', '@nuxtjs/auth-next', '@nuxtjs/sitemap'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/yandex-metrika', '@nuxtjs/auth-next', '@nuxtjs/sitemap', 'nuxt-breakpoints'],
   publicRuntimeConfig: {
     yandexMetrika: {
       id: 89530884,

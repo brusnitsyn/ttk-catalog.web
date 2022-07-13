@@ -1,43 +1,31 @@
 <template>
   <div class="pt-6 px-4 flex flex-col">
     <div class="flex justify-between items-center">
-      <h1>Баннеры</h1>
       <el-button @click="dialogVisible = !dialogVisible">
         Добавить слайд
       </el-button>
     </div>
-    <div class="w-full pt-4 lg:mx-auto lg:max-w-7xl lg:px-4">
+    <div class="w-full pt-4 lg:px-4">
       <client-only>
         <swiper class="rounded-none lg:rounded-lg h-72 lg:h-[420px]">
           <swiper-slide v-for="banner in banners" :key="banner.id">
-            <div
-              class="h-full"
-              :style="{
-                backgroundImage: `url(${banner.image.url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }"
-            >
+            <div class="h-full" :style="{
+              backgroundImage: `url(${banner.image.url})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }">
               <div class="flex justify-end px-2 py-1 lg:px-5 lg:py-4">
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  circle
-                  @click="deleteBanner(banner)"
-                ></el-button>
+                <el-button type="danger" icon="el-icon-delete" circle @click="deleteBanner(banner)"></el-button>
               </div>
-              <div
-                class="
+              <div class="
                   flex flex-col
                   h-full
                   justify-end
                   px-2
                   py-1
                   lg:gap-y-4 lg:px-5 lg:py-4
-                "
-              >
-                <span
-                  class="
+                ">
+                <span class="
                     font-inter
                     text-xl
                     lg:text-3xl
@@ -45,14 +33,10 @@
                     uppercase
                     text-white
                     w-[420px]
-                  "
-                >
+                  ">
                   {{ banner.header }}
                 </span>
-                <a
-                  :href="banner.url"
-                  class="font-inter text-xl font-bold text-orange-400"
-                >
+                <a :href="banner.url" class="font-inter text-xl font-bold text-orange-400">
                   ПОДРОБНЕЕ
                 </a>
               </div>
@@ -69,18 +53,12 @@
 
         <el-form-item label="Ссылка для кнопки действия" prop="header">
           <el-input placeholder="Адрес сайта" v-model="banner.url">
-            <template slot="prepend">https://</template>
+            <template slot="prepend">https://nilparts.shop/</template>
           </el-input>
         </el-form-item>
         <el-form-item label="Изображение">
-          <el-upload
-            class="image-uploader"
-            action=" "
-            ref="uploaderImage"
-            :on-change="handleUploaderImageSuccess"
-            :auto-upload="false"
-            :show-file-list="false"
-          >
+          <el-upload class="image-uploader" action=" " ref="uploaderImage" :on-change="handleUploaderImageSuccess"
+            :auto-upload="false" :show-file-list="false">
             <img v-if="previewImage" :src="previewImage" class="image" />
             <i v-else class="el-icon-plus image-uploader-icon"></i>
           </el-upload>
@@ -109,6 +87,9 @@ export default {
   components: {
     ElButton, ElForm, ElInput, ElFormItem, ElUpload, ElDialog
   },
+  head: {
+    title: 'Баннеры'
+  },
   computed: {
     ...mapGetters({
       banners: 'banners/getBanners',
@@ -132,6 +113,7 @@ export default {
       this.previewImage = URL.createObjectURL(file.raw)
     },
     uploadBanner() {
+      this.banner.url = 'https://nilparts.shop/' + this.banner.url
       this.$store.dispatch('banners/postBanner', this.banner)
       this.dialogVisible = false
     },
@@ -154,9 +136,11 @@ export default {
   position: relative;
   overflow: hidden;
 }
+
 .image-uploader .el-upload:hover {
   border-color: #409eff;
 }
+
 .image-uploader-icon {
   font-size: 28px;
   color: #8c939d;
@@ -165,6 +149,7 @@ export default {
   line-height: 178px;
   text-align: center;
 }
+
 .image {
   width: 178px;
   height: 178px;

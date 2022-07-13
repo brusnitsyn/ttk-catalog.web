@@ -1,8 +1,7 @@
 <template>
-  <Loading v-if="$fetchState.pending" />
-  <el-container v-else direction="vertical" class="pt-6 px-4">
+  <!-- <Loading v-if="$fetchState.pending" /> -->
+  <el-container direction="vertical">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-      <el-page-header @back="$router.go(-1)" class="text-2xl font-semibold" title="Назад" content="Все товары" />
       <el-dropdown @command="handleCommand" split-button type="primary" @click="showDrawer" class="mt-2">
         Добавить товар
         <el-dropdown-menu slot="dropdown">
@@ -15,9 +14,9 @@
     </div>
     <el-table ref="multipleTable" :data="products" class="w-full" @selection-change="handleSelectionChange">
       <el-table-column type="selection" />
-      <el-table-column property="name" label="Наименование" />
-      <el-table-column property="article" label="Артикул" />
-      <el-table-column property="actualPrice" label="Стоимость" />
+      <el-table-column property="name" label="Наименование" min-width="200" />
+      <el-table-column property="article" label="Артикул" min-width="200" />
+      <el-table-column property="actualPrice" label="Стоимость" min-width="200" />
       <el-table-column label="Действия" min-width="200">
         <template slot-scope="scope">
           <el-button type="text" @click="handleEdit(scope.row)">Редактировать</el-button>
@@ -27,7 +26,7 @@
     </el-table>
     <div class="flex justify-center pt-2 mb-2">
       <el-pagination v-if="pagination.lastPage > 1" :page-size.sync="pagination.perPage" background
-        :pager-count="pagination.perPage" @current-change="paginationCurrentChange" layout="pager"
+        :page-count="pagination.perPage" @current-change="paginationCurrentChange" layout="pager"
         :total="pagination.total">
       </el-pagination>
     </div>
@@ -262,7 +261,6 @@ import ElTableColumn from '@/node_modules/element-ui/lib/table-column'
 import ElDropdown from '@/node_modules/element-ui/lib/dropdown'
 import ElDropdownMenu from '@/node_modules/element-ui/lib/dropdown-menu'
 import ElDropdownItem from '@/node_modules/element-ui/lib/dropdown-item'
-import ElPageHeader from '@/node_modules/element-ui/lib/page-header'
 import ElPagination from '@/node_modules/element-ui/lib/pagination'
 import ElDrawer from '@/node_modules/element-ui/lib/drawer'
 import ElUpload from '@/node_modules/element-ui/lib/upload'
@@ -274,8 +272,11 @@ export default {
   components: {
     ElButton, ElLink, ElForm, ElInput, ElFormItem,
     ElContainer, ElSelect, ElOption, ElTable, ElTableColumn, ElDropdownMenu,
-    ElDropdown, ElDropdownItem, ElPageHeader, ElPagination, ElDrawer,
+    ElDropdown, ElDropdownItem, ElPagination, ElDrawer,
     ElUpload, ElDialog, ElCheckbox
+  },
+  head: {
+    title: 'Товары'
   },
   computed: {
     ...mapGetters({

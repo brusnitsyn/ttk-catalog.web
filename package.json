@@ -23,6 +23,7 @@
     "element-ui": "^2.15.9",
     "html-minifier": "^4.0.0",
     "nuxt": "^2.15.8",
+    "nuxt-breakpoints": "^1.1.9",
     "postcss": "^8.4.12",
     "swiper": "^5.4.5",
     "v-click-outside": "^3.2.0",
