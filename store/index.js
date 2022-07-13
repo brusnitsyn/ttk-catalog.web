@@ -1,7 +1,7 @@
 export const actions = {
   async nuxtServerInit({ dispatch }) {
-    dispatch('products/getProducts')
-    dispatch('brands/getBrands')
-    dispatch('machines/getMachines')
+    await dispatch('brands/fetchAllBrands')
+    await dispatch('machines/fetchAllMachines')
+    await dispatch('machineTypes/fetchAllMachineTypes')
   }
 }

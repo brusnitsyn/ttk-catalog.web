@@ -6,7 +6,7 @@
         Добавить слайд
       </el-button>
     </div>
-    <div class="w-full pt-4">
+    <div class="w-full pt-4 lg:mx-auto lg:max-w-7xl lg:px-4">
       <client-only>
         <swiper class="rounded-none lg:rounded-lg h-72 lg:h-[420px]">
           <swiper-slide v-for="banner in banners" :key="banner.id">
@@ -98,7 +98,17 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import ElButton from '@/node_modules/element-ui/lib/button'
+import ElForm from '@/node_modules/element-ui/lib/form'
+import ElInput from '@/node_modules/element-ui/lib/input'
+import ElFormItem from '@/node_modules/element-ui/lib/form-item'
+import ElUpload from '@/node_modules/element-ui/lib/upload'
+import ElDialog from '@/node_modules/element-ui/lib/dialog'
+
 export default {
+  components: {
+    ElButton, ElForm, ElInput, ElFormItem, ElUpload, ElDialog
+  },
   computed: {
     ...mapGetters({
       banners: 'banners/getBanners',
@@ -132,6 +142,7 @@ export default {
   async fetch() {
     await this.$store.dispatch('banners/fetchAllBanners')
   },
+  fetchOnServer: false,
 }
 </script>
 

@@ -21,7 +21,7 @@ export default {
     ],
   },
 
-  ssr: true,
+  ssr: false,
 
   // router: {
   //   middleware: 'dialogs',
@@ -49,7 +49,7 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'https://dv-ttk.ru/api',
+        url: 'http://localhost:8000',
         endpoints: {
           login: { url: '/auth/login', method: 'post' },
           logout: { url: '/auth/logout', method: 'post' },
@@ -67,12 +67,20 @@ export default {
       home: '/',
     },
   },
+  sitemap: {
+    hostname: 'https://nilparts.shop',
+    gzip: true,
+    exclude: [
+      '/admin/**'
+    ],
+    routes: []
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', '@nuxtjs/yandex-metrika', '@nuxtjs/auth-next'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/yandex-metrika', '@nuxtjs/auth-next', '@nuxtjs/sitemap'],
   publicRuntimeConfig: {
     yandexMetrika: {
-      id: 88691917,
+      id: 89530884,
       webvisor: true,
       clickmap: true,
       trackLinks: true,
@@ -83,21 +91,12 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'https://dv-ttk.ru/api/',
+    baseURL: 'https://api.nilparts.shop/',
     credentials: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    // analyze: true,
-    // assetFilter: function (assetFilename) {
-    //   return assetFilename.endsWith('.js')
-    // },
-    // extend(config, { isDev, isClient }) {
-    //   if (isClient) {
-
-    //   }
-    // },
     postcss: {
       plugins: {
         tailwindcss: {},

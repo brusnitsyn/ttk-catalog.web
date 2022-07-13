@@ -41,6 +41,7 @@ export default {
   async fetch() {
     await this.$store.dispatch('api/users/get/fetchAllUsers')
   },
+  fetchOnServer: false,
   mounted() {
     if (!this.users.length)
       this.$store.dispatch('api/users/get/fetchAllUsers')

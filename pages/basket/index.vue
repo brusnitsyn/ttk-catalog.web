@@ -112,6 +112,11 @@ export default {
     await this.$store.dispatch('basket/getAllProducts')
     // this.basket = deepClone(this.$store.state.basket.products)
   },
+  async fetch() {
+    await this.$store.dispatch('basket/getAllProducts')
+    // this.basket = deepClone(this.$store.state.basket.products)
+  },
+  fetchOnServer: false,
   methods: {
     handleChange(item) {
       if (item.qty === null || typeof item.qty === 'undefined')

@@ -352,6 +352,7 @@ export default {
 
     this.calculatePrice = this.startPrice
   },
+  fetchOnServer: false,
   updated() {
     if (this.product.images && this.product.images.length >= 2)
       try {

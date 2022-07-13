@@ -3,7 +3,7 @@
     <el-row type="flex" align="middle" justify="center" :span="24"
       class="w-full max-h-[280px] md:max-h-[320px] bg-orange-300 h-full">
       <el-col :span="18" class="">
-        <span class=" font-inter text-2xl">С возвращением, <b>{{ $auth.user.name }}</b></span>
+        <span class="font-inter text-2xl">С возвращением, <b>{{ $auth.user.name }}</b></span>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" :span="24" class="w-full mt-2" :gutter="48">

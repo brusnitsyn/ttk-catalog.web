@@ -27,11 +27,11 @@
     </el-table>
     <div class="flex justify-center pt-2 mb-2">
       <el-pagination v-if="pagination.lastPage > 1" :page-size.sync="pagination.perPage" background
-        :pager-count="pagination.perPage" @prev-click="paginationPrevClick" @next-click="paginationNextClick"
-        @current-change="paginationCurrentChange" layout="prev, pager, next" :total="pagination.total">
+        :pager-count="pagination.perPage" @current-change="paginationCurrentChange" layout="pager"
+        :total="pagination.total">
       </el-pagination>
     </div>
-    <el-drawer :title="drawer.title" :before-close="handleClose" :visible.sync="drawer.isShow"  direction="rtl"
+    <el-drawer :title="drawer.title" :before-close="handleClose" :visible.sync="drawer.isShow" direction="rtl"
       custom-class="w-full lg:w-1/3" size="">
       <el-form ref="createForm" :model="form" :rules="rules" class="px-5" label-position="top">
         <el-form-item label="Наименование" prop="name">
@@ -249,12 +249,35 @@
 import { mapGetters } from 'vuex'
 import { deepClone } from '~/helpers';
 
+import ElButton from '@/node_modules/element-ui/lib/button'
+import ElLink from '@/node_modules/element-ui/lib/link'
+import ElForm from '@/node_modules/element-ui/lib/form'
+import ElInput from '@/node_modules/element-ui/lib/input'
+import ElFormItem from '@/node_modules/element-ui/lib/form-item'
+import ElContainer from '@/node_modules/element-ui/lib/container'
+import ElSelect from '@/node_modules/element-ui/lib/select'
+import ElOption from '@/node_modules/element-ui/lib/option'
+import ElTable from '@/node_modules/element-ui/lib/table'
+import ElTableColumn from '@/node_modules/element-ui/lib/table-column'
+import ElDropdown from '@/node_modules/element-ui/lib/dropdown'
+import ElDropdownMenu from '@/node_modules/element-ui/lib/dropdown-menu'
+import ElDropdownItem from '@/node_modules/element-ui/lib/dropdown-item'
+import ElPageHeader from '@/node_modules/element-ui/lib/page-header'
+import ElPagination from '@/node_modules/element-ui/lib/pagination'
+import ElDrawer from '@/node_modules/element-ui/lib/drawer'
+import ElUpload from '@/node_modules/element-ui/lib/upload'
+import ElDialog from '@/node_modules/element-ui/lib/dialog'
+import ElCheckbox from '@/node_modules/element-ui/lib/checkbox'
+
 export default {
   middleware: 'auth',
+  components: {
+    ElButton, ElLink, ElForm, ElInput, ElFormItem,
+    ElContainer, ElSelect, ElOption, ElTable, ElTableColumn, ElDropdownMenu,
+    ElDropdown, ElDropdownItem, ElPageHeader, ElPagination, ElDrawer,
+    ElUpload, ElDialog, ElCheckbox
+  },
   computed: {
-    // form() {
-    //   return Object.assign({}, this.product)
-    // },
     ...mapGetters({
       products: 'products/getProducts',
       pagination: 'products/getPagination',
@@ -536,6 +559,7 @@ export default {
   async fetch() {
     await this.$store.dispatch('products/fetchProductsByFilter')
   },
+  fetchOnServer: false,
   mounted() {
     if (!this.products.length)
       this.$store.dispatch('products/fetchProductsByFilter')

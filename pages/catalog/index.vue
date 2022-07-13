@@ -105,6 +105,13 @@ export default {
     }),
   },
 
+  async fetch() {
+    const { store, query } = this.$nuxt.context
+    await store.commit('api/products/filters/setFilters', query)
+    await store.dispatch('products/fetchProductsByFilter')
+  },
+  fetchOnServer: false,
+
   methods: {
     async paginationCurrentChange(page) {
       const params = { page: page }
@@ -115,11 +122,6 @@ export default {
     handleShowDrawerFilters() {
       this.drawerFiltersVisibly = !this.drawerFiltersVisibly
     }
-  },
-  async fetch() {
-    const { store, query } = this.$nuxt.context
-    await store.commit('api/products/filters/setFilters', query)
-    await store.dispatch('products/fetchProductsByFilter')
   },
   created() {
     this.$nuxt.$on('drawer-filters-visibly', () => {

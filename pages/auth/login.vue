@@ -24,7 +24,7 @@
       </el-form>
       <el-divider></el-divider>
       <div class="flex flex-row justify-between px-2">
-        <nuxt-link to="/">
+        <nuxt-link :to="{name: 'index'}" replace>
           <el-link icon="el-icon-back">
             На главную
           </el-link>

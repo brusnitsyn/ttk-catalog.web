@@ -71,7 +71,7 @@
               ref="menu">
 
               <li>
-                <nuxt-link :to="{ name: 'index' }" class="flex flex-col lg:flex-row items-center" exact>
+                <nuxt-link :to="{ name: 'index' }" class="flex flex-col lg:flex-row items-center" exact replace>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
                     <path
                       d="M12.71 2.29a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42A1 1 0 0 0 3 13h1v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7h1a1 1 0 0 0 1-1 1 1 0 0 0-.29-.71zM6 20v-9.59l6-6 6 6V20z"
@@ -83,7 +83,7 @@
               </li>
 
               <li>
-                <nuxt-link :to="{ name: 'catalog' }" class="flex flex-col lg:flex-row items-center">
+                <nuxt-link :to="{ name: 'catalog' }" class="flex flex-col lg:flex-row items-center" replace>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="lg:hidden">
                     <path
                       d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm5 2h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm1-6h4v4h-4V5zM3 20a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6zm2-5h4v4H5v-4zm8 5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6zm2-5h4v4h-4v-4z"
@@ -95,7 +95,7 @@
               </li>
 
               <li>
-                <nuxt-link :to="{ name: 'catalog' }" class="flex flex-col items-center">
+                <nuxt-link :to="{ name: 'catalog' }" class="flex flex-col items-center" replace>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                     <path
                       d="M19.875 3H4.125C2.953 3 2 3.897 2 5v14c0 1.103.953 2 2.125 2h15.75C21.047 21 22 20.103 22 19V5c0-1.103-.953-2-2.125-2zm0 16H4.125c-.057 0-.096-.016-.113-.016-.007 0-.011.002-.012.008L3.988 5.046c.007-.01.052-.046.137-.046h15.75c.079.001.122.028.125.008l.012 13.946c-.007.01-.052.046-.137.046z"
@@ -108,7 +108,7 @@
               </li>
 
               <li>
-                <nuxt-link :to="{ name: 'basket' }" class="flex flex-col items-center">
+                <nuxt-link :to="{ name: 'basket' }" class="flex flex-col items-center" replace>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                     <path
                       d="M5 22h14c1.103 0 2-.897 2-2V9a1 1 0 0 0-1-1h-3V7c0-2.757-2.243-5-5-5S7 4.243 7 7v1H4a1 1 0 0 0-1 1v11c0 1.103.897 2 2 2zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v1H9V7zm-4 3h2v2h2v-2h6v2h2v-2h2l.002 10H5V10z"
@@ -119,7 +119,7 @@
               </li>
 
               <li class="group relative">
-                <nuxt-link :to="{ name: 'auth-login' }" class="flex flex-col items-center">
+                <nuxt-link :to="{ name: 'auth-login' }" class="flex flex-col items-center" replace>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                     <path
                       d="M12 2A10.13 10.13 0 0 0 2 12a10 10 0 0 0 4 7.92V20h.1a9.7 9.7 0 0 0 11.8 0h.1v-.08A10 10 0 0 0 22 12 10.13 10.13 0 0 0 12 2zM8.07 18.93A3 3 0 0 1 11 16.57h2a3 3 0 0 1 2.93 2.36 7.75 7.75 0 0 1-7.86 0zm9.54-1.29A5 5 0 0 0 13 14.57h-2a5 5 0 0 0-4.61 3.07A8 8 0 0 1 4 12a8.1 8.1 0 0 1 8-8 8.1 8.1 0 0 1 8 8 8 8 0 0 1-2.39 5.64z"
@@ -148,7 +148,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import UserMenu from './main/UserMenu.vue'
+import UserMenu from '@/components/main/UserMenu.vue'
 export default {
   methods: {
     ...mapActions({

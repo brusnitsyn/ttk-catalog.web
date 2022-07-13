@@ -9,7 +9,7 @@
     ">
     <div class="p-5 shadow-lg rounded-[4px] border bg-white max-w-sm w-full">
 
-      <el-form method="post" action="" @submit.native.prevent="submitForm" native-type="submit" ref="loginForm"
+      <el-form method="post" action="" @submit.native.prevent="submitForm" native-type="submit" ref="registerForm"
         :rules="rules" :model="form" class="">
         <h2 class="py-4 text-center font-inter text-lg">Регистрация личного кабинета</h2>
         <el-form-item prop="name">
@@ -75,30 +75,30 @@ export default {
   },
   methods: {
     async onSubmit() {
-      try {
-        await this.$auth
-          .loginWith('laravelSanctum', { data: this.form })
-          .then((response) => {
-            //this.$router.push('/admin')
-          })
-          .catch((error) => {
-            this.$notify({
-              title: 'Ошибка авторизации',
-              message: error.response.data.message,
-              type: 'error'
-            });
-          })
-      } catch (error) {
-        this.$notify({
-          title: 'Ошибка сервера',
-          message: error.message,
-          type: 'error'
-        });
-      }
+      // try {
+      //   await this.$auth
+      //     .loginWith('laravelSanctum', { data: this.form })
+      //     .then((response) => {
+      //       //this.$router.push('/admin')
+      //     })
+      //     .catch((error) => {
+      //       this.$notify({
+      //         title: 'Ошибка авторизации',
+      //         message: error.response.data.message,
+      //         type: 'error'
+      //       });
+      //     })
+      // } catch (error) {
+      //   this.$notify({
+      //     title: 'Ошибка сервера',
+      //     message: error.message,
+      //     type: 'error'
+      //   });
+      // }
       this.loading = false
     },
     submitForm() {
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.registerForm.validate((valid) => {
         if (valid) {
           this.loading = true
           this.onSubmit()
