@@ -1,7 +1,7 @@
 <template>
   <main>
     <AppHeader />
-    <Nuxt keep-alive :keep-alive-props="{ exclude: ['ProductPage'] }" class="min-h-screen lg:mt-[76px]" />
+    <Nuxt keep-alive :keep-alive-props="{ exclude: ['ProductPage'] }" class="min-h-screen lg:mt-[48px]" />
     <Footer class="pb-[78px] lg:pb-8 mt-4 lg:mt-6"/>
     <Search />
   </main>

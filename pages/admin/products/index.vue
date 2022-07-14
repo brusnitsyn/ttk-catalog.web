@@ -337,7 +337,8 @@ export default {
     }
   },
   methods: {
-    handleDelete(row) {
+    handleDelete(index, row) {
+      // ROW отдает undefined в id продукта - починить?
       this.$confirm('Это действие удалит элемент без возможности восстановления. Продолжить?', 'Внимание', {
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',

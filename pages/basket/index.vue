@@ -1,20 +1,20 @@
 <template>
   <Container class="flex flex-col lg:flex-row lg:gap-x-6">
-    <div class="lg:grow pt-6 lg:pt-0">
+    <div class="lg:grow pt-6 lg:pt-0 lg:w-8/12">
       <div class="flex justify-between items-center pb-4">
         <h1 class="text-xl font-semibold font-inter">Корзина</h1>
         <span v-if="basket.length">Всего товаров: {{ basket.length }}</span>
       </div>
-      <div class="bg-gray-50 rounded-[4px] p-4 min-h-max max-h-[580px] overflow-auto overscroll-none">
+      <div class="bg-gray-50 rounded-[4px] p-4">
         <ul v-if="basket.length" class="space-y-4 overflow-auto">
           <li v-for="item in basket" :key="item.id">
-            <div class="flex flex-col lg:flex-row justify-between">
-              <div class="flex flex-col lg:flex-row items-start gap-x-3.5">
+            <div class="flex flex-col lg:flex-row justify-between gap-y-2">
+              <div class="flex flex-row items-start gap-x-3.5">
                 <div class="bg-gray-100 p-4 rounded-[4px]">
                   <el-image v-if="item.product.images && item.product.images[0]" fit="cover"
-                    :src="item.product.images[0].url" class="w-[98px] h-[98px]" />
+                    :src="item.product.images[0].url" class="w-[72px] h-[72px]" />
 
-                  <el-image v-else fit="cover" src="/img/no-finded-image.png" class="w-[98px] h-[98px]" />
+                  <el-image v-else fit="cover" src="/img/no-finded-image.png" class="w-[72px] h-[72px]" />
                 </div>
                 <div class="flex flex-col py-1.5">
                   <div class="flex flex-col py-0.5">
@@ -30,7 +30,7 @@
                   </div>
                 </div>
               </div>
-              <div class="flex flex-col items-center justify-center">
+              <div class="flex flex-col items-end justify-center">
                 <div class="flex flex-row">
                   <nuxt-link :to="{ name: 'catalog-product', query: { id: item.product.id } }" class="mr-2.5">
                     <el-button icon="el-icon-search" circle></el-button>
@@ -49,9 +49,22 @@
         </el-empty>
       </div>
     </div>
-    <div v-if="basket.length" class="lg:min-w-[320px] lg:max-w-min">
-      <h2 class="text-lg font-semibold font-inter pb-4 pt-4 lg:pt-0">Оформление заказа</h2>
-      <div class="flex flex-col gap-y-2">
+    <div v-if="basket.length" class="lg:w-4/12 bg-gray-50/80 mt-[44px] rounded-[4px] h-full w-full">
+      <div class="p-6">
+        <el-button type="success" class="w-full h-12">
+          Перейти к оформлению
+        </el-button>
+      </div>
+      <el-divider />
+      <div class="p-6">
+        <div class="flex flex-row">
+          <span class="text-xl leading-6">
+            Ваша корзина
+          </span>
+        </div>
+      </div>
+      <!-- <h2 class="text-lg font-semibold font-inter pb-4 pt-4 lg:pt-0">Оформление заказа</h2> -->
+      <!-- <div class="flex flex-col gap-y-2 bg-gray-50/80 p-4 rounded-[4px]">
         <span v-if="!$auth.loggedIn">
           <el-link type="primary">
             <nuxt-link :to="{ name: 'auth-login' }">
@@ -72,7 +85,7 @@
             </el-input>
           </el-form-item>
         </el-form>
-      </div>
+      </div> -->
     </div>
   </Container>
 </template>
@@ -88,10 +101,11 @@ import ElForm from '~/node_modules/element-ui/lib/form'
 import ElFormItem from '~/node_modules/element-ui/lib/form-item'
 import ElInputNumber from '~/node_modules/element-ui/lib/input-number'
 import ElEmpty from '~/node_modules/element-ui/lib/empty'
+import ElDivider from '~/node_modules/element-ui/lib/divider'
 export default {
   layout: 'index',
   components: {
-    ElImage, ElInputNumber, ElLink, ElInput, ElForm, ElFormItem, ElButton, ElEmpty
+    ElImage, ElInputNumber, ElLink, ElInput, ElForm, ElFormItem, ElButton, ElEmpty, ElDivider
   },
   computed: {
     basket() {
